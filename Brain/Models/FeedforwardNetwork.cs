@@ -7,15 +7,33 @@
 
     public class FeedforwardNetwork : INeuralNet
     {
-        public NeuronLayer Input { get; set; }
-        public NeuronLayer Output { get; set; }
-        public IEnumerable<NeuronLayer> Hidden { get; set; }
+        public InputLayer InputLayer { get; private set; }
+        public NeuronLayer OutputLayer { get; private set; }
+        public IEnumerable<NeuronLayer> HiddenLayers { get; private set; }
 
-        public IEnumerable<Neuron> Neurons { get; private set; }
-
-        public FeedforwardNetwork(int numberOfNeurons)
+        public FeedforwardNetwork(int inputNeurons, int outputNeurons, int hiddenLayers, int hiddenNeuronsPerLayer)
         {
-            Neurons = Enumerable.Repeat(new Neuron(this), numberOfNeurons);
+            InputLayer = new InputLayer(inputNeurons);
+            OutputLayer = new NeuronLayer(outputNeurons);
+            HiddenLayers = Enumerable.Repeat(new NeuronLayer(hiddenNeuronsPerLayer), hiddenLayers);            
+        }
+
+        public Dictionary<int, int> Show(Dictionary<int, int> inputs)
+        {
+            if (inputs.Keys.OrderBy(x => x).Last() > InputLayer.Neurons.Count)
+            {
+                return null;
+            }
+
+            InputLayer.Observe(inputs);
+            var result = InputLayer.Output();
+            foreach (var layer in HiddenLayers)
+            {
+                layer.Input(result);
+                result = layer.Output();
+            }
+            OutputLayer.Input(result);
+            return OutputLayer.Output();
         }
     }
 }

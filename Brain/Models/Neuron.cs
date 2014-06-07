@@ -7,12 +7,22 @@
     {
         private bool _fired;
         private const int _levelCap = 15;
-        private const int _fireThreshold = 2;
+        private const int _fireThreshold = 10;
 
-        public Dictionary<NeuroTransmitter, int> NeuroTransmitterLevels { get; set; }
+        public int Id { get; private set; }
 
-        public Neuron()
+        public int Output
         {
+            get {
+                return _fired ? 1 : 0;
+            }
+        }
+
+        public Dictionary<NeuroTransmitter, int> NeuroTransmitterLevels { get; private set; }
+
+        public Neuron(int id)
+        {
+            Id = id;
             _fired = false;
             initializeNeuroTransmitters();
         }
@@ -20,10 +30,7 @@
         /// <summary>
         /// Call this method to activate the receptor, which may fire if a threshold is reached
         /// </summary>
-        /// <param name="neurotransmitter"></param>
-        /// <param name="concentration"></param>
-        /// <returns></returns>
-        public bool ActivateReceptor(NeuroTransmitter neurotransmitter, int concentration)
+        public void ActivateReceptor(NeuroTransmitter neurotransmitter, int concentration)
         {
             NeuroTransmitterLevels[neurotransmitter] += concentration;
 
@@ -38,12 +45,12 @@
             {
                 _fired = true;
             }
-            return _fired;
         }
 
         public void Tick()
         {
             declineTransmitterLevels();
+            _fired = false;
         }
 
         private void initializeNeuroTransmitters()

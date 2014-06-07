@@ -7,6 +7,6 @@
 
     public interface INeuralNet
     {
-        IEnumerable<Neuron> Neurons { get; }
+        Dictionary<int, int> Show(Dictionary<int, int> inputs);
     }
 }

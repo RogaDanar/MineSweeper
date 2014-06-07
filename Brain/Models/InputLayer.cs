@@ -1,24 +1,29 @@
 ﻿namespace Brainspace.Models
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Text;
 
-    public class NeuronLayer
+    public class InputLayer
     {
         public IList<Neuron> Neurons { get; private set; }
 
-        public NeuronLayer(int numberOfNeurons)
+        public InputLayer(int numberOfNeurons)
         {
             Neurons = Enumerable.Range(0, numberOfNeurons)
                 .Select(x => new Neuron(x))
                 .ToList();
         }
 
-        public void Input(Dictionary<int, int> inputs)
+        public void Observe(Dictionary<int, int> inputs)
         {
-            foreach (var neuron in Neurons)
+            foreach (var input in inputs)
             {
-                neuron.ActivateReceptor(NeuroTransmitter.Dopamine, inputs.Values.Sum());
+                if (input.Value > 0)
+                {
+                    Neurons.Single(x => x.Id == input.Key).ActivateReceptor(NeuroTransmitter.Dopamine, 1);
+                }
             }
         }
 

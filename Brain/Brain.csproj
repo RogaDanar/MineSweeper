@@ -55,8 +55,10 @@
     <Compile Include="Helpers\Rand.cs" />
     <Compile Include="Models\Brain.cs" />
     <Compile Include="Models\FeedforwardNetwork.cs" />
-    <Compile Include="Models\INeuronNetwork.cs" />
+    <Compile Include="Models\INeuralNet.cs" />
+    <Compile Include="Models\InputLayer.cs" />
     <Compile Include="Models\Neuron.cs" />
+    <Compile Include="Models\NeuronLayer.cs" />
     <Compile Include="Models\NeuroTransmitter.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

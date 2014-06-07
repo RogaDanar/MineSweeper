@@ -9,15 +9,6 @@
     {
         public INeuralNet Network { get; private set; }
 
-        public event EventHandler Tick;
-        protected virtual void OnTick(EventArgs e)
-        {
-            if (Tick != null)
-            {
-                Tick(this, e);
-            }
-        }
-
         public Rand RandomGenerator { get; private set; }
 
         public Brain(INeuralNet network)
@@ -30,14 +21,9 @@
             RandomGenerator = randomGenerator ?? Rand.Generator;
         }
 
-
-        public void Awaken()
+        public Dictionary<int, int> Show(Dictionary<int, int> inputs)
         {
-            var neighbours = new List<int>();
-            foreach (var neuron in Network.Neurons)
-            {
-                neuron.ActivateReceptor(NeuroTransmitter.Dopamine, RandomGenerator.Next(8));
-            }
+            return Network.Show(inputs);
         }
 
         public void Sleep()
