@@ -1,4 +1,4 @@
-﻿namespace Brainspace.Models
+﻿namespace Brainspace.Models.Neural
 {
     public enum NeuroTransmitter
     {

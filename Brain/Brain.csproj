@@ -52,14 +52,16 @@
     <Compile Include="BrainForm.Designer.cs">
       <DependentUpon>BrainForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\Numbers.cs" />
     <Compile Include="Helpers\Rand.cs" />
     <Compile Include="Models\Brain.cs" />
-    <Compile Include="Models\FeedforwardNetwork.cs" />
-    <Compile Include="Models\INeuralNet.cs" />
-    <Compile Include="Models\InputLayer.cs" />
-    <Compile Include="Models\Neuron.cs" />
-    <Compile Include="Models\NeuronLayer.cs" />
-    <Compile Include="Models\NeuroTransmitter.cs" />
+    <Compile Include="Models\Neural\FeedforwardNetwork.cs" />
+    <Compile Include="Models\Genetics\GeneticAlgorithm.cs" />
+    <Compile Include="Models\Genetics\Genome.cs" />
+    <Compile Include="Models\Genetics\Population.cs" />
+    <Compile Include="Models\Neural\Neuron.cs" />
+    <Compile Include="Models\Neural\NeuronLayer.cs" />
+    <Compile Include="Models\Neural\NeuroTransmitter.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="BrainForm.resx">

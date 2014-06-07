@@ -30,7 +30,6 @@
         {
             this.btnActivate = new System.Windows.Forms.Button();
             this.lblResult = new System.Windows.Forms.Label();
-            this.btnDeactivate = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // btnActivate
@@ -51,22 +50,11 @@
             this.lblResult.Size = new System.Drawing.Size(0, 13);
             this.lblResult.TabIndex = 1;
             // 
-            // btnDeactivate
-            // 
-            this.btnDeactivate.Location = new System.Drawing.Point(94, 13);
-            this.btnDeactivate.Name = "btnDeactivate";
-            this.btnDeactivate.Size = new System.Drawing.Size(75, 23);
-            this.btnDeactivate.TabIndex = 2;
-            this.btnDeactivate.Text = "Deactivate";
-            this.btnDeactivate.UseVisualStyleBackColor = true;
-            this.btnDeactivate.Click += new System.EventHandler(this.btnDeactivateClick);
-            // 
             // BrainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(482, 219);
-            this.Controls.Add(this.btnDeactivate);
             this.Controls.Add(this.lblResult);
             this.Controls.Add(this.btnActivate);
             this.Name = "BrainForm";
@@ -80,7 +68,6 @@
 
         private System.Windows.Forms.Button btnActivate;
         private System.Windows.Forms.Label lblResult;
-        private System.Windows.Forms.Button btnDeactivate;
     }
 }
 

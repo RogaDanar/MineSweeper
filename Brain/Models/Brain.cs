@@ -1,33 +1,74 @@
 ﻿namespace Brainspace.Models
 {
     using Brainspace.Helpers;
-    using System;
+    using Brainspace.Models.Genetics;
+    using Brainspace.Models.Neural;
     using System.Collections.Generic;
-    using System.Linq;
 
     public class Brain
     {
-        public INeuralNet Network { get; private set; }
+        private const int inputs = 56;
+        private const int outputNeurons = 3;
+        private const int hiddenLayers = 2;
+        private const int neuronsPerHiddenLayer = 50;
+        private const double mutationRate = 0.1;
+        private const double crossoverRate = 0.7;
+        private const double perturbationRate = 0.3;
 
-        public Rand RandomGenerator { get; private set; }
+        private readonly Rand _rand = Rand.Generator;
 
-        public Brain(INeuralNet network)
-            : this(network, null)
+        private IList<double> _goal;
+
+        private GeneticAlgorithm _geneticAlgorithm { get; set; }
+
+        private Genome _genome { get; set; }
+
+        public FeedforwardNetwork Network { get; private set; }
+
+        public bool Mature { get; set; }
+
+        public Brain()
+            : this(new FeedforwardNetwork(inputs, outputNeurons, hiddenLayers, neuronsPerHiddenLayer))
         { }
 
-        public Brain(INeuralNet network, Rand randomGenerator)
+        public Brain(FeedforwardNetwork network)
         {
             Network = network;
-            RandomGenerator = randomGenerator ?? Rand.Generator;
+            _genome = new Genome(network.GetAllWeights(), 0);
+            _geneticAlgorithm = new GeneticAlgorithm(mutationRate, crossoverRate, perturbationRate);
         }
 
-        public Dictionary<int, int> Show(Dictionary<int, int> inputs)
+        public void Setup(IList<double> goal)
         {
-            return Network.Show(inputs);
+            _goal = goal;
         }
 
-        public void Sleep()
+        public IList<double> Show(IList<double> inputs)
         {
+            var result = Network.Observe(inputs);
+
+            setFitness(result);
+            if (!Mature)
+            {
+                _geneticAlgorithm.Mutate(_genome);
+                Network.SetAllWeights(_genome.Chromosome);
+            }
+
+            return result;
+        }
+
+        private void setFitness(IList<double> result)
+        {
+            _genome.Fitness = 0;
+            for (int i = 0; i < result.Count; i++)
+            {
+                if (_goal[i] == result[i])
+                {
+                    _genome.Fitness++;
+                }
+            }
+
+            Mature = _genome.Fitness == _goal.Count;
         }
     }
 }
