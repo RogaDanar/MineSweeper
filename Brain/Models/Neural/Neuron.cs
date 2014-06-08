@@ -32,6 +32,7 @@
         /// </summary>
         public void ActivateReceptor(IList<double> inputs)
         {
+            NeuroTransmitterLevels[NeuroTransmitter.Dopamine] = 0;
             for (int i = 0; i < inputs.Count; i++)
             {
                 NeuroTransmitterLevels[NeuroTransmitter.Dopamine] += inputs[i] * InputWeights[i];

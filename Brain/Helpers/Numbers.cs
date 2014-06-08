@@ -4,9 +4,11 @@
 
     public static class Numbers
     {
-        public static IList<double> Zero()
+        public static InputGoal Zero()
         {
-            return new List<double> {
+            var inputGoal = new InputGoal();
+            inputGoal.Goal = new List<double> { 0, 0, 0 };
+            inputGoal.Input = new List<double> {
                 1, 1, 1, 1, 1, 1, 1,
                 1, 1, 0, 0, 0, 1, 1,
                 1, 0, 1, 1, 1, 0, 1,
@@ -16,11 +18,14 @@
                 1, 1, 0, 0, 0, 1, 1,
                 1, 1, 1, 1, 1, 1, 1,
             };
+            return inputGoal;
         }
 
-        public static IList<double> One()
+        public static InputGoal One()
         {
-            return new List<double> {
+            var inputGoal = new InputGoal();
+            inputGoal.Goal = new List<double> { 0, 0, 1 };
+            inputGoal.Input = new List<double> {
                 1, 1, 1, 1, 1, 1, 1,
                 1, 1, 1, 0, 1, 1, 1,
                 1, 1, 1, 0, 1, 1, 1,
@@ -30,11 +35,14 @@
                 1, 1, 1, 0, 1, 1, 1,
                 1, 1, 1, 1, 1, 1, 1,
             };
+            return inputGoal;
         }
 
-        public static IList<double> Two()
+        public static InputGoal Two()
         {
-            return new List<double> {
+            var inputGoal = new InputGoal();
+            inputGoal.Goal = new List<double> { 0, 1, 0 };
+            inputGoal.Input = new List<double> {
                 1, 1, 1, 1, 1, 1, 1,
                 1, 1, 0, 0, 0, 1, 1,
                 1, 0, 1, 1, 1, 0, 1,
@@ -44,11 +52,14 @@
                 1, 0, 0, 0, 0, 0, 1,
                 1, 1, 1, 1, 1, 1, 1,
             };
+            return inputGoal;
         }
 
-        public static IList<double> Three()
+        public static InputGoal Three()
         {
-            return new List<double> {
+            var inputGoal = new InputGoal();
+            inputGoal.Goal = new List<double> { 0, 1, 1 };
+            inputGoal.Input = new List<double> {
                 1, 1, 1, 1, 1, 1, 1,
                 1, 0, 0, 0, 0, 1, 1,
                 1, 1, 1, 1, 1, 0, 1,
@@ -58,11 +69,14 @@
                 1, 1, 0, 0, 0, 1, 1,
                 1, 1, 1, 1, 1, 1, 1,
             };
+            return inputGoal;
         }
 
-        public static IList<double> Four()
+        public static InputGoal Four()
         {
-            return new List<double> {
+            var inputGoal = new InputGoal();
+            inputGoal.Goal = new List<double> { 1, 0, 0 };
+            inputGoal.Input = new List<double> {
                 1, 1, 1, 1, 1, 1, 1,
                 1, 0, 1, 1, 0, 1, 1,
                 1, 0, 1, 1, 0, 1, 1,
@@ -72,6 +86,7 @@
                 1, 1, 1, 1, 0, 1, 1,
                 1, 1, 1, 1, 1, 1, 1,
             };
+            return inputGoal;
         }
     }
 }

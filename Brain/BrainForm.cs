@@ -19,42 +19,28 @@
             brain = new Brain();
         }
 
+        private void btnShowClick(object sender, EventArgs e)
+        {
+            var inputs = new List<InputGoal> 
+            { 
+                Numbers.Zero(),
+                Numbers.One(),
+                Numbers.Two(),
+                Numbers.Three(),
+                Numbers.Four()
+            };
+
+            brain.Show(inputs);
+            lblFitness.Text = brain.Fitness.ToString();
+            brain.Tick();
+        }
+
         private void btnZeroClick(object sender, EventArgs e)
         {
-            brain.Setup(new List<double> { 0, 0, 0 });
-            activate(Numbers.Zero());
-        }
-
-        private void btnOneClick(object sender, EventArgs e)
-        {
-            brain.Setup(new List<double> { 0, 0, 1 });
-            activate(Numbers.One());
-        }
-
-        private void btnTwoClick(object sender, EventArgs e)
-        {
-            brain.Setup(new List<double> { 0, 1, 0 });
-            activate(Numbers.Two());
-        }
-
-        private void btnThreeClick(object sender, EventArgs e)
-        {
-            brain.Setup(new List<double> { 0, 1, 1 });
-            activate(Numbers.Three());
-        }
-
-        private void btnFourClick(object sender, EventArgs e)
-        {
-            brain.Setup(new List<double> { 1, 0, 0 });
-            activate(Numbers.Four());
-        }
-
-        private void activate(IList<double> input)
-        {
-            var result = brain.Show(input);
-            lblResult.Text = string.Join(", ", result.Select(x => Math.Round(x, 1)));
+            var result = brain.Show(Numbers.Zero());
+            brain.Tick();
             lblFitness.Text = brain.Fitness.ToString();
-            lblMature.Text = brain.Mature.ToString();
+            lblResult.Text = string.Join(", ", result.Select(x => Math.Round(x, 1)));
         }
     }
 }

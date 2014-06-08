@@ -52,6 +52,7 @@
     <Compile Include="BrainForm.Designer.cs">
       <DependentUpon>BrainForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\InputGoal.cs" />
     <Compile Include="Helpers\Numbers.cs" />
     <Compile Include="Helpers\Rand.cs" />
     <Compile Include="Models\Brain.cs" />
