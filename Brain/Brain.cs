@@ -1,8 +1,9 @@
-﻿namespace Brainspace.Models
+﻿namespace Brainspace
 {
     using Brainspace.Helpers;
-    using Brainspace.Models.Genetics;
-    using Brainspace.Models.Neural;
+    using NeuralNet.Genetics;
+    using NeuralNet.Helpers;
+    using NeuralNet.Network;
     using System;
     using System.Collections.Generic;
 
@@ -59,7 +60,7 @@
         public void Tick()
         {
             _geneticAlgorithm.Mutate(_genome);
-            Network.SetAllWeights(_genome.Chromosome);
+            Network.Genome = _genome;
         }
 
         private void setFitness(IList<double> result, IList<double> goal)

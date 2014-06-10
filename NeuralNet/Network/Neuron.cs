@@ -1,6 +1,6 @@
-﻿namespace Brainspace.Models.Neural
+﻿namespace NeuralNet.Network
 {
-    using Brainspace.Helpers;
+    using NeuralNet.Helpers;
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -24,6 +24,8 @@
         public Neuron(int numberOfInputs)
         {
             InputWeights = Enumerable.Range(0, numberOfInputs).Select(x => _rand.NextClamped()).ToList();
+            // Add an extra weight for the bias
+            InputWeights.Add(_rand.NextClamped());
             initializeNeuroTransmitters();
         }
 
@@ -46,17 +48,6 @@
             foreach (NeuroTransmitter transmitter in Enum.GetValues(typeof(NeuroTransmitter)))
             {
                 NeuroTransmitterLevels.Add(transmitter, 0);
-            }
-        }
-
-        private void declineTransmitterLevels()
-        {
-            foreach (NeuroTransmitter transmitter in Enum.GetValues(typeof(NeuroTransmitter)))
-            {
-                if (NeuroTransmitterLevels[transmitter] > 0)
-                {
-                    NeuroTransmitterLevels[transmitter]--;
-                }
             }
         }
 

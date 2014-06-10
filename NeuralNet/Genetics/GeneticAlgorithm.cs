@@ -1,6 +1,6 @@
-﻿namespace Brainspace.Models.Genetics
+﻿namespace NeuralNet.Genetics
 {
-    using Brainspace.Helpers;
+    using NeuralNet.Helpers;
     using System.Collections.Generic;
     using System.Linq;
 
@@ -49,6 +49,8 @@
 
         public Population NextGeneration(Population population)
         {
+            population.Generation++;
+
             var elites = population.Genomes.OrderByDescending(x => x.Fitness).Take(4);
 
             var newGenomes = new List<Genome>();
@@ -69,7 +71,7 @@
                 newGenomes.Add(daughter);
             }
 
-            population.Genomes = newGenomes.Take(population.Genomes.Count());
+            population.Genomes = newGenomes.Take(population.Genomes.Count()).ToList();
             return population;
         }
     }

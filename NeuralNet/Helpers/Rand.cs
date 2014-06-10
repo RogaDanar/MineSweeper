@@ -1,4 +1,4 @@
-﻿namespace Brainspace.Helpers
+﻿namespace NeuralNet.Helpers
 {
     using System;
 

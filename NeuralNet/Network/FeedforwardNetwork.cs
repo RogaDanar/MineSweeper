@@ -1,19 +1,48 @@
-﻿namespace Brainspace.Models.Neural
+﻿namespace NeuralNet.Network
 {
+    using NeuralNet.Genetics;
     using System.Collections.Generic;
     using System.Linq;
 
-    public class FeedforwardNetwork
+    public class FeedforwardNetwork : INeuralNet
     {
         public int MaxInputs { get; private set; }
+
+        public int MinOutputs { get; private set; }
 
         public NeuronLayer OutputLayer { get; private set; }
 
         public IList<NeuronLayer> HiddenLayers { get; private set; }
 
+        private Genome _genome;
+        public Genome Genome
+        {
+            get
+            {
+                if (_genome == null)
+                {
+                    _genome = new Genome(GetAllWeights(), 0.0);
+                }
+                return _genome;
+            }
+            set
+            {
+                _genome = value;
+                var allweights = _genome.Chromosome;
+                foreach (var layer in HiddenLayers)
+                {
+                    var weightCount = layer.AllWeights.Count();
+                    layer.AllWeights = allweights.Take(weightCount).ToList();
+                    allweights = allweights.Skip(weightCount).ToList();
+                }
+                OutputLayer.AllWeights = allweights;
+            }
+        }
+
         public FeedforwardNetwork(int inputs, int outputNeurons, int hiddenLayers, int neuronsPerHiddenLayer)
         {
             MaxInputs = inputs;
+            MinOutputs = outputNeurons;
 
             HiddenLayers = new List<NeuronLayer>();
             var lastOutputCount = inputs;
@@ -60,18 +89,6 @@
             }
             allWeights.AddRange(OutputLayer.AllWeights);
             return allWeights;
-        }
-
-        public void SetAllWeights(IList<double> weights)
-        {
-            var allweights = weights;
-            foreach (var layer in HiddenLayers)
-            {
-                var weightCount = layer.AllWeights.Count();
-                layer.AllWeights = allweights.Take(weightCount).ToList();
-                allweights = allweights.Skip(weightCount).ToList();
-            }
-            OutputLayer.AllWeights = allweights;
         }
     }
 }

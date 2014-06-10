@@ -1,6 +1,6 @@
-﻿namespace Brainspace.Models.Genetics
+﻿namespace NeuralNet.Genetics
 {
-    using Brainspace.Helpers;
+    using NeuralNet.Helpers;
     using System.Collections.Generic;
     using System.Linq;
 
@@ -10,7 +10,7 @@
 
         public int Generation { get; set; }
 
-        public IEnumerable<Genome> Genomes { get; set; }
+        public IList<Genome> Genomes { get; set; }
 
         public double Fitness { get { return Genomes.Sum(x => x.Fitness); } }
 
@@ -18,7 +18,7 @@
 
         public double WorstFitness { get { return Genomes.Min(x => x.Fitness); } }
 
-        public double AverageFitness { get { return Genomes.Min(x => x.Fitness); } }
+        public double AverageFitness { get { return Genomes.Average(x => x.Fitness); } }
 
         public Genome Fittest { get { return Genomes.OrderByDescending(x => x.Fitness).FirstOrDefault(); } }
 
@@ -28,7 +28,7 @@
 
         public Population(int populationSize, int chromosomeSize)
         {
-            Genomes = Enumerable.Range(1, populationSize).Select(x => new Genome(chromosomeSize, 0));
+            Genomes = Enumerable.Range(1, populationSize).Select(x => new Genome(chromosomeSize, 0)).ToList();
         }
 
         public Genome GetGenomeByRoulette()
@@ -40,7 +40,7 @@
             foreach (var genome in Genomes)
             {
                 cumulativeFitness += genome.Fitness;
-                if (cumulativeFitness > slice)
+                if (cumulativeFitness >= slice)
                 {
                     chosen = genome;
                     break;

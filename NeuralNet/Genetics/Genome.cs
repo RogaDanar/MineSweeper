@@ -1,6 +1,6 @@
-﻿namespace Brainspace.Models.Genetics
+﻿namespace NeuralNet.Genetics
 {
-    using Brainspace.Helpers;
+    using NeuralNet.Helpers;
     using System.Collections.Generic;
     using System.Linq;
 

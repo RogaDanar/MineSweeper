@@ -1,4 +1,4 @@
-﻿namespace Brainspace.Models.Neural
+﻿namespace NeuralNet.Network
 {
     using System.Collections.Generic;
     using System.Linq;

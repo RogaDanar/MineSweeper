@@ -1,7 +1,7 @@
 ﻿namespace Brainspace
 {
     using Brainspace.Helpers;
-    using Brainspace.Models;
+    using NeuralNet.Helpers;
     using System;
     using System.Collections.Generic;
     using System.Linq;
