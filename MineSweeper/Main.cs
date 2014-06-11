@@ -38,28 +38,6 @@
             displayCurrentSettings();
         }
 
-        private void setupDisplay()
-        {
-            pbMain.Width = Settings.DrawWidth;
-            pbMain.Height = Settings.DrawHeight;
-            pbMain.Image = new Bitmap(pbMain.Width, pbMain.Height);
-
-            pbGraph.Width = Settings.DrawWidth;
-            pbGraph.Image = new Bitmap(pbGraph.Width, pbGraph.Height);
-        }
-
-        private void displayCurrentSettings()
-        {
-            tbWidth.Text = Settings.DrawWidth.ToString();
-            tbHeight.Text = Settings.DrawHeight.ToString();
-            tbMutation.Text = Settings.MutationRate.ToString();
-            tbCrossover.Text = Settings.CrossoverRate.ToString();
-            tbPerturb.Text = Settings.MaxPerturbation.ToString();
-            tbTicks.Text = Settings.Ticks.ToString();
-            tbMine.Text = Settings.MineCount.ToString();
-            tbSweepers.Text = Settings.SweeperCount.ToString();
-        }
-
         public void UpdateStats(Population population)
         {
             lblGenValue.Text = population.Generation.ToString();
@@ -75,19 +53,19 @@
         public void UpdateGraph(Population population)
         {
             pbGraph.Image = new Bitmap(pbGraph.Width, pbGraph.Height);
+            var avgpoints = getGraphPoints(population.PreviousGenerationAverageFitness);
+            var bestpoints = getGraphPoints(population.PreviousGenerationBestFitness);
+            var worstpoints = getGraphPoints(population.PreviousGenerationWorstFitness);
+
+            var graphHeight = (float)pbGraph.Height - 10;
+            var maxHeight = bestpoints.Max(x => x.Y);
+            var graphWidth = (float)(pbGraph.Width - 10);
+            var maxWidth = bestpoints.Count();
+            var yScale = graphHeight / maxHeight;
+            var xScale = graphWidth / maxWidth;
+
             using (var graphics = Graphics.FromImage(pbGraph.Image))
             {
-                var avgpoints = getGraphPoints(population.PreviousGenerationAverageFitness);
-                var bestpoints = getGraphPoints(population.PreviousGenerationBestFitness);
-                var worstpoints = getGraphPoints(population.PreviousGenerationWorstFitness);
-
-                var graphHeight = (float)pbGraph.Height - 10;
-                var maxHeight = bestpoints.Max(x => x.Y);
-                var graphWidth = (float)(pbGraph.Width - 10);
-                var maxWidth = bestpoints.Count();
-                var yScale = graphHeight / maxHeight;
-                var xScale = graphWidth / maxWidth;
-
                 if (avgpoints.Count() > 1)
                 {
                     var blackPen = new Pen(Color.Black);
@@ -110,32 +88,6 @@
                 }
             }
             pbGraph.Image.RotateFlip(RotateFlipType.RotateNoneFlipY);
-        }
-
-        private void drawGraphLine(Graphics graphics, PointF[] points, Pen pen, float yScale, float xScale)
-        {
-            var matrix = new Matrix();
-            matrix.Scale(xScale, yScale);
-            matrix.Translate(5, 5, MatrixOrder.Append);
-            matrix.TransformPoints(points);
-
-            graphics.DrawLines(pen, points);
-        }
-
-        private PointF[] getGraphPoints(List<double> fitnesses)
-        {
-            var generations = fitnesses.Count;
-            var points = new PointF[generations + 1];
-
-            points[0] = new PointF(0, 0);
-            for (int i = 0; i < generations; i++)
-            {
-                var x = i + 1;
-                var y = (float)fitnesses[i];
-                points[i + 1] = new PointF(x, y);
-            }
-
-            return points;
         }
 
         public void UpdateDisplay(List<Sweeper> sweepers, List<List<double>> mines)
@@ -169,6 +121,16 @@
             }
         }
 
+        private void drawGraphLine(Graphics graphics, PointF[] points, Pen pen, float yScale, float xScale)
+        {
+            var matrix = new Matrix();
+            matrix.Scale(xScale, yScale);
+            matrix.Translate(5, 5, MatrixOrder.Append);
+            matrix.TransformPoints(points);
+
+            graphics.DrawLines(pen, points);
+        }
+
         private void drawMine(Graphics graphics, Pen pen, Brush brush, List<double> mine)
         {
             var mineX = (int)mine[0];
@@ -180,22 +142,6 @@
             //graphics.FillPolygon(brush, points);
             graphics.DrawEllipse(pen, points[0].X, points[0].Y, 2 * Settings.MineSize, 2 * Settings.MineSize);
             graphics.FillEllipse(brush, points[0].X, points[0].Y, 2 * Settings.MineSize, 2 * Settings.MineSize);
-        }
-
-        private Point[] getMinePolygonPoints(int mineX, int mineY)
-        {
-            var points = new Point[4] { 
-                new Point(-1,-1),
-                new Point(-1,+1),
-                new Point(+1,+1),
-                new Point(+1,-1)
-            };
-
-            var matrix = new Matrix();
-            matrix.Translate(mineX, mineY);
-            matrix.Scale(Settings.MineSize, Settings.MineSize);
-            matrix.TransformPoints(points);
-            return points;
         }
 
         private void drawSweeper(Graphics graphics, Pen pen, Brush brush, Sweeper sweeper)
@@ -215,6 +161,38 @@
             graphics.FillPolygon(brush, points.Skip(8).Take(2).ToArray());
             graphics.DrawPolygon(pen, points.Skip(10).Take(6).ToArray());
             graphics.FillPolygon(brush, points.Skip(10).Take(6).ToArray());
+        }
+
+        private PointF[] getGraphPoints(List<double> fitnesses)
+        {
+            var generations = fitnesses.Count;
+            var points = new PointF[generations + 1];
+
+            points[0] = new PointF(0, 0);
+            for (int i = 0; i < generations; i++)
+            {
+                var x = i + 1;
+                var y = (float)fitnesses[i];
+                points[i + 1] = new PointF(x, y);
+            }
+
+            return points;
+        }
+
+        private Point[] getMinePolygonPoints(int mineX, int mineY)
+        {
+            var points = new Point[4] { 
+                new Point(-1,-1),
+                new Point(-1,+1),
+                new Point(+1,+1),
+                new Point(+1,-1)
+            };
+
+            var matrix = new Matrix();
+            matrix.Translate(mineX, mineY);
+            matrix.Scale(Settings.MineSize, Settings.MineSize);
+            matrix.TransformPoints(points);
+            return points;
         }
 
         private PointF[] getSweeperPolygonPoints(int sweeperX, int sweeperY, float rotDegrees)
@@ -249,6 +227,31 @@
             return points;
         }
 
+        private void setupDisplay()
+        {
+            pbMain.Width = Settings.DrawWidth;
+            pbMain.Height = Settings.DrawHeight;
+            pbMain.Image = new Bitmap(pbMain.Width, pbMain.Height);
+
+            pbGraph.Width = Settings.DrawWidth;
+            pbGraph.Image = new Bitmap(pbGraph.Width, pbGraph.Height);
+        }
+
+        private void displayCurrentSettings()
+        {
+            tbWidth.Text = Settings.DrawWidth.ToString();
+            tbHeight.Text = Settings.DrawHeight.ToString();
+            tbMutation.Text = Settings.MutationRate.ToString();
+            tbCrossover.Text = Settings.CrossoverRate.ToString();
+            tbPerturb.Text = Settings.MaxPerturbation.ToString();
+            tbTicks.Text = Settings.Ticks.ToString();
+            tbMine.Text = Settings.MineCount.ToString();
+            tbSweepers.Text = Settings.SweeperCount.ToString();
+            tbElites.Text = Settings.EliteCount.ToString();
+            tbHiddenLayer.Text = Settings.HiddenLayers.ToString();
+            tbHiddenNeuron.Text = Settings.HiddenLayerNeurons.ToString();
+        }
+
         private void btnResetClick(object sender, EventArgs e)
         {
             Settings.SweeperCount = getIntValue(tbSweepers, Settings.SweeperCount);
@@ -258,6 +261,9 @@
             Settings.MaxPerturbation = getDoubleValue(tbPerturb, Settings.MaxPerturbation);
             Settings.Ticks = getIntValue(tbTicks, Settings.Ticks);
             Settings.EliteCount = getIntValue(tbElites, Settings.EliteCount);
+
+            Settings.HiddenLayers = getIntValue(tbHiddenLayer, Settings.HiddenLayers);
+            Settings.HiddenLayerNeurons = getIntValue(tbHiddenNeuron, Settings.HiddenLayerNeurons);
 
             Settings.DrawWidth = getIntValue(tbWidth, Settings.DrawWidth);
             Settings.DrawHeight = getIntValue(tbHeight, Settings.DrawHeight);

@@ -15,6 +15,7 @@
             Application.SetCompatibleTextRenderingDefault(false);
 
             var controller = new Controller();
+            controller.StartSimulation();
         }
     }
 }

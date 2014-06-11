@@ -44,8 +44,6 @@
                 Application.Run(_mainForm);
             });
             uiThread.Start();
-
-            StartSimulation();
         }
 
         public void Setup()
