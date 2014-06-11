@@ -14,11 +14,11 @@
 
         public double PerturbationRate { get; set; }
 
-        public GeneticAlgorithm(double mutationRate, double crossoverRate, double perturbationRate)
+        public GeneticAlgorithm(double mutationRate, double crossoverRate, double maxPerturbation)
         {
             MutationRate = mutationRate;
             CrossoverRate = crossoverRate;
-            PerturbationRate = perturbationRate;
+            PerturbationRate = maxPerturbation;
         }
 
         public void Mutate(Genome genome)

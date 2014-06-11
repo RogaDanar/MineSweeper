@@ -6,8 +6,8 @@ namespace MineSweeper
 {
     public class Sweeper
     {
-        private const int _brainInputs = 4;
-        private const int _brainOutputs = 2;
+        public static int BrainInputs = 4;
+        public static int BrainOutputs = 2;
         private const double _maxRotation = 0.5;
 
         private INeuralNet _brain;
@@ -19,8 +19,8 @@ namespace MineSweeper
             get { return _brain; }
             private set
             {
-                _brain = value ?? new FeedforwardNetwork(_brainInputs, _brainOutputs, 6, 1);
-                if (Brain.MaxInputs != _brainInputs || Brain.MinOutputs != _brainOutputs)
+                _brain = value ?? new FeedforwardNetwork(BrainInputs, BrainOutputs, 1, 6);
+                if (Brain.MaxInputs != BrainInputs || Brain.MinOutputs != BrainOutputs)
                 {
                     throw new Exception("Incorrect brainsize");
                 }

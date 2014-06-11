@@ -10,40 +10,54 @@
 
     public partial class Main : Form
     {
-        private Controller _controller;
-        private float _mineSize;
-        private float _sweeperSize;
+        public event EventHandler<Settings> SettingsChanged;
+
+        protected virtual void OnSettingsChanged()
+        {
+            if (SettingsChanged != null)
+            {
+                SettingsChanged(this, Settings);
+            }
+        }
 
         public PictureBox MainPictureBox { get { return pbMain; } }
         public Button ResetButton { get { return btnReset; } }
         public Button StartButton { get { return btnStartStop; } }
         public Button FastButton { get { return btnFast; } }
 
-        public int SweeperCount { get; set; }
+        public Settings Settings { get; private set; }
 
-        public int MineCount { get; set; }
-
-        public Main(Controller controller, double mineSize, double sweeperSize)
+        public Main(Settings settings)
         {
             InitializeComponent();
-            FormBorderStyle = FormBorderStyle.FixedSingle;
             DoubleBuffered = true;
 
-            _mineSize = (float)mineSize;
-            _sweeperSize = (float)sweeperSize;
-            setMineCount();
-            setSweeperCount();
-            _controller = controller;
+            Settings = settings;
 
             setupDisplay();
+            displayCurrentSettings();
         }
 
         private void setupDisplay()
         {
-            //DrawWidth = pbMain.Width;
-            //DrawHeight = pbMain.Height;
+            pbMain.Width = Settings.DrawWidth;
+            pbMain.Height = Settings.DrawHeight;
             pbMain.Image = new Bitmap(pbMain.Width, pbMain.Height);
+
+            pbGraph.Width = Settings.DrawWidth;
             pbGraph.Image = new Bitmap(pbGraph.Width, pbGraph.Height);
+        }
+
+        private void displayCurrentSettings()
+        {
+            tbWidth.Text = Settings.DrawWidth.ToString();
+            tbHeight.Text = Settings.DrawHeight.ToString();
+            tbMutation.Text = Settings.MutationRate.ToString();
+            tbCrossover.Text = Settings.CrossoverRate.ToString();
+            tbPerturb.Text = Settings.MaxPerturbation.ToString();
+            tbTicks.Text = Settings.Ticks.ToString();
+            tbMine.Text = Settings.MineCount.ToString();
+            tbSweepers.Text = Settings.SweeperCount.ToString();
         }
 
         public void UpdateStats(Population population)
@@ -162,8 +176,7 @@
 
             graphics.DrawPolygon(pen, points);
 
-            //graphics.DrawEllipse(pen, mineX-2, mineY-2, 4, 4);
-            graphics.FillRectangle(pen.Brush, mineX, mineY, 1, 1);
+            //graphics.FillRectangle(pen.Brush, mineX, mineY, 1, 1);
         }
 
         private Point[] getMinePolygonPoints(int mineX, int mineY)
@@ -177,7 +190,7 @@
 
             var matrix = new Matrix();
             matrix.Translate(mineX, mineY);
-            matrix.Scale(_mineSize, _mineSize);
+            matrix.Scale(Settings.MineSize, Settings.MineSize);
             matrix.TransformPoints(points);
             return points;
         }
@@ -196,8 +209,7 @@
             graphics.DrawPolygon(pen, points.Skip(8).Take(2).ToArray());
             graphics.DrawPolygon(pen, points.Skip(10).Take(6).ToArray());
 
-            //graphics.DrawEllipse(pen, sweeperX - 5, sweeperY - 5, 10, 10);
-            graphics.FillRectangle(pen.Brush, sweeperX, sweeperY, 1, 1);
+            //graphics.FillRectangle(pen.Brush, sweeperX, sweeperY, 1, 1);
         }
 
         private PointF[] getSweeperPolygonPoints(int sweeperX, int sweeperY, float rotDegrees)
@@ -227,7 +239,7 @@
             var matrix = new Matrix();
             matrix.Rotate(rotDegrees, MatrixOrder.Append);
             matrix.Translate(sweeperX, sweeperY, MatrixOrder.Append);
-            matrix.Scale(_sweeperSize, _sweeperSize);
+            matrix.Scale(Settings.SweeperSize, Settings.SweeperSize);
             matrix.TransformPoints(points);
             return points;
         }
@@ -239,23 +251,33 @@
 
         private void btnResetClick(object sender, EventArgs e)
         {
-            setSweeperCount();
-            setMineCount();
+            Settings.SweeperCount = getIntValue(tbSweepers, Settings.SweeperCount);
+            Settings.MineCount = getIntValue(tbMine, Settings.MineCount);
+            Settings.MutationRate = getDoubleValue(tbMutation, Settings.MutationRate);
+            Settings.CrossoverRate = getDoubleValue(tbCrossover, Settings.CrossoverRate);
+            Settings.MaxPerturbation = getDoubleValue(tbPerturb, Settings.MaxPerturbation);
+            Settings.Ticks = getIntValue(tbTicks, Settings.Ticks);
+
+            Settings.DrawWidth = getIntValue(tbWidth, Settings.DrawWidth);
+            Settings.DrawHeight = getIntValue(tbHeight, Settings.DrawHeight);
+
             btnStartStop.Text = "Start";
+            setupDisplay();
+            OnSettingsChanged();
         }
 
-        private void setMineCount()
+        private int getIntValue(TextBox textBox, int originalValue)
         {
-            var mineCount = 40;
-            int.TryParse(tbMine.Text, out mineCount);
-            MineCount = mineCount;
+            var value = originalValue;
+            int.TryParse(textBox.Text, out value);
+            return value;
         }
 
-        private void setSweeperCount()
+        private double getDoubleValue(TextBox textBox, double originalValue)
         {
-            var sweeperCount = 30;
-            int.TryParse(tbSweepers.Text, out sweeperCount);
-            SweeperCount = sweeperCount;
+            var value = originalValue;
+            double.TryParse(textBox.Text, out value);
+            return value;
         }
 
         private void btnFastClick(object sender, EventArgs e)

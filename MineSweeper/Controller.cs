@@ -2,6 +2,7 @@
 {
     using NeuralNet.Genetics;
     using NeuralNet.Helpers;
+    using NeuralNet.Network;
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -12,45 +13,31 @@
     {
         private readonly Rand _rand = Rand.Generator;
 
-        private const double _mineSize = 2;
-        private const double _sweeperSize = 5;
-        private const double _mutationRate = 0.1;
-        private const double _crossoverRate = 0.7;
-        private const double _perturbationRate = 0.3;
+        private Settings _settings;
 
         private Main _mainForm;
-        private bool _formReady;
         private bool _done;
         private bool _runSimulation;
         private bool _fast;
-        private bool _reset;
-        private double _drawWidth;
-        private double _drawHeight;
+        private bool _setupNeeded;
 
-        private int _sweeperCount;
-        private int _mineCount;
         private List<Sweeper> _sweepers;
         private List<List<double>> _mines;
-        private int _sweeperWeightCount;
         private GeneticAlgorithm _genetics;
         private Population _population;
-        private int _ticks;
         private int _ticksDone;
 
         public Controller()
         {
             _done = false;
             _runSimulation = false;
-            _mineCount = 40;
-            _sweeperCount = 30;
+            _setupNeeded = true;
+            _settings = new Settings();
 
-            _mainForm = new Main(this, _mineSize, _sweeperSize);
-            _drawWidth = _mainForm.MainPictureBox.Width;
-            _drawHeight = _mainForm.MainPictureBox.Height;
-            _mainForm.Shown += mainFormShown;
+            _mainForm = new Main(_settings);
             _mainForm.FormClosing += mainFormClosing;
             _mainForm.FormClosed += mainFormClosed;
-            _mainForm.ResetButton.Click += mainFormResetButtonClick;
+            _mainForm.SettingsChanged += mainFormSettingsChanged;
             _mainForm.StartButton.Click += mainFormStartButtonClick;
             _mainForm.FastButton.Click += mainFormFastButtonClick;
 
@@ -62,72 +49,18 @@
             StartSimulation();
         }
 
-        private void mainFormFastButtonClick(object sender, EventArgs e)
+        public void Setup()
         {
-            _fast = !_fast;
-        }
-
-        private void mainFormStartButtonClick(object sender, EventArgs e)
-        {
-            _runSimulation = !_runSimulation;
-            if (_runSimulation && _reset)
-            {
-                Setup(_sweeperCount, _mineCount);
-                _reset = false;
-            }
-        }
-
-        private void mainFormResetButtonClick(object sender, EventArgs e)
-        {
-            var button = sender as Button;
-            if (button != null)
-            {
-                var main = button.Parent as Main;
-                if (main != null)
-                {
-                    _sweeperCount = main.SweeperCount;
-                    _mineCount = main.MineCount;
-                }
-            }
-            _runSimulation = false;
-            _reset = true;
-        }
-
-        private void mainFormClosed(object sender, FormClosedEventArgs e)
-        {
-            _done = true;
-        }
-
-        private void mainFormClosing(object sender, FormClosingEventArgs e)
-        {
-            _runSimulation = false;
-            _formReady = false;
-        }
-
-        private void mainFormShown(object sender, EventArgs e)
-        {
-            _formReady = true;
-            if (_mainForm != null)
-            {
-                _mainForm.Invoke((MethodInvoker)delegate { _mineCount = _mainForm.MineCount; });
-                _mainForm.Invoke((MethodInvoker)delegate { _sweeperCount = _mainForm.SweeperCount; });
-            }
-            _genetics = new GeneticAlgorithm(_mutationRate, _crossoverRate, _perturbationRate);
-            Setup(_sweeperCount, _mineCount);
-        }
-
-        public void Setup(int numberOfSweepers, int numberOfMines)
-        {
-            _sweepers = createSweepers(numberOfSweepers).ToList();
-            _mines = createMines(numberOfMines).ToList();
-            _sweeperWeightCount = _sweepers.First().Brain.AllWeightsCount();
-            _population = new Population(numberOfSweepers, _sweeperWeightCount);
+            _genetics = new GeneticAlgorithm(_settings.MutationRate, _settings.CrossoverRate, _settings.MaxPerturbation);
+            _sweepers = createSweepers(_settings.SweeperCount).ToList();
+            _mines = createMines(_settings.MineCount).ToList();
+            var sweeperWeightCount = _sweepers.First().Brain.AllWeightsCount();
+            _population = new Population(_settings.SweeperCount, sweeperWeightCount);
             initializeBrains();
         }
 
-        public void StartSimulation(int ticks = 2000)
+        public void StartSimulation()
         {
-            _ticks = ticks;
             _ticksDone = 0;
             while (!_done)
             {
@@ -141,7 +74,7 @@
 
         private void updateUI()
         {
-            if (_formReady && _runSimulation)
+            if (_runSimulation)
             {
                 try
                 {
@@ -162,13 +95,13 @@
 
         public void Update()
         {
-            if (_ticksDone < _ticks)
+            if (_ticksDone < _settings.Ticks)
             {
                 for (int i = 0; i < _sweepers.Count; i++)
                 {
                     var sweeper = _sweepers[i];
                     sweeper.Update(_mines);
-                    var foundMine = sweeper.CheckForMine(_mineSize + _sweeperSize);
+                    var foundMine = sweeper.CheckForMine(_settings.MineSize + _settings.SweeperSize);
                     if (foundMine != null)
                     {
                         var mine = _mines.Single(x => matchVectors(x, foundMine));
@@ -224,7 +157,8 @@
             {
                 var position = getRandomPosition();
                 var rotation = getRandomRotation();
-                yield return new Sweeper(position, rotation, 400, 400);
+                var brain = new FeedforwardNetwork(Sweeper.BrainInputs, Sweeper.BrainOutputs, _settings.HiddenLayers, _settings.HiddenLayerNeurons);
+                yield return new Sweeper(position, rotation, _settings.DrawWidth, _settings.DrawHeight, brain);
             }
         }
 
@@ -253,9 +187,42 @@
 
         private List<double> getRandomPosition()
         {
-            var position = new List<double> { _rand.NextDouble(0, _drawWidth), _rand.NextDouble(0, _drawHeight) };
+            var position = new List<double> { _rand.NextDouble(0, _settings.DrawWidth), _rand.NextDouble(0, _settings.DrawHeight) };
             return position;
         }
 
+        private void mainFormFastButtonClick(object sender, EventArgs e)
+        {
+            _fast = !_fast;
+        }
+
+        private void mainFormStartButtonClick(object sender, EventArgs e)
+        {
+            var startRun = !_runSimulation;
+            if (startRun && _setupNeeded)
+            {
+                Setup();
+                _setupNeeded = false;
+            }
+            _runSimulation = startRun;
+        }
+
+        private void mainFormSettingsChanged(object sender, Settings settings)
+        {
+            _settings = settings;
+
+            _runSimulation = false;
+            _setupNeeded = true;
+        }
+
+        private void mainFormClosed(object sender, FormClosedEventArgs e)
+        {
+            _done = true;
+        }
+
+        private void mainFormClosing(object sender, FormClosingEventArgs e)
+        {
+            _runSimulation = false;
+        }
     }
 }
