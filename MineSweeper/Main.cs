@@ -157,10 +157,8 @@
             graphics.FillPolygon(brush, points.Take(4).ToArray());
             graphics.DrawPolygon(pen, points.Skip(4).Take(4).ToArray());
             graphics.FillPolygon(brush, points.Skip(4).Take(4).ToArray());
-            graphics.DrawPolygon(pen, points.Skip(8).Take(2).ToArray());
-            graphics.FillPolygon(brush, points.Skip(8).Take(2).ToArray());
-            graphics.DrawPolygon(pen, points.Skip(10).Take(6).ToArray());
-            graphics.FillPolygon(brush, points.Skip(10).Take(6).ToArray());
+            graphics.DrawPolygon(pen, points.Skip(8).Take(8).ToArray());
+            graphics.FillPolygon(brush, points.Skip(8).Take(8).ToArray());
         }
 
         private PointF[] getGraphPoints(List<double> fitnesses)
@@ -182,10 +180,10 @@
         private Point[] getMinePolygonPoints(int mineX, int mineY)
         {
             var points = new Point[4] { 
-                new Point(-1,-1),
-                new Point(-1,+1),
-                new Point(+1,+1),
-                new Point(+1,-1)
+                new Point(-1, -1),
+                new Point(-1, 1),
+                new Point(1, 1),
+                new Point(1, -1)
             };
 
             var matrix = new Matrix();
@@ -199,24 +197,23 @@
         {
             var points = new PointF[16] { 
                 new PointF(-1, -1),
-                new PointF(-1, +1),
-                new PointF(-0.5f, +1),
+                new PointF(-1, 1),
+                new PointF(-0.5f, 1),
                 new PointF(-0.5f, -1),
 
-                new PointF(+0.5f, -1),
-                new PointF(+1, -1),
-                new PointF(+1, +1),
-                new PointF(+0.5f, +1),
+                new PointF(0.5f, -1),
+                new PointF(1, -1),
+                new PointF(1, 1),
+                new PointF(0.5f, 1),
 
                 new PointF(-0.5f, -0.5f),
-                new PointF(+0.5f, -0.5f),
-
-                new PointF(-0.5f, +0.5f),
-                new PointF(-0.25f, +0.5f),
-                new PointF(-0.25f, +1.75f),
-                new PointF(+0.25f, +1.75f),
-                new PointF(+0.25f, +0.5f),
-                new PointF(+0.5f, +0.5f)
+                new PointF(0.5f, -0.5f),
+                new PointF(-0.5f, 0.5f),
+                new PointF(-0.25f, 0.5f),
+                new PointF(-0.25f, 1.75f),
+                new PointF(0.25f, 1.75f),
+                new PointF(0.25f, 0.5f),
+                new PointF(0.5f, 0.5f)
             };
 
             var matrix = new Matrix();
@@ -235,6 +232,26 @@
 
             pbGraph.Width = Settings.DrawWidth;
             pbGraph.Image = new Bitmap(pbGraph.Width, pbGraph.Height);
+            Icon = getIcon();
+        }
+
+        private Icon getIcon()
+        {
+            var bitmap = new Bitmap(32, 32);
+            using (var g = Graphics.FromImage(bitmap))
+            {
+                var points = getSweeperPolygonPoints(16, 16, 180);
+                var matrix = new Matrix();
+                matrix.Scale(1.5f, 1.5f);
+                matrix.Translate(-5, -5);
+                matrix.TransformPoints(points);
+
+                var pen = new Pen(Color.Black);
+                g.DrawPolygon(pen, points);
+                g.FillPolygon(pen.Brush, points);
+                pen.Dispose();
+            }
+            return Icon.FromHandle(bitmap.GetHicon());
         }
 
         private void displayCurrentSettings()
