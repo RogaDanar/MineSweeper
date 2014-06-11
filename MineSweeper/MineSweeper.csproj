@@ -80,9 +80,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\NeuralNet\NeuralNet.csproj">
       <Project>{dc2427e4-6aae-4907-b48a-e1bd01a0a4ea}</Project>
       <Name>NeuralNet</Name>
