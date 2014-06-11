@@ -62,6 +62,8 @@
             this.lblWidth = new System.Windows.Forms.Label();
             this.tbHeight = new System.Windows.Forms.TextBox();
             this.tbWidth = new System.Windows.Forms.TextBox();
+            this.lblElites = new System.Windows.Forms.Label();
+            this.tbElites = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.pbMain)).BeginInit();
             this.pnlStats.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbGraph)).BeginInit();
@@ -70,8 +72,9 @@
             // 
             // pbMain
             // 
-            this.pbMain.BackColor = System.Drawing.Color.White;
-            this.pbMain.Location = new System.Drawing.Point(-2, -1);
+            this.pbMain.BackColor = System.Drawing.Color.Gainsboro;
+            this.pbMain.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.pbMain.Location = new System.Drawing.Point(12, 13);
             this.pbMain.Name = "pbMain";
             this.pbMain.Size = new System.Drawing.Size(400, 400);
             this.pbMain.TabIndex = 0;
@@ -80,17 +83,19 @@
             // lblGeneration
             // 
             this.lblGeneration.AutoSize = true;
-            this.lblGeneration.Location = new System.Drawing.Point(3, 0);
+            this.lblGeneration.ForeColor = System.Drawing.Color.Black;
+            this.lblGeneration.Location = new System.Drawing.Point(3, 2);
             this.lblGeneration.Name = "lblGeneration";
-            this.lblGeneration.Size = new System.Drawing.Size(59, 13);
+            this.lblGeneration.Size = new System.Drawing.Size(73, 14);
             this.lblGeneration.TabIndex = 1;
             this.lblGeneration.Text = "Generation";
             // 
             // btnStartStop
             // 
-            this.btnStartStop.Location = new System.Drawing.Point(6, 13);
+            this.btnStartStop.ForeColor = System.Drawing.Color.Black;
+            this.btnStartStop.Location = new System.Drawing.Point(-1, -2);
             this.btnStartStop.Name = "btnStartStop";
-            this.btnStartStop.Size = new System.Drawing.Size(116, 23);
+            this.btnStartStop.Size = new System.Drawing.Size(124, 46);
             this.btnStartStop.TabIndex = 3;
             this.btnStartStop.Text = "Start";
             this.btnStartStop.UseVisualStyleBackColor = true;
@@ -111,62 +116,67 @@
             this.pnlStats.Controls.Add(this.lblAvg);
             this.pnlStats.Controls.Add(this.lblBest);
             this.pnlStats.Controls.Add(this.lblGeneration);
-            this.pnlStats.Location = new System.Drawing.Point(411, 410);
+            this.pnlStats.Location = new System.Drawing.Point(418, 426);
             this.pnlStats.Name = "pnlStats";
-            this.pnlStats.Size = new System.Drawing.Size(130, 190);
+            this.pnlStats.Size = new System.Drawing.Size(130, 204);
             this.pnlStats.TabIndex = 29;
             // 
             // lblLastWorst
             // 
             this.lblLastWorst.AutoSize = true;
-            this.lblLastWorst.Location = new System.Drawing.Point(62, 49);
+            this.lblLastWorst.ForeColor = System.Drawing.Color.Maroon;
+            this.lblLastWorst.Location = new System.Drawing.Point(77, 76);
             this.lblLastWorst.Name = "lblLastWorst";
-            this.lblLastWorst.Size = new System.Drawing.Size(19, 13);
+            this.lblLastWorst.Size = new System.Drawing.Size(19, 14);
             this.lblLastWorst.TabIndex = 14;
             this.lblLastWorst.Text = "10";
             // 
             // lblWorstValue
             // 
             this.lblWorstValue.AutoSize = true;
-            this.lblWorstValue.Location = new System.Drawing.Point(37, 49);
+            this.lblWorstValue.ForeColor = System.Drawing.Color.Maroon;
+            this.lblWorstValue.Location = new System.Drawing.Point(44, 76);
             this.lblWorstValue.Name = "lblWorstValue";
-            this.lblWorstValue.Size = new System.Drawing.Size(19, 13);
+            this.lblWorstValue.Size = new System.Drawing.Size(19, 14);
             this.lblWorstValue.TabIndex = 13;
             this.lblWorstValue.Text = "10";
             // 
             // lblWorst
             // 
             this.lblWorst.AutoSize = true;
-            this.lblWorst.ForeColor = System.Drawing.Color.Red;
-            this.lblWorst.Location = new System.Drawing.Point(3, 49);
+            this.lblWorst.ForeColor = System.Drawing.Color.Maroon;
+            this.lblWorst.Location = new System.Drawing.Point(3, 76);
             this.lblWorst.Name = "lblWorst";
-            this.lblWorst.Size = new System.Drawing.Size(35, 13);
+            this.lblWorst.Size = new System.Drawing.Size(43, 14);
             this.lblWorst.TabIndex = 12;
             this.lblWorst.Text = "Worst";
             // 
             // lblLastAvg
             // 
             this.lblLastAvg.AutoSize = true;
-            this.lblLastAvg.Location = new System.Drawing.Point(62, 71);
+            this.lblLastAvg.ForeColor = System.Drawing.Color.Black;
+            this.lblLastAvg.Location = new System.Drawing.Point(77, 51);
             this.lblLastAvg.Name = "lblLastAvg";
-            this.lblLastAvg.Size = new System.Drawing.Size(19, 13);
+            this.lblLastAvg.Size = new System.Drawing.Size(19, 14);
             this.lblLastAvg.TabIndex = 11;
             this.lblLastAvg.Text = "10";
             // 
             // lblLastBest
             // 
             this.lblLastBest.AutoSize = true;
-            this.lblLastBest.Location = new System.Drawing.Point(62, 26);
+            this.lblLastBest.ForeColor = System.Drawing.Color.Blue;
+            this.lblLastBest.Location = new System.Drawing.Point(77, 28);
             this.lblLastBest.Name = "lblLastBest";
-            this.lblLastBest.Size = new System.Drawing.Size(19, 13);
+            this.lblLastBest.Size = new System.Drawing.Size(19, 14);
             this.lblLastBest.TabIndex = 10;
             this.lblLastBest.Text = "10";
             // 
             // btnFast
             // 
-            this.btnFast.Location = new System.Drawing.Point(6, 155);
+            this.btnFast.ForeColor = System.Drawing.Color.Black;
+            this.btnFast.Location = new System.Drawing.Point(-1, 180);
             this.btnFast.Name = "btnFast";
-            this.btnFast.Size = new System.Drawing.Size(118, 23);
+            this.btnFast.Size = new System.Drawing.Size(124, 25);
             this.btnFast.TabIndex = 15;
             this.btnFast.Text = "Fast";
             this.btnFast.UseVisualStyleBackColor = true;
@@ -175,36 +185,40 @@
             // lblAvgValue
             // 
             this.lblAvgValue.AutoSize = true;
-            this.lblAvgValue.Location = new System.Drawing.Point(37, 71);
+            this.lblAvgValue.ForeColor = System.Drawing.Color.Black;
+            this.lblAvgValue.Location = new System.Drawing.Point(44, 51);
             this.lblAvgValue.Name = "lblAvgValue";
-            this.lblAvgValue.Size = new System.Drawing.Size(19, 13);
+            this.lblAvgValue.Size = new System.Drawing.Size(19, 14);
             this.lblAvgValue.TabIndex = 8;
             this.lblAvgValue.Text = "10";
             // 
             // lblBestValue
             // 
             this.lblBestValue.AutoSize = true;
-            this.lblBestValue.Location = new System.Drawing.Point(37, 26);
+            this.lblBestValue.ForeColor = System.Drawing.Color.Blue;
+            this.lblBestValue.Location = new System.Drawing.Point(44, 28);
             this.lblBestValue.Name = "lblBestValue";
-            this.lblBestValue.Size = new System.Drawing.Size(19, 13);
+            this.lblBestValue.Size = new System.Drawing.Size(19, 14);
             this.lblBestValue.TabIndex = 7;
             this.lblBestValue.Text = "10";
             // 
             // lblGenValue
             // 
             this.lblGenValue.AutoSize = true;
-            this.lblGenValue.Location = new System.Drawing.Point(62, 0);
+            this.lblGenValue.ForeColor = System.Drawing.Color.Black;
+            this.lblGenValue.Location = new System.Drawing.Point(76, 2);
             this.lblGenValue.Name = "lblGenValue";
-            this.lblGenValue.Size = new System.Drawing.Size(19, 13);
+            this.lblGenValue.Size = new System.Drawing.Size(19, 14);
             this.lblGenValue.TabIndex = 6;
             this.lblGenValue.Text = "10";
             // 
             // lblAvg
             // 
             this.lblAvg.AutoSize = true;
-            this.lblAvg.Location = new System.Drawing.Point(3, 71);
+            this.lblAvg.ForeColor = System.Drawing.Color.Black;
+            this.lblAvg.Location = new System.Drawing.Point(3, 51);
             this.lblAvg.Name = "lblAvg";
-            this.lblAvg.Size = new System.Drawing.Size(29, 13);
+            this.lblAvg.Size = new System.Drawing.Size(34, 14);
             this.lblAvg.TabIndex = 5;
             this.lblAvg.Text = "Avg.";
             // 
@@ -212,61 +226,65 @@
             // 
             this.lblBest.AutoSize = true;
             this.lblBest.ForeColor = System.Drawing.Color.Blue;
-            this.lblBest.Location = new System.Drawing.Point(3, 26);
+            this.lblBest.Location = new System.Drawing.Point(3, 28);
             this.lblBest.Name = "lblBest";
-            this.lblBest.Size = new System.Drawing.Size(28, 13);
+            this.lblBest.Size = new System.Drawing.Size(33, 14);
             this.lblBest.TabIndex = 4;
             this.lblBest.Text = "Best";
             // 
             // pbGraph
             // 
             this.pbGraph.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.pbGraph.BackColor = System.Drawing.Color.White;
-            this.pbGraph.Location = new System.Drawing.Point(-2, 410);
+            this.pbGraph.BackColor = System.Drawing.Color.Gainsboro;
+            this.pbGraph.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.pbGraph.Location = new System.Drawing.Point(12, 425);
             this.pbGraph.Name = "pbGraph";
-            this.pbGraph.Size = new System.Drawing.Size(400, 190);
+            this.pbGraph.Size = new System.Drawing.Size(400, 204);
             this.pbGraph.TabIndex = 5;
             this.pbGraph.TabStop = false;
             // 
             // tbSweepers
             // 
-            this.tbSweepers.Location = new System.Drawing.Point(102, 320);
+            this.tbSweepers.Location = new System.Drawing.Point(93, 309);
             this.tbSweepers.Name = "tbSweepers";
-            this.tbSweepers.Size = new System.Drawing.Size(22, 20);
+            this.tbSweepers.Size = new System.Drawing.Size(30, 21);
             this.tbSweepers.TabIndex = 16;
             this.tbSweepers.Text = "30";
+            this.tbSweepers.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // tbMine
             // 
-            this.tbMine.Location = new System.Drawing.Point(102, 342);
+            this.tbMine.Location = new System.Drawing.Point(93, 334);
             this.tbMine.Name = "tbMine";
-            this.tbMine.Size = new System.Drawing.Size(22, 20);
+            this.tbMine.Size = new System.Drawing.Size(30, 21);
             this.tbMine.TabIndex = 17;
             this.tbMine.Text = "40";
+            this.tbMine.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // lblSweepers
             // 
             this.lblSweepers.AutoSize = true;
-            this.lblSweepers.Location = new System.Drawing.Point(11, 323);
+            this.lblSweepers.Location = new System.Drawing.Point(10, 312);
             this.lblSweepers.Name = "lblSweepers";
-            this.lblSweepers.Size = new System.Drawing.Size(54, 13);
+            this.lblSweepers.Size = new System.Drawing.Size(63, 14);
             this.lblSweepers.TabIndex = 15;
             this.lblSweepers.Text = "Sweepers";
             // 
             // lblMines
             // 
             this.lblMines.AutoSize = true;
-            this.lblMines.Location = new System.Drawing.Point(30, 345);
+            this.lblMines.Location = new System.Drawing.Point(31, 337);
             this.lblMines.Name = "lblMines";
-            this.lblMines.Size = new System.Drawing.Size(35, 13);
+            this.lblMines.Size = new System.Drawing.Size(42, 14);
             this.lblMines.TabIndex = 18;
             this.lblMines.Text = "Mines";
             // 
             // btnReset
             // 
-            this.btnReset.Location = new System.Drawing.Point(6, 368);
+            this.btnReset.ForeColor = System.Drawing.Color.Black;
+            this.btnReset.Location = new System.Drawing.Point(-1, 376);
             this.btnReset.Name = "btnReset";
-            this.btnReset.Size = new System.Drawing.Size(118, 23);
+            this.btnReset.Size = new System.Drawing.Size(124, 25);
             this.btnReset.TabIndex = 19;
             this.btnReset.Text = "(Re)set values";
             this.btnReset.UseVisualStyleBackColor = true;
@@ -275,74 +293,80 @@
             // lblTicks
             // 
             this.lblTicks.AutoSize = true;
-            this.lblTicks.Location = new System.Drawing.Point(32, 302);
+            this.lblTicks.Location = new System.Drawing.Point(37, 173);
             this.lblTicks.Name = "lblTicks";
-            this.lblTicks.Size = new System.Drawing.Size(33, 13);
+            this.lblTicks.Size = new System.Drawing.Size(36, 14);
             this.lblTicks.TabIndex = 23;
             this.lblTicks.Text = "Ticks";
             // 
             // lblPerturb
             // 
             this.lblPerturb.AutoSize = true;
-            this.lblPerturb.Location = new System.Drawing.Point(16, 280);
+            this.lblPerturb.Location = new System.Drawing.Point(9, 245);
             this.lblPerturb.Name = "lblPerturb";
-            this.lblPerturb.Size = new System.Drawing.Size(51, 13);
+            this.lblPerturb.Size = new System.Drawing.Size(64, 14);
             this.lblPerturb.TabIndex = 20;
             this.lblPerturb.Text = "Max pert.";
             // 
             // tbTicks
             // 
-            this.tbTicks.Location = new System.Drawing.Point(92, 299);
+            this.tbTicks.Location = new System.Drawing.Point(81, 170);
             this.tbTicks.Name = "tbTicks";
-            this.tbTicks.Size = new System.Drawing.Size(32, 20);
+            this.tbTicks.Size = new System.Drawing.Size(42, 21);
             this.tbTicks.TabIndex = 22;
             this.tbTicks.Text = "2000";
+            this.tbTicks.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // tbPerturb
             // 
-            this.tbPerturb.Location = new System.Drawing.Point(102, 277);
+            this.tbPerturb.Location = new System.Drawing.Point(93, 242);
             this.tbPerturb.Name = "tbPerturb";
-            this.tbPerturb.Size = new System.Drawing.Size(22, 20);
+            this.tbPerturb.Size = new System.Drawing.Size(30, 21);
             this.tbPerturb.TabIndex = 21;
             this.tbPerturb.Text = "0.3";
+            this.tbPerturb.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // lblCrossover
             // 
             this.lblCrossover.AutoSize = true;
-            this.lblCrossover.Location = new System.Drawing.Point(8, 258);
+            this.lblCrossover.Location = new System.Drawing.Point(1, 221);
             this.lblCrossover.Name = "lblCrossover";
-            this.lblCrossover.Size = new System.Drawing.Size(57, 13);
+            this.lblCrossover.Size = new System.Drawing.Size(72, 14);
             this.lblCrossover.TabIndex = 27;
             this.lblCrossover.Text = "Cross. rate";
             // 
             // lblMutation
             // 
             this.lblMutation.AutoSize = true;
-            this.lblMutation.Location = new System.Drawing.Point(16, 236);
+            this.lblMutation.Location = new System.Drawing.Point(11, 197);
             this.lblMutation.Name = "lblMutation";
-            this.lblMutation.Size = new System.Drawing.Size(49, 13);
+            this.lblMutation.Size = new System.Drawing.Size(62, 14);
             this.lblMutation.TabIndex = 24;
             this.lblMutation.Text = "Mut. rate";
             // 
             // tbCrossover
             // 
-            this.tbCrossover.Location = new System.Drawing.Point(102, 255);
+            this.tbCrossover.Location = new System.Drawing.Point(93, 218);
             this.tbCrossover.Name = "tbCrossover";
-            this.tbCrossover.Size = new System.Drawing.Size(22, 20);
+            this.tbCrossover.Size = new System.Drawing.Size(30, 21);
             this.tbCrossover.TabIndex = 26;
             this.tbCrossover.Text = "0.7";
+            this.tbCrossover.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // tbMutation
             // 
-            this.tbMutation.Location = new System.Drawing.Point(102, 233);
+            this.tbMutation.Location = new System.Drawing.Point(93, 194);
             this.tbMutation.Name = "tbMutation";
-            this.tbMutation.Size = new System.Drawing.Size(22, 20);
+            this.tbMutation.Size = new System.Drawing.Size(30, 21);
             this.tbMutation.TabIndex = 25;
             this.tbMutation.Text = "0.1";
+            this.tbMutation.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // pnlSettings
             // 
             this.pnlSettings.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.pnlSettings.Controls.Add(this.lblElites);
+            this.pnlSettings.Controls.Add(this.tbElites);
             this.pnlSettings.Controls.Add(this.lblHeight);
             this.pnlSettings.Controls.Add(this.lblWidth);
             this.pnlSettings.Controls.Add(this.tbHeight);
@@ -361,7 +385,7 @@
             this.pnlSettings.Controls.Add(this.lblPerturb);
             this.pnlSettings.Controls.Add(this.tbPerturb);
             this.pnlSettings.Controls.Add(this.tbTicks);
-            this.pnlSettings.Location = new System.Drawing.Point(411, -1);
+            this.pnlSettings.Location = new System.Drawing.Point(418, 14);
             this.pnlSettings.Name = "pnlSettings";
             this.pnlSettings.Size = new System.Drawing.Size(130, 400);
             this.pnlSettings.TabIndex = 28;
@@ -369,47 +393,70 @@
             // lblHeight
             // 
             this.lblHeight.AutoSize = true;
-            this.lblHeight.Location = new System.Drawing.Point(8, 197);
+            this.lblHeight.Location = new System.Drawing.Point(26, 129);
             this.lblHeight.Name = "lblHeight";
-            this.lblHeight.Size = new System.Drawing.Size(66, 13);
+            this.lblHeight.Size = new System.Drawing.Size(47, 14);
             this.lblHeight.TabIndex = 31;
-            this.lblHeight.Text = "Draw Height";
+            this.lblHeight.Text = "Height";
             // 
             // lblWidth
             // 
             this.lblWidth.AutoSize = true;
-            this.lblWidth.Location = new System.Drawing.Point(11, 175);
+            this.lblWidth.Location = new System.Drawing.Point(30, 104);
             this.lblWidth.Name = "lblWidth";
-            this.lblWidth.Size = new System.Drawing.Size(63, 13);
+            this.lblWidth.Size = new System.Drawing.Size(43, 14);
             this.lblWidth.TabIndex = 28;
-            this.lblWidth.Text = "Draw Width";
+            this.lblWidth.Text = "Width";
             // 
             // tbHeight
             // 
-            this.tbHeight.Location = new System.Drawing.Point(92, 194);
+            this.tbHeight.Location = new System.Drawing.Point(91, 126);
             this.tbHeight.Name = "tbHeight";
-            this.tbHeight.Size = new System.Drawing.Size(32, 20);
+            this.tbHeight.Size = new System.Drawing.Size(32, 21);
             this.tbHeight.TabIndex = 30;
             this.tbHeight.Text = "400";
+            this.tbHeight.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // tbWidth
             // 
-            this.tbWidth.Location = new System.Drawing.Point(92, 172);
+            this.tbWidth.Location = new System.Drawing.Point(91, 101);
             this.tbWidth.Name = "tbWidth";
-            this.tbWidth.Size = new System.Drawing.Size(32, 20);
+            this.tbWidth.Size = new System.Drawing.Size(32, 21);
             this.tbWidth.TabIndex = 29;
             this.tbWidth.Text = "400";
+            this.tbWidth.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            // 
+            // lblElites
+            // 
+            this.lblElites.AutoSize = true;
+            this.lblElites.Location = new System.Drawing.Point(33, 269);
+            this.lblElites.Name = "lblElites";
+            this.lblElites.Size = new System.Drawing.Size(40, 14);
+            this.lblElites.TabIndex = 32;
+            this.lblElites.Text = "Elites";
+            // 
+            // tbElites
+            // 
+            this.tbElites.Location = new System.Drawing.Point(93, 266);
+            this.tbElites.Name = "tbElites";
+            this.tbElites.Size = new System.Drawing.Size(30, 21);
+            this.tbElites.TabIndex = 33;
+            this.tbElites.Text = "4";
+            this.tbElites.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // Main
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 14F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.ClientSize = new System.Drawing.Size(541, 600);
+            this.BackColor = System.Drawing.Color.DimGray;
+            this.ClientSize = new System.Drawing.Size(548, 642);
             this.Controls.Add(this.pnlSettings);
             this.Controls.Add(this.pnlStats);
             this.Controls.Add(this.pbMain);
             this.Controls.Add(this.pbGraph);
+            this.Font = new System.Drawing.Font("DengXian", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ForeColor = System.Drawing.Color.Gold;
             this.Name = "Main";
             this.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Show;
@@ -460,6 +507,8 @@
         private System.Windows.Forms.Label lblWidth;
         private System.Windows.Forms.TextBox tbHeight;
         private System.Windows.Forms.TextBox tbWidth;
+        private System.Windows.Forms.Label lblElites;
+        private System.Windows.Forms.TextBox tbElites;
 
     }
 }

@@ -81,45 +81,45 @@
                 var bestpoints = getGraphPoints(population.PreviousGenerationBestFitness);
                 var worstpoints = getGraphPoints(population.PreviousGenerationWorstFitness);
 
-                var graphHeight = (float)pbGraph.Height;
-                var maxHeight = bestpoints.Max(x => x.Y) + 1;
+                var graphHeight = (float)pbGraph.Height - 10;
+                var maxHeight = bestpoints.Max(x => x.Y);
+                var graphWidth = (float)(pbGraph.Width - 10);
+                var maxWidth = bestpoints.Count();
                 var yScale = graphHeight / maxHeight;
-                var xScale = (float)pbGraph.Width / (float)bestpoints.Count();
+                var xScale = graphWidth / maxWidth;
 
                 if (avgpoints.Count() > 1)
                 {
-                    var matrix = new Matrix();
-                    matrix.Scale(xScale, yScale);
-                    matrix.TransformPoints(avgpoints);
-
                     var blackPen = new Pen(Color.Black);
-                    graphics.DrawLines(blackPen, avgpoints);
+                    drawGraphLine(graphics, avgpoints, blackPen, yScale, xScale);
                     blackPen.Dispose();
                 }
 
                 if (bestpoints.Count() > 1)
                 {
-                    var matrix = new Matrix();
-                    matrix.Scale(xScale, yScale);
-                    matrix.TransformPoints(bestpoints);
-
                     var bluePen = new Pen(Color.Blue);
-                    graphics.DrawLines(bluePen, bestpoints);
+                    drawGraphLine(graphics, bestpoints, bluePen, yScale, xScale);
                     bluePen.Dispose();
                 }
 
                 if (worstpoints.Count() > 1)
                 {
-                    var matrix = new Matrix();
-                    matrix.Scale(xScale, yScale);
-                    matrix.TransformPoints(worstpoints);
-
-                    var redPen = new Pen(Color.Red);
-                    graphics.DrawLines(redPen, worstpoints);
+                    var redPen = new Pen(Color.Maroon);
+                    drawGraphLine(graphics, worstpoints, redPen, yScale, xScale);
                     redPen.Dispose();
                 }
             }
             pbGraph.Image.RotateFlip(RotateFlipType.RotateNoneFlipY);
+        }
+
+        private void drawGraphLine(Graphics graphics, PointF[] points, Pen pen, float yScale, float xScale)
+        {
+            var matrix = new Matrix();
+            matrix.Scale(xScale, yScale);
+            matrix.Translate(5, 5, MatrixOrder.Append);
+            matrix.TransformPoints(points);
+
+            graphics.DrawLines(pen, points);
         }
 
         private PointF[] getGraphPoints(List<double> fitnesses)
@@ -130,7 +130,7 @@
             points[0] = new PointF(0, 0);
             for (int i = 0; i < generations; i++)
             {
-                var x = i;
+                var x = i + 1;
                 var y = (float)fitnesses[i];
                 points[i + 1] = new PointF(x, y);
             }
@@ -143,40 +143,43 @@
             pbMain.Image = new Bitmap(pbMain.Width, pbMain.Height);
             using (var graphics = Graphics.FromImage(pbMain.Image))
             {
-                var redPen = new Pen(Color.Red);
-                var greenPen = new Pen(Color.Green);
+                var bluePen = new Pen(Color.Blue);
+                var greenPen = new Pen(Color.DarkGreen);
+                var grayPen = new Pen(Color.DarkGray);
                 var blackPen = new Pen(Color.Black);
 
-                foreach (var sweeper in sweepers.OrderByDescending(x => x.Fitness).Take(3))
+                foreach (var sweeper in sweepers.OrderByDescending(x => x.Fitness).Take(Settings.EliteCount))
                 {
-                    drawSweeper(graphics, redPen, sweeper);
+                    drawSweeper(graphics, blackPen, bluePen.Brush, sweeper);
                 }
 
-                foreach (var sweeper in sweepers.OrderByDescending(x => x.Fitness).Skip(3))
+                foreach (var sweeper in sweepers.OrderByDescending(x => x.Fitness).Skip(Settings.EliteCount))
                 {
-                    drawSweeper(graphics, blackPen, sweeper);
+                    drawSweeper(graphics, blackPen, greenPen.Brush, sweeper);
                 }
 
                 foreach (var mine in mines)
                 {
-                    drawMine(graphics, greenPen, mine);
+                    drawMine(graphics, blackPen, grayPen.Brush, mine);
                 }
-                redPen.Dispose();
+                bluePen.Dispose();
                 greenPen.Dispose();
+                grayPen.Dispose();
                 blackPen.Dispose();
             }
         }
 
-        private void drawMine(Graphics graphics, Pen pen, List<double> mine)
+        private void drawMine(Graphics graphics, Pen pen, Brush brush, List<double> mine)
         {
             var mineX = (int)mine[0];
             var mineY = (int)mine[1];
 
             var points = getMinePolygonPoints(mineX, mineY);
 
-            graphics.DrawPolygon(pen, points);
-
-            //graphics.FillRectangle(pen.Brush, mineX, mineY, 1, 1);
+            //graphics.DrawPolygon(pen, points);
+            //graphics.FillPolygon(brush, points);
+            graphics.DrawEllipse(pen, points[0].X, points[0].Y, 2 * Settings.MineSize, 2 * Settings.MineSize);
+            graphics.FillEllipse(brush, points[0].X, points[0].Y, 2 * Settings.MineSize, 2 * Settings.MineSize);
         }
 
         private Point[] getMinePolygonPoints(int mineX, int mineY)
@@ -195,7 +198,7 @@
             return points;
         }
 
-        private void drawSweeper(Graphics graphics, Pen pen, Sweeper sweeper)
+        private void drawSweeper(Graphics graphics, Pen pen, Brush brush, Sweeper sweeper)
         {
             var sweeperX = (int)(sweeper.Position[0]);
             var sweeperY = (int)(sweeper.Position[1]);
@@ -205,11 +208,13 @@
             var points = getSweeperPolygonPoints(sweeperX, sweeperY, rotDegrees);
 
             graphics.DrawPolygon(pen, points.Take(4).ToArray());
+            graphics.FillPolygon(brush, points.Take(4).ToArray());
             graphics.DrawPolygon(pen, points.Skip(4).Take(4).ToArray());
+            graphics.FillPolygon(brush, points.Skip(4).Take(4).ToArray());
             graphics.DrawPolygon(pen, points.Skip(8).Take(2).ToArray());
+            graphics.FillPolygon(brush, points.Skip(8).Take(2).ToArray());
             graphics.DrawPolygon(pen, points.Skip(10).Take(6).ToArray());
-
-            //graphics.FillRectangle(pen.Brush, sweeperX, sweeperY, 1, 1);
+            graphics.FillPolygon(brush, points.Skip(10).Take(6).ToArray());
         }
 
         private PointF[] getSweeperPolygonPoints(int sweeperX, int sweeperY, float rotDegrees)
@@ -244,11 +249,6 @@
             return points;
         }
 
-        private void btnStartStopClick(object sender, System.EventArgs e)
-        {
-            btnStartStop.Text = btnStartStop.Text.Equals("Start") ? "Stop" : "Start";
-        }
-
         private void btnResetClick(object sender, EventArgs e)
         {
             Settings.SweeperCount = getIntValue(tbSweepers, Settings.SweeperCount);
@@ -257,6 +257,7 @@
             Settings.CrossoverRate = getDoubleValue(tbCrossover, Settings.CrossoverRate);
             Settings.MaxPerturbation = getDoubleValue(tbPerturb, Settings.MaxPerturbation);
             Settings.Ticks = getIntValue(tbTicks, Settings.Ticks);
+            Settings.EliteCount = getIntValue(tbElites, Settings.EliteCount);
 
             Settings.DrawWidth = getIntValue(tbWidth, Settings.DrawWidth);
             Settings.DrawHeight = getIntValue(tbHeight, Settings.DrawHeight);
@@ -283,6 +284,11 @@
         private void btnFastClick(object sender, EventArgs e)
         {
             btnFast.Text = btnFast.Text.Equals("Fast") ? "Slow" : "Fast";
+        }
+
+        private void btnStartStopClick(object sender, System.EventArgs e)
+        {
+            btnStartStop.Text = btnStartStop.Text.Equals("Start") ? "Stop" : "Start";
         }
     }
 }

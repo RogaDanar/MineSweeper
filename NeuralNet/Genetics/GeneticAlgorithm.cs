@@ -48,15 +48,18 @@
             }
         }
 
-        public Population NextGeneration(Population population)
+        public Population NextGeneration(Population population, int eliteCount = 4)
         {
             population.SaveLastGenerationStats();
             population.Generation++;
 
-            var elites = population.Genomes.OrderByDescending(x => x.Fitness).Take(4);
-
             var newGenomes = new List<Genome>();
-            newGenomes.AddRange(elites);
+
+            if (eliteCount > 0)
+            {
+                var elites = population.Genomes.OrderByDescending(x => x.Fitness).Take(eliteCount);
+                newGenomes.AddRange(elites);
+            }
 
             while (newGenomes.Count < population.Genomes.Count())
             {

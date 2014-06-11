@@ -100,7 +100,7 @@
 
         public void NextGeneration()
         {
-            _population = _genetics.NextGeneration(_population);
+            _population = _genetics.NextGeneration(_population, _settings.EliteCount);
 
             for (int i = 0; i < _sweepers.Count; i++)
             {

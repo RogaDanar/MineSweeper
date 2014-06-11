@@ -11,6 +11,7 @@
         public double CrossoverRate { get; set; }
         public double MaxPerturbation { get; set; }
         public int Ticks { get; set; }
+        public int EliteCount { get; set; }
 
         public int DrawWidth { get; set; }
         public int DrawHeight { get; set; }
@@ -26,6 +27,7 @@
             CrossoverRate = 0.7;
             MaxPerturbation = 0.3;
             Ticks = 2000;
+            EliteCount = 4;
 
             DrawWidth = 400;
             DrawHeight = 400;
@@ -33,5 +35,6 @@
             HiddenLayers = 1;
             HiddenLayerNeurons = 6;
         }
+
     }
 }
