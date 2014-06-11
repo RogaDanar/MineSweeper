@@ -1,4 +1,5 @@
-﻿using NeuralNet.Network;
+﻿using MineSweeper.Vectors;
+using NeuralNet.Network;
 using System;
 using System.Collections.Generic;
 
@@ -8,12 +9,13 @@ namespace MineSweeper
     {
         public static int BrainInputs = 4;
         public static int BrainOutputs = 2;
+
         private const double _maxRotation = 0.5;
 
-        private INeuralNet _brain;
         private double _maxX;
         private double _maxY;
 
+        private INeuralNet _brain;
         public INeuralNet Brain
         {
             get { return _brain; }
@@ -40,8 +42,6 @@ namespace MineSweeper
         public List<double> Direction { get; private set; }
 
         public double Rotation { get; private set; }
-
-        public double Speed { get; private set; }
 
         public Sweeper(List<double> position, double rotation, double maxX, double maxY, INeuralNet brain = null)
         {
@@ -74,26 +74,15 @@ namespace MineSweeper
             Rotation += getLimitedRotation(rotLeft - rotRight);
             updateDirection();
 
-            Speed = (rotLeft + rotRight);
-            updatePosition(Speed);
-        }
-
-        private void updatePosition(double speed)
-        {
-            Position[0] += Direction[0] * speed;
-            Position[1] += Direction[1] * speed;
-
-            if (Position[0] > _maxX) Position[0] -= _maxX;
-            if (Position[0] < 0) Position[0] += _maxX;
-            if (Position[1] > _maxY) Position[1] -= _maxY;
-            if (Position[1] < 0) Position[1] += _maxY;
+            var speed = (rotLeft + rotRight);
+            updatePosition(speed);
         }
 
         public List<double> CheckForMine(double touchDistance)
         {
             var mine = default(List<double>);
 
-            var distance = getVectorLength(subtractVector(ClosestMine, Position));
+            var distance = ClosestMine.SubtractVector(Position).VectorLength();
             if (distance <= touchDistance)
             {
                 mine = ClosestMine;
@@ -108,8 +97,8 @@ namespace MineSweeper
             var closestDistance = double.MaxValue;
             foreach (var mine in mines)
             {
-                var differenceVector = subtractVector(mine, Position);
-                var length = getVectorLength(differenceVector);
+                var differenceVector = mine.SubtractVector(Position);
+                var length = differenceVector.VectorLength();
                 if (length < closestDistance)
                 {
                     closestDistance = length;
@@ -118,42 +107,23 @@ namespace MineSweeper
                 }
             }
 
-            return normalizeVector(vectorToClosestMine);
+            return vectorToClosestMine.Normalize();
         }
 
-        private List<double> normalizeVector(List<double> vector)
+        private void updatePosition(double speed)
         {
-            var length = getVectorLength(vector);
-            for (int i = 0; i < vector.Count; i++)
-            {
-                vector[i] /= length;
-            }
-            return vector;
-        }
+            Position[0] += Direction[0] * speed;
+            Position[1] += Direction[1] * speed;
 
-        private double getVectorLength(List<double> difference)
-        {
-            var squares = 0.0;
-            foreach (var axis in difference)
-            {
-                squares += axis * axis;
-            }
-            return Math.Sqrt(squares);
-        }
-
-        private List<double> subtractVector(List<double> vector, List<double> subtractionVector)
-        {
-            var difference = new List<double>();
-            for (int i = 0; i < vector.Count; i++)
-            {
-                difference.Add(vector[i] - subtractionVector[i]);
-            }
-            return difference;
+            if (Position[0] > _maxX) Position[0] -= _maxX;
+            if (Position[0] < 0) Position[0] += _maxX;
+            if (Position[1] > _maxY) Position[1] -= _maxY;
+            if (Position[1] < 0) Position[1] += _maxY;
         }
 
         private void updateDirection()
         {
-            Direction = Direction ?? new List<double> { 0.0, 0.0 };
+            Direction = Direction ?? Vector.NullVector2D();
             Direction[0] = -Math.Sin(Rotation);
             Direction[1] = Math.Cos(Rotation);
         }

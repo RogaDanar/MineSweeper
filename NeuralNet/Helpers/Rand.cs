@@ -25,9 +25,12 @@
             }
         }
 
-        public int Next(int min, int max)
+        /// <summary>
+        ///  between 0 and int.MaxValue
+        /// </summary>
+        public int Next()
         {
-            return rand.Next(min, max);
+            return rand.Next();
         }
 
         /// <summary>
@@ -39,22 +42,11 @@
         }
 
         /// <summary>
-        ///  between 0 and int.MaxValue
+        ///  between min and max
         /// </summary>
-        public int Next()
+        public int Next(int min, int max)
         {
-            return rand.Next();
-        }
-
-        public double NextClamped()
-        {
-            return NextDouble(-1.0, 1.0);
-        }
-
-        public double NextDouble(double min, double max)
-        {
-            var range = max - min;
-            return (range * rand.NextDouble()) + min;
+            return rand.Next(min, max);
         }
 
         /// <summary>
@@ -63,6 +55,31 @@
         public double NextDouble()
         {
             return rand.NextDouble();
+        }
+
+        /// <summary>
+        ///  between 0.0 and max
+        /// </summary>
+        public double NextDouble(double max)
+        {
+            return max * rand.NextDouble();
+        }
+
+        /// <summary>
+        ///  between -1.0 and 1.0
+        /// </summary>
+        public double NextClamped()
+        {
+            return NextDouble(-1.0, 1.0);
+        }
+
+        /// <summary>
+        ///  between min and max
+        /// </summary>
+        public double NextDouble(double min, double max)
+        {
+            var range = max - min;
+            return (range * rand.NextDouble()) + min;
         }
     }
 }

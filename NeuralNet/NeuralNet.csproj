@@ -47,7 +47,6 @@
     <Compile Include="Network\INeuralNet.cs" />
     <Compile Include="Network\Neuron.cs" />
     <Compile Include="Network\NeuronLayer.cs" />
-    <Compile Include="Network\NeuroTransmitter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

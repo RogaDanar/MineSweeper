@@ -9,45 +9,32 @@
     {
         private readonly Rand _rand = Rand.Generator;
 
+        private double _totalInput;
+
         public IList<double> InputWeights { get; set; }
 
         public double Output
         {
             get
             {
-                return sigmoid(NeuroTransmitterLevels[NeuroTransmitter.Dopamine]);
+                return sigmoid(_totalInput);
             }
         }
-
-        public Dictionary<NeuroTransmitter, double> NeuroTransmitterLevels { get; private set; }
 
         public Neuron(int numberOfInputs)
         {
             InputWeights = Enumerable.Range(0, numberOfInputs).Select(x => _rand.NextClamped()).ToList();
             // Add an extra weight for the bias
             InputWeights.Add(_rand.NextClamped());
-            initializeNeuroTransmitters();
+            _totalInput = 0;
         }
 
-        /// <summary>
-        /// Call this method to activate the receptor, which may fire if a threshold is reached
-        /// </summary>
-        public void ActivateReceptor(IList<double> inputs)
+        public void Send(IList<double> inputs)
         {
-            NeuroTransmitterLevels[NeuroTransmitter.Dopamine] = 0;
+            _totalInput = 0;
             for (int i = 0; i < inputs.Count; i++)
             {
-                NeuroTransmitterLevels[NeuroTransmitter.Dopamine] += inputs[i] * InputWeights[i];
-            }
-        }
-
-        private void initializeNeuroTransmitters()
-        {
-            NeuroTransmitterLevels = new Dictionary<NeuroTransmitter, double>();
-
-            foreach (NeuroTransmitter transmitter in Enum.GetValues(typeof(NeuroTransmitter)))
-            {
-                NeuroTransmitterLevels.Add(transmitter, 0);
+                _totalInput += inputs[i] * InputWeights[i];
             }
         }
 

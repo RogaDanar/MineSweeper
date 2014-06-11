@@ -1,5 +1,6 @@
 ﻿namespace MineSweeper
 {
+    using MineSweeper.Vectors;
     using NeuralNet.Genetics;
     using NeuralNet.Helpers;
     using NeuralNet.Network;
@@ -11,8 +12,6 @@
 
     public class Controller
     {
-        private readonly Rand _rand = Rand.Generator;
-
         private Settings _settings;
 
         private Main _mainForm;
@@ -72,27 +71,6 @@
             }
         }
 
-        private void updateUI()
-        {
-            if (_runSimulation)
-            {
-                try
-                {
-                    if (_ticksDone == 0)
-                    {
-                        _mainForm.Invoke((MethodInvoker)delegate { _mainForm.UpdateGraph(_population); });
-                    }
-
-                    if (!_fast)
-                    {
-                        _mainForm.Invoke((MethodInvoker)delegate { _mainForm.UpdateDisplay(_sweepers, _mines); });
-                    }
-                    _mainForm.Invoke((MethodInvoker)delegate { _mainForm.UpdateStats(_population); });
-                }
-                catch (ObjectDisposedException) { }
-            }
-        }
-
         public void Update()
         {
             if (_ticksDone < _settings.Ticks)
@@ -104,7 +82,7 @@
                     var foundMine = sweeper.CheckForMine(_settings.MineSize + _settings.SweeperSize);
                     if (foundMine != null)
                     {
-                        var mine = _mines.Single(x => matchVectors(x, foundMine));
+                        var mine = _mines.Single(x => x.VectorEquals(foundMine));
                         _mines.Remove(mine);
                         _mines.AddRange(createMines(1));
                         sweeper.Fitness++;
@@ -162,33 +140,35 @@
             }
         }
 
-        private bool matchVectors(List<double> vector, List<double> vectorToMatch)
-        {
-
-            if (vector.Count == vectorToMatch.Count)
-            {
-                for (int i = 0; i < vector.Count; i++)
-                {
-                    if (!vector[i].Equals(vectorToMatch[i]))
-                    {
-                        return false;
-                    }
-                }
-                return true;
-            }
-            return false;
-        }
-
         private double getRandomRotation()
         {
-            var rotation = _rand.NextDouble() * Math.PI * 2;
-            return rotation;
+            return Rand.Generator.NextDouble() * Math.PI * 2;
         }
 
         private List<double> getRandomPosition()
         {
-            var position = new List<double> { _rand.NextDouble(0, _settings.DrawWidth), _rand.NextDouble(0, _settings.DrawHeight) };
-            return position;
+            return Vector.RandomVector2D(_settings.DrawWidth, _settings.DrawHeight);
+        }
+
+        private void updateUI()
+        {
+            if (_runSimulation)
+            {
+                try
+                {
+                    if (_ticksDone == 0)
+                    {
+                        _mainForm.Invoke((MethodInvoker)delegate { _mainForm.UpdateGraph(_population); });
+                    }
+
+                    if (!_fast)
+                    {
+                        _mainForm.Invoke((MethodInvoker)delegate { _mainForm.UpdateDisplay(_sweepers, _mines); });
+                    }
+                    _mainForm.Invoke((MethodInvoker)delegate { _mainForm.UpdateStats(_population); });
+                }
+                catch (ObjectDisposedException) { }
+            }
         }
 
         private void mainFormFastButtonClick(object sender, EventArgs e)
@@ -198,6 +178,8 @@
 
         private void mainFormStartButtonClick(object sender, EventArgs e)
         {
+            // Don't set _runSimulation immediatly, Setup must be run first before the simulation loop 
+            // starts running the simulation, which is done on a different thread
             var startRun = !_runSimulation;
             if (startRun && _setupNeeded)
             {

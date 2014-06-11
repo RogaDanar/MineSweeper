@@ -16,7 +16,7 @@
         {
             foreach (var neuron in Neurons)
             {
-                neuron.ActivateReceptor(inputs);
+                neuron.Send(inputs);
             }
         }
 
