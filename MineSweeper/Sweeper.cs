@@ -11,17 +11,26 @@ namespace MineSweeper
         private const double _maxRotation = 0.5;
 
         private INeuralNet _brain;
+        private double _maxX;
+        private double _maxY;
+
         public INeuralNet Brain
         {
             get { return _brain; }
             private set
             {
-                _brain = value ?? new FeedforwardNetwork(_brainInputs, _brainOutputs, 20, 2);
+                _brain = value ?? new FeedforwardNetwork(_brainInputs, _brainOutputs, 6, 1);
                 if (Brain.MaxInputs != _brainInputs || Brain.MinOutputs != _brainOutputs)
                 {
                     throw new Exception("Incorrect brainsize");
                 }
             }
+        }
+
+        public double Fitness
+        {
+            get { return Brain.Genome.Fitness; }
+            set { Brain.Genome.Fitness = value; }
         }
 
         public List<double> ClosestMine { get; private set; }
@@ -34,13 +43,15 @@ namespace MineSweeper
 
         public double Speed { get; private set; }
 
-        public Sweeper(List<double> position, double rotation, INeuralNet brain = null)
+        public Sweeper(List<double> position, double rotation, double maxX, double maxY, INeuralNet brain = null)
         {
+            _maxX = maxX;
+            _maxY = maxY;
             Brain = brain;
-            Initiliaze(position, rotation);
+            Initialize(position, rotation);
         }
 
-        public void Initiliaze(List<double> position, double rotation)
+        public void Initialize(List<double> position, double rotation)
         {
             Position = position;
             Rotation = rotation;
@@ -63,7 +74,7 @@ namespace MineSweeper
             Rotation += getLimitedRotation(rotLeft - rotRight);
             updateDirection();
 
-            Speed = rotLeft + rotRight;
+            Speed = (rotLeft + rotRight);
             updatePosition(Speed);
         }
 
@@ -71,14 +82,19 @@ namespace MineSweeper
         {
             Position[0] += Direction[0] * speed;
             Position[1] += Direction[1] * speed;
+
+            if (Position[0] > _maxX) Position[0] -= _maxX;
+            if (Position[0] < 0) Position[0] += _maxX;
+            if (Position[1] > _maxY) Position[1] -= _maxY;
+            if (Position[1] < 0) Position[1] += _maxY;
         }
 
-        public List<double> CheckForMine(double mineSize)
+        public List<double> CheckForMine(double touchDistance)
         {
             var mine = default(List<double>);
 
             var distance = getVectorLength(subtractVector(ClosestMine, Position));
-            if (distance < mineSize)
+            if (distance <= touchDistance)
             {
                 mine = ClosestMine;
             }

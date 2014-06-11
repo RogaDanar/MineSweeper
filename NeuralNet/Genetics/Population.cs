@@ -12,21 +12,26 @@
 
         public IList<Genome> Genomes { get; set; }
 
-        public double Fitness { get { return Genomes.Sum(x => x.Fitness); } }
+        public double Fitness { get; set; }
+        public double BestFitness { get; set; }
+        public double WorstFitness { get; set; }
+        public double AverageFitness { get; set; }
 
-        public double BestFitness { get { return Genomes.Max(x => x.Fitness); } }
-
-        public double WorstFitness { get { return Genomes.Min(x => x.Fitness); } }
-
-        public double AverageFitness { get { return Genomes.Average(x => x.Fitness); } }
-
-        public Genome Fittest { get { return Genomes.OrderByDescending(x => x.Fitness).FirstOrDefault(); } }
+        public List<double> PreviousGenerationFitness { get; set; }
+        public List<double> PreviousGenerationBestFitness { get; set; }
+        public List<double> PreviousGenerationWorstFitness { get; set; }
+        public List<double> PreviousGenerationAverageFitness { get; set; }
 
         public Population()
         {
+            PreviousGenerationFitness = new List<double>();
+            PreviousGenerationBestFitness = new List<double>();
+            PreviousGenerationWorstFitness = new List<double>();
+            PreviousGenerationAverageFitness = new List<double>();
         }
 
         public Population(int populationSize, int chromosomeSize)
+            : this()
         {
             Genomes = Enumerable.Range(1, populationSize).Select(x => new Genome(chromosomeSize, 0)).ToList();
         }
@@ -48,6 +53,23 @@
             }
 
             return chosen;
+        }
+
+        public void UpdateStats()
+        {
+            Fitness = Genomes.Sum(x => x.Fitness);
+            BestFitness = Genomes.Max(x => x.Fitness);
+            WorstFitness = Genomes.Min(x => x.Fitness);
+            AverageFitness = Genomes.Average(x => x.Fitness);
+        }
+
+        public void SaveLastGenerationStats()
+        {
+            PreviousGenerationFitness.Add(Fitness);
+            PreviousGenerationBestFitness.Add(BestFitness);
+            PreviousGenerationWorstFitness.Add(WorstFitness);
+            PreviousGenerationAverageFitness.Add(AverageFitness);
+
         }
     }
 }

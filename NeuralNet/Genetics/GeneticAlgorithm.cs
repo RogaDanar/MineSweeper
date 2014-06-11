@@ -40,7 +40,8 @@
 
                 son.Chromosome = mother.Chromosome.Take(crossoverPoint).Concat(father.Chromosome.Skip(crossoverPoint)).ToList();
                 daughter.Chromosome = father.Chromosome.Take(crossoverPoint).Concat(mother.Chromosome.Skip(crossoverPoint)).ToList();
-            } else
+            }
+            else
             {
                 son.Chromosome = father.Chromosome.ToList();
                 daughter.Chromosome = mother.Chromosome.ToList();
@@ -49,6 +50,7 @@
 
         public Population NextGeneration(Population population)
         {
+            population.SaveLastGenerationStats();
             population.Generation++;
 
             var elites = population.Genomes.OrderByDescending(x => x.Fitness).Take(4);
@@ -70,7 +72,7 @@
                 newGenomes.Add(son);
                 newGenomes.Add(daughter);
             }
-
+            newGenomes.ForEach(x => x.Fitness = 0.0);
             population.Genomes = newGenomes.Take(population.Genomes.Count()).ToList();
             return population;
         }

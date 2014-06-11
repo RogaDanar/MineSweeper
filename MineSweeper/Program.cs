@@ -14,7 +14,7 @@
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
-            var controller = new Controller(25, 40);
+            var controller = new Controller();
         }
     }
 }
