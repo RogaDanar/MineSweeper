@@ -1,6 +1,6 @@
 ﻿namespace NeuralNet.AppHelpers
 {
-    public class Settings : INetSettings, IGeneticsSettings
+    public class Settings : IGeneticsSettings
     {
         // Genetics
         public double MutationRate { get; set; }

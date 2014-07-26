@@ -14,7 +14,7 @@
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
-            var controller = new MineSweeperController(MineSweeperSettings.SweeperDodger());
+            var controller = new MineSweeperController(MineSweeperSettings.Sweeper());
             controller.Start();
         }
     }

@@ -2,7 +2,7 @@
 {
     using NeuralNet.AppHelpers;
 
-    public class MineSweeperSettings : IGeneticsSettings, INetSettings
+    public class MineSweeperSettings : IGeneticsSettings
     {
         public float MineSize = 2;
         public float SweeperSize = 5;
@@ -19,7 +19,6 @@
         public double MaxPerturbation { get; set; }
         public int EliteCount { get; set; }
 
-        // INetSettings
         public int HiddenLayers { get; set; }
         public int HiddenLayerNeurons { get; set; }
 

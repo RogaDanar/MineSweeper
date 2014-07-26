@@ -42,7 +42,6 @@
     <Compile Include="AppHelpers\GeneticsSettings.cs" />
     <Compile Include="AppHelpers\IRunnerSpecification.cs" />
     <Compile Include="AppHelpers\IGeneticsSettings.cs" />
-    <Compile Include="AppHelpers\INetSettings.cs" />
     <Compile Include="AppHelpers\Runner.cs" />
     <Compile Include="AppHelpers\Settings.cs" />
     <Compile Include="Genetics\GeneticAlgorithm.cs" />
