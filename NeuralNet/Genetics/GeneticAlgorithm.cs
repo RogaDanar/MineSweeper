@@ -1,10 +1,11 @@
 ﻿namespace NeuralNet.Genetics
 {
+    using NeuralNet.AppHelpers;
     using NeuralNet.Helpers;
     using System.Collections.Generic;
     using System.Linq;
 
-    public class GeneticAlgorithm
+    public class GeneticAlgorithm : IGeneticAlgorithm
     {
         private readonly Rand _rand = Rand.Generator;
 
@@ -14,11 +15,14 @@
 
         public double PerturbationRate { get; set; }
 
-        public GeneticAlgorithm(double mutationRate, double crossoverRate, double maxPerturbation)
+        public int EliteCount { get; set; }
+
+        public GeneticAlgorithm(IGeneticsSettings settings)
         {
-            MutationRate = mutationRate;
-            CrossoverRate = crossoverRate;
-            PerturbationRate = maxPerturbation;
+            MutationRate = settings.MutationRate;
+            CrossoverRate = settings.CrossoverRate;
+            PerturbationRate = settings.MaxPerturbation;
+            EliteCount = settings.EliteCount;
         }
 
         public void Mutate(Genome genome)
@@ -48,16 +52,16 @@
             }
         }
 
-        public Population NextGeneration(Population population, int eliteCount = 4)
+        public Population NextGeneration(Population population)
         {
             population.SaveLastGenerationStats();
             population.Generation++;
 
             var newGenomes = new List<Genome>();
 
-            if (eliteCount > 0)
+            if (EliteCount > 0)
             {
-                var elites = population.Genomes.OrderByDescending(x => x.Fitness).Take(eliteCount);
+                var elites = population.Genomes.OrderByDescending(x => x.Fitness).Take(EliteCount);
                 newGenomes.AddRange(elites);
             }
 
@@ -75,7 +79,7 @@
                 newGenomes.Add(son);
                 newGenomes.Add(daughter);
             }
-            newGenomes.ForEach(x => x.Fitness = 0.0);
+            newGenomes.ForEach(x => x.Fitness = 0);
             population.Genomes = newGenomes.Take(population.Genomes.Count()).ToList();
             return population;
         }

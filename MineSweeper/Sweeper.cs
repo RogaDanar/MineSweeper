@@ -1,25 +1,26 @@
-﻿using MineSweeper.Vectors;
-using NeuralNet.Network;
-using System;
-using System.Collections.Generic;
-
-namespace MineSweeper
+﻿namespace MineSweeper
 {
+    using MineSweeper.Vectors;
+    using NeuralNet.Network;
+    using System;
+    using System.Collections.Generic;
+
     public class Sweeper
     {
         public static int BrainInputs = 4;
         public static int BrainOutputs = 2;
 
         private const double _maxRotation = 0.5;
+        private const double _maxSpeed = 2;
 
         private double _maxX;
         private double _maxY;
 
-        private INeuralNet _brain;
-        public INeuralNet Brain
+        protected INeuralNet _brain;
+        public virtual INeuralNet Brain
         {
             get { return _brain; }
-            private set
+            protected set
             {
                 _brain = value ?? new FeedforwardNetwork(BrainInputs, BrainOutputs, 1, 6);
                 if (Brain.MaxInputs != BrainInputs || Brain.MinOutputs != BrainOutputs)
@@ -35,13 +36,13 @@ namespace MineSweeper
             set { Brain.Genome.Fitness = value; }
         }
 
-        public List<double> ClosestMine { get; private set; }
+        public List<double> ClosestMine { get; protected set; }
 
         public List<double> Position { get; set; }
 
-        public List<double> Direction { get; private set; }
+        public List<double> Direction { get; protected set; }
 
-        public double Rotation { get; private set; }
+        public double Rotation { get; protected set; }
 
         public Sweeper(List<double> position, double rotation, double maxX, double maxY, INeuralNet brain = null)
         {
@@ -55,12 +56,13 @@ namespace MineSweeper
         {
             Position = position;
             Rotation = rotation;
-            updateDirection();
+            UpdateDirection();
         }
 
         public void Update(List<List<double>> mines)
         {
-            var closestMine = getNormalizedVectorToClosestMine(mines);
+            ClosestMine = ClosestMine ?? new List<double>();
+            var closestMine = GetNormalizedVectorToClosestObject(mines, ClosestMine);
 
             var inputs = new List<double>();
             inputs.AddRange(closestMine);
@@ -71,46 +73,48 @@ namespace MineSweeper
             var rotLeft = output[0];
             var rotRight = output[1];
 
-            Rotation += getLimitedRotation(rotLeft - rotRight);
-            updateDirection();
+            Rotation += GetLimitedRotation(rotLeft - rotRight);
+            UpdateDirection();
 
-            var speed = (rotLeft + rotRight);
-            updatePosition(speed);
+            var speed = GetLimitedSpeed(rotLeft + rotRight);
+            UpdatePosition(speed);
         }
 
-        public List<double> CheckForMine(double touchDistance)
+        public List<double> DetectColision(List<double> subject, double touchDistance)
         {
-            var mine = default(List<double>);
+            var collidedObject = default(List<double>);
 
-            var distance = ClosestMine.SubtractVector(Position).VectorLength();
+            var distance = subject.SubtractVector(Position).VectorLength();
             if (distance <= touchDistance)
             {
-                mine = ClosestMine;
+                collidedObject = subject;
             }
-            return mine;
+            return collidedObject;
         }
 
-        private List<double> getNormalizedVectorToClosestMine(List<List<double>> mines)
+        protected List<double> GetNormalizedVectorToClosestObject(List<List<double>> objects, List<double> closestItem)
         {
-            var vectorToClosestMine = new List<double>();
+            var vectorToClosest = new List<double>();
 
             var closestDistance = double.MaxValue;
-            foreach (var mine in mines)
+            foreach (var item in objects)
             {
-                var differenceVector = mine.SubtractVector(Position);
+                var differenceVector = item.SubtractVector(Position);
                 var length = differenceVector.VectorLength();
                 if (length < closestDistance)
                 {
                     closestDistance = length;
-                    vectorToClosestMine = differenceVector;
-                    ClosestMine = mine;
+                    vectorToClosest = differenceVector;
+                    // Do not assign to closestItem, we don't want to change the reference
+                    closestItem.Clear();
+                    closestItem.AddRange(item);
                 }
             }
 
-            return vectorToClosestMine.Normalize();
+            return vectorToClosest.Normalize();
         }
 
-        private void updatePosition(double speed)
+        protected void UpdatePosition(double speed)
         {
             Position[0] += Direction[0] * speed;
             Position[1] += Direction[1] * speed;
@@ -121,14 +125,14 @@ namespace MineSweeper
             if (Position[1] < 0) Position[1] += _maxY;
         }
 
-        private void updateDirection()
+        protected void UpdateDirection()
         {
             Direction = Direction ?? Vector.NullVector2D();
             Direction[0] = -Math.Sin(Rotation);
             Direction[1] = Math.Cos(Rotation);
         }
 
-        private double getLimitedRotation(double rotationForce)
+        protected double GetLimitedRotation(double rotationForce)
         {
             if (rotationForce > _maxRotation)
             {
@@ -139,6 +143,15 @@ namespace MineSweeper
                 rotationForce = -_maxRotation;
             }
             return rotationForce;
+        }
+
+        protected double GetLimitedSpeed(double speed)
+        {
+            if (speed > _maxSpeed)
+            {
+                speed = _maxSpeed;
+            }
+            return speed;
         }
     }
 }

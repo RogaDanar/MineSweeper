@@ -135,9 +135,9 @@
             this.lblLastWorst.ForeColor = System.Drawing.Color.Maroon;
             this.lblLastWorst.Location = new System.Drawing.Point(77, 76);
             this.lblLastWorst.Name = "lblLastWorst";
-            this.lblLastWorst.Size = new System.Drawing.Size(19, 14);
+            this.lblLastWorst.Size = new System.Drawing.Size(22, 14);
             this.lblLastWorst.TabIndex = 14;
-            this.lblLastWorst.Text = "10";
+            this.lblLastWorst.Text = "(0)";
             // 
             // lblWorstValue
             // 
@@ -145,9 +145,9 @@
             this.lblWorstValue.ForeColor = System.Drawing.Color.Maroon;
             this.lblWorstValue.Location = new System.Drawing.Point(44, 76);
             this.lblWorstValue.Name = "lblWorstValue";
-            this.lblWorstValue.Size = new System.Drawing.Size(19, 14);
+            this.lblWorstValue.Size = new System.Drawing.Size(14, 14);
             this.lblWorstValue.TabIndex = 13;
-            this.lblWorstValue.Text = "10";
+            this.lblWorstValue.Text = "0";
             // 
             // lblWorst
             // 
@@ -165,9 +165,9 @@
             this.lblLastAvg.ForeColor = System.Drawing.Color.Black;
             this.lblLastAvg.Location = new System.Drawing.Point(77, 51);
             this.lblLastAvg.Name = "lblLastAvg";
-            this.lblLastAvg.Size = new System.Drawing.Size(19, 14);
+            this.lblLastAvg.Size = new System.Drawing.Size(22, 14);
             this.lblLastAvg.TabIndex = 11;
-            this.lblLastAvg.Text = "10";
+            this.lblLastAvg.Text = "(0)";
             // 
             // lblLastBest
             // 
@@ -175,9 +175,9 @@
             this.lblLastBest.ForeColor = System.Drawing.Color.Blue;
             this.lblLastBest.Location = new System.Drawing.Point(77, 28);
             this.lblLastBest.Name = "lblLastBest";
-            this.lblLastBest.Size = new System.Drawing.Size(19, 14);
+            this.lblLastBest.Size = new System.Drawing.Size(22, 14);
             this.lblLastBest.TabIndex = 10;
-            this.lblLastBest.Text = "10";
+            this.lblLastBest.Text = "(0)";
             // 
             // btnFast
             // 
@@ -196,9 +196,9 @@
             this.lblAvgValue.ForeColor = System.Drawing.Color.Black;
             this.lblAvgValue.Location = new System.Drawing.Point(44, 51);
             this.lblAvgValue.Name = "lblAvgValue";
-            this.lblAvgValue.Size = new System.Drawing.Size(19, 14);
+            this.lblAvgValue.Size = new System.Drawing.Size(14, 14);
             this.lblAvgValue.TabIndex = 8;
-            this.lblAvgValue.Text = "10";
+            this.lblAvgValue.Text = "0";
             // 
             // lblBestValue
             // 
@@ -206,9 +206,9 @@
             this.lblBestValue.ForeColor = System.Drawing.Color.Blue;
             this.lblBestValue.Location = new System.Drawing.Point(44, 28);
             this.lblBestValue.Name = "lblBestValue";
-            this.lblBestValue.Size = new System.Drawing.Size(19, 14);
+            this.lblBestValue.Size = new System.Drawing.Size(14, 14);
             this.lblBestValue.TabIndex = 7;
-            this.lblBestValue.Text = "10";
+            this.lblBestValue.Text = "0";
             // 
             // lblGenValue
             // 
@@ -216,9 +216,9 @@
             this.lblGenValue.ForeColor = System.Drawing.Color.Black;
             this.lblGenValue.Location = new System.Drawing.Point(76, 2);
             this.lblGenValue.Name = "lblGenValue";
-            this.lblGenValue.Size = new System.Drawing.Size(19, 14);
+            this.lblGenValue.Size = new System.Drawing.Size(14, 14);
             this.lblGenValue.TabIndex = 6;
-            this.lblGenValue.Text = "10";
+            this.lblGenValue.Text = "0";
             // 
             // lblAvg
             // 

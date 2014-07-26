@@ -10,7 +10,7 @@
 
     public partial class Main : Form
     {
-        public event EventHandler<Settings> SettingsChanged;
+        public event EventHandler<MineSweeperSettings> SettingsChanged;
 
         protected virtual void OnSettingsChanged()
         {
@@ -25,9 +25,9 @@
         public Button StartButton { get { return btnStartStop; } }
         public Button FastButton { get { return btnFast; } }
 
-        public Settings Settings { get; private set; }
+        public MineSweeperSettings Settings { get; private set; }
 
-        public Main(Settings settings)
+        public Main(MineSweeperSettings settings)
         {
             InitializeComponent();
             DoubleBuffered = true;
@@ -118,6 +118,25 @@
                 greenPen.Dispose();
                 grayPen.Dispose();
                 blackPen.Dispose();
+            }
+        }
+
+        public void UpdateDisplay(List<Sweeper> sweepers, List<List<double>> mines, List<List<double>> holes)
+        {
+            UpdateDisplay(sweepers, mines);
+            if (holes != null)
+            {
+                using (var graphics = Graphics.FromImage(pbMain.Image))
+                {
+                    var redPen = new Pen(Color.Maroon);
+
+                    foreach (var hole in holes)
+                    {
+                        drawMine(graphics, redPen, redPen.Brush, hole);
+                    }
+
+                    redPen.Dispose();
+                }
             }
         }
 
