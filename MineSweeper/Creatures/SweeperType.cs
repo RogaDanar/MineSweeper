@@ -1,4 +1,4 @@
-﻿namespace MineSweeper
+﻿namespace MineSweeper.Creatures
 {
     public enum SweeperType
     {

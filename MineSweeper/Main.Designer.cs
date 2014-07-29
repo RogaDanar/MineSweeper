@@ -43,7 +43,7 @@
             this.lblGenValue = new System.Windows.Forms.Label();
             this.lblAvg = new System.Windows.Forms.Label();
             this.lblBest = new System.Windows.Forms.Label();
-            this.pbGraph = new System.Windows.Forms.PictureBox();
+            this.graphPopulation = new MineSweeper.Controls.Graph();
             this.tbSweepers = new System.Windows.Forms.TextBox();
             this.tbMine = new System.Windows.Forms.TextBox();
             this.lblSweepers = new System.Windows.Forms.Label();
@@ -74,7 +74,7 @@
             this.lblTitleUnits = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pbMain)).BeginInit();
             this.pnlStats.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pbGraph)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.graphPopulation)).BeginInit();
             this.pnlSettings.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -240,16 +240,16 @@
             this.lblBest.TabIndex = 4;
             this.lblBest.Text = "Best";
             // 
-            // pbGraph
+            // graphPopulation
             // 
-            this.pbGraph.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.pbGraph.BackColor = System.Drawing.Color.Gainsboro;
-            this.pbGraph.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.pbGraph.Location = new System.Drawing.Point(12, 425);
-            this.pbGraph.Name = "pbGraph";
-            this.pbGraph.Size = new System.Drawing.Size(400, 204);
-            this.pbGraph.TabIndex = 5;
-            this.pbGraph.TabStop = false;
+            this.graphPopulation.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.graphPopulation.BackColor = System.Drawing.Color.Gainsboro;
+            this.graphPopulation.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.graphPopulation.Location = new System.Drawing.Point(12, 425);
+            this.graphPopulation.Name = "pbGraph";
+            this.graphPopulation.Size = new System.Drawing.Size(400, 204);
+            this.graphPopulation.TabIndex = 5;
+            this.graphPopulation.TabStop = false;
             // 
             // tbSweepers
             // 
@@ -546,7 +546,7 @@
             this.Controls.Add(this.pnlSettings);
             this.Controls.Add(this.pnlStats);
             this.Controls.Add(this.pbMain);
-            this.Controls.Add(this.pbGraph);
+            this.Controls.Add(this.graphPopulation);
             this.Font = new System.Drawing.Font("DengXian", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ForeColor = System.Drawing.Color.Gold;
             this.Name = "Main";
@@ -556,7 +556,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.pbMain)).EndInit();
             this.pnlStats.ResumeLayout(false);
             this.pnlStats.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pbGraph)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.graphPopulation)).EndInit();
             this.pnlSettings.ResumeLayout(false);
             this.pnlSettings.PerformLayout();
             this.ResumeLayout(false);
@@ -566,7 +566,7 @@
         #endregion
 
         private System.Windows.Forms.PictureBox pbMain;
-        private System.Windows.Forms.PictureBox pbGraph;
+        private MineSweeper.Controls.Graph graphPopulation;
         private System.Windows.Forms.Label lblGeneration;
         private System.Windows.Forms.Button btnStartStop;
         private System.Windows.Forms.Panel pnlStats;

@@ -1,8 +1,8 @@
 ﻿namespace MineSweeper.Specs
 {
-    using MineSweeper.Vectors;
+    using MineSweeper.Creatures;
+    using MineSweeper.Utils;
     using NeuralNet.Genetics;
-    using NeuralNet.Helpers;
     using NeuralNet.Network;
     using System;
     using System.Collections.Generic;
@@ -10,6 +10,10 @@
 
     public class MineSweeperSpec : IMineSweeperSpec
     {
+        private MineSweeperSettings _settings;
+        private IGeneticAlgorithm _genetics;
+        private List<Sweeper> _sweepers;
+
         public event EventHandler NextGenerationEnded;
 
         private void onNextGeneration()
@@ -30,9 +34,7 @@
             }
         }
 
-        private MineSweeperSettings _settings;
-
-        public List<Sweeper> Sweepers { get; private set; }
+        public List<ICreature> Creatures { get { return _sweepers.Cast<ICreature>().ToList(); } }
         public List<List<double>> Mines { get; private set; }
         public List<List<double>> Holes { get; private set; }
         public Population Population { get; private set; }
@@ -43,38 +45,35 @@
             _settings = settings;
         }
 
-        public IGeneticAlgorithm SetupGenetics()
+        public void Setup()
         {
-            return new GeneticAlgorithm(_settings);
-        }
+            _genetics = new GeneticAlgorithm(_settings);
 
-        public void SetupCreatures()
-        {
-            Sweepers = createSweepers().ToList();
+            var sweeperWeightCount = new FeedforwardNetwork(Sweeper.BrainInputs, Sweeper.BrainOutputs, _settings.HiddenLayers, _settings.HiddenLayerNeurons).AllWeightsCount();
+            Population = new Population(_settings.SweeperCount, sweeperWeightCount);
+
+            _sweepers = createSweepers().ToList();
             Mines = createMines(_settings.MineCount).ToList();
             Holes = new List<List<double>>();
-        }
-
-        public void SetupPopulation()
-        {
-            var sweeperWeightCount = Sweepers.First().Brain.AllWeightsCount();
-            Population = new Population(_settings.SweeperCount, sweeperWeightCount);
-            for (int i = 0; i < Sweepers.Count; i++)
+            for (int i = 0; i < _sweepers.Count; i++)
             {
-                Sweepers[i].Brain.Genome = Population.Genomes[i];
+                _sweepers[i].Brain.Genome = Population.Genomes[i];
             }
         }
 
         public void NextTick()
         {
-            for (int i = 0; i < Sweepers.Count; i++)
+            for (int i = 0; i < _sweepers.Count; i++)
             {
-                var sweeper = Sweepers[i];
-                sweeper.Update(Mines);
-                var foundMine = sweeper.DetectColision(sweeper.ClosestMine, _settings.MineSize + _settings.SweeperSize);
-                if (foundMine != null)
+                var sweeper = _sweepers[i];
+
+                var closestMine = DistanceCalculator.GetClosestObject(sweeper.Motion.Position, Mines);
+                sweeper.Update(closestMine);
+
+                var foundMine = DistanceCalculator.DetectCollision(sweeper.Motion.Position, closestMine, _settings.TouchDistance);
+                if (foundMine)
                 {
-                    var mine = Mines.Single(x => x.VectorEquals(foundMine));
+                    var mine = Mines.Single(x => x.VectorEquals(closestMine));
                     Mines.Remove(mine);
                     Mines.AddRange(createMines(1));
                     sweeper.Fitness++;
@@ -83,16 +82,14 @@
             Population.UpdateStats();
         }
 
-        public void NextGeneration(IGeneticAlgorithm genetics)
+        public void NextGeneration()
         {
-            Population = genetics.NextGeneration(Population);
+            Population = _genetics.NextGeneration(Population);
 
-            for (int i = 0; i < Sweepers.Count; i++)
+            for (int i = 0; i < _sweepers.Count; i++)
             {
-                Sweepers[i].Brain.Genome = Population.Genomes[i];
-                var position = GetRandomPosition();
-                var rotation = GetRandomRotation();
-                Sweepers[i].Initialize(position, rotation);
+                _sweepers[i].Brain.Genome = Population.Genomes[i];
+                _sweepers[i].SetRandomMotion();
             }
             Mines = createMines(Mines.Count).ToList();
 
@@ -104,14 +101,17 @@
             onTickEnded();
         }
 
+        public bool Continue()
+        {
+            return true;
+        }
+
         private IEnumerable<Sweeper> createSweepers()
         {
             for (int i = 0; i < _settings.SweeperCount; i++)
             {
-                var position = GetRandomPosition();
-                var rotation = GetRandomRotation();
                 var brain = new FeedforwardNetwork(Sweeper.BrainInputs, Sweeper.BrainOutputs, _settings.HiddenLayers, _settings.HiddenLayerNeurons);
-                yield return new Sweeper(position, rotation, _settings.DrawWidth, _settings.DrawHeight, brain);
+                yield return new Sweeper(_settings.DrawWidth, _settings.DrawHeight, brain);
             }
         }
 
@@ -119,19 +119,9 @@
         {
             for (int i = 0; i < numberOfMines; i++)
             {
-                var mine = GetRandomPosition();
+                var mine = Vector.RandomVector2D(_settings.DrawWidth, _settings.DrawHeight);
                 yield return mine;
             }
-        }
-
-        private double GetRandomRotation()
-        {
-            return Rand.Generator.NextDouble() * Math.PI * 2;
-        }
-
-        private List<double> GetRandomPosition()
-        {
-            return Vector.RandomVector2D(_settings.DrawWidth, _settings.DrawHeight);
         }
 
         private void mainFormFastButtonClick(object sender, EventArgs e)

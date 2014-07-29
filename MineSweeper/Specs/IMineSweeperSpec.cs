@@ -1,5 +1,6 @@
 ﻿namespace MineSweeper.Specs
 {
+    using MineSweeper.Creatures;
     using NeuralNet.AppHelpers;
     using NeuralNet.Genetics;
     using System;
@@ -10,7 +11,7 @@
         event EventHandler NextGenerationEnded;
         event EventHandler TickEnded;
 
-        List<Sweeper> Sweepers { get; }
+        List<ICreature> Creatures { get; }
         List<List<double>> Mines { get; }
         List<List<double>> Holes { get; }
         Population Population { get; }

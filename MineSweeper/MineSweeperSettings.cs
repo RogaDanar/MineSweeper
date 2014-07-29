@@ -1,11 +1,14 @@
 ﻿namespace MineSweeper
 {
+    using MineSweeper.Creatures;
     using NeuralNet.AppHelpers;
 
     public class MineSweeperSettings : IGeneticsSettings
     {
         public float MineSize = 2;
         public float SweeperSize = 5;
+        public float TouchDistance { get { return MineSize + SweeperSize; } }
+
         public int Ticks { get; set; }
         public int SweeperCount { get; set; }
         public int MineCount { get; set; }

@@ -9,12 +9,24 @@
     {
         private readonly Rand _rand = Rand.Generator;
 
+        /// <summary>
+        /// Chance of for each chromosome of a genome to mutate
+        /// </summary>
         public double MutationRate { get; set; }
 
+        /// <summary>
+        /// Chance of 2 parent genomes crossing over part of their chromosomes
+        /// </summary>
         public double CrossoverRate { get; set; }
 
+        /// <summary>
+        /// When mutating the maximum value a chromosome can change
+        /// </summary>
         public double PerturbationRate { get; set; }
 
+        /// <summary>
+        /// Number of Genomes with highest fitness which are automatically taken into the next generation 
+        /// </summary>
         public int EliteCount { get; set; }
 
         public GeneticAlgorithm(IGeneticsSettings settings)

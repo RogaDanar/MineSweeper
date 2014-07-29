@@ -8,7 +8,6 @@
         private int _tickCounter;
         private bool _ticksFinished;
         private bool _run;
-        private IGeneticAlgorithm _genetics;
 
         public IRunnerSpecification Specification { get; protected set; }
         public bool IsRunning { get { return _run; } }
@@ -21,9 +20,7 @@
 
         public void Setup()
         {
-            _genetics = Specification.SetupGenetics();
-            Specification.SetupCreatures();
-            Specification.SetupPopulation();
+            Specification.Setup();
         }
 
         public void Start()
@@ -42,10 +39,14 @@
                         }
                         else
                         {
-                            Specification.NextGeneration(_genetics);
+                            Specification.NextGeneration();
                             _tickCounter = 0;
                         }
                         Specification.AfterTick();
+                        if (!Specification.Continue())
+                        {
+                            Shutdown();
+                        }
                     }
                 }
                 catch (ObjectDisposedException) { }

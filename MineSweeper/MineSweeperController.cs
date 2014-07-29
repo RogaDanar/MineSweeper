@@ -1,5 +1,6 @@
 ﻿namespace MineSweeper
 {
+    using MineSweeper.Creatures;
     using MineSweeper.Specs;
     using NeuralNet.AppHelpers;
     using System;
@@ -19,22 +20,34 @@
             _settings = settings;
             _setupNeeded = true;
 
+            _spec = getSpec();
+            _runner = new Runner(_spec);
+
+            initializeMainForm();
+        }
+
+        private IMineSweeperSpec getSpec()
+        {
+            var spec = default(IMineSweeperSpec);
             switch (_settings.SweeperType)
             {
                 case SweeperType.Sweeper:
-                    _spec = new MineSweeperSpec(_settings);
+                    spec = new MineSweeperSpec(_settings);
                     break;
                 case SweeperType.SweeperDodger:
-                    _spec = new MineSweeperDodgerSpec(_settings);
+                    spec = new MineSweeperDodgerSpec(_settings);
                     break;
                 default:
                     throw new Exception("Unknown SweeperType");
             }
 
-            _spec.NextGenerationEnded += specNextGeneration;
-            _spec.TickEnded += specTickEnded;
-            _runner = new Runner(_spec);
+            spec.NextGenerationEnded += specNextGeneration;
+            spec.TickEnded += specTickEnded;
+            return spec;
+        }
 
+        private void initializeMainForm()
+        {
             _mainForm = new Main(_settings);
             _mainForm.FormClosing += mainFormClosing;
             _mainForm.FormClosed += mainFormClosed;
@@ -57,7 +70,7 @@
         {
             if (!_settings.Fast)
             {
-                _mainForm.Invoke((MethodInvoker)delegate { _mainForm.UpdateDisplay(_spec.Sweepers, _spec.Mines, _spec.Holes); });
+                _mainForm.Invoke((MethodInvoker)delegate { _mainForm.UpdateDisplay(_spec.Creatures, _spec.Mines, _spec.Holes); });
             }
             _mainForm.Invoke((MethodInvoker)delegate { _mainForm.UpdateStats(_spec.Population); });
         }
