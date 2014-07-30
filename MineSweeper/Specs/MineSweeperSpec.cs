@@ -14,35 +14,19 @@
         private IGeneticAlgorithm _genetics;
         private List<Sweeper> _sweepers;
 
-        public event EventHandler NextGenerationEnded;
-
-        private void onNextGeneration()
-        {
-            if (NextGenerationEnded != null)
-            {
-                NextGenerationEnded(this, EventArgs.Empty);
-            }
-        }
-
-        public event EventHandler TickEnded;
-
-        private void onTickEnded()
-        {
-            if (TickEnded != null)
-            {
-                TickEnded(this, EventArgs.Empty);
-            }
-        }
+        public event EventHandler NextGenerationEnded = delegate { };
+        public event EventHandler TickEnded = delegate { };
 
         public List<ICreature> Creatures { get { return _sweepers.Cast<ICreature>().ToList(); } }
-        public List<List<double>> Mines { get; private set; }
-        public List<List<double>> Holes { get; private set; }
         public Population Population { get; private set; }
         public int Ticks { get { return _settings.Ticks; } }
+
+        public List<Tuple<ObjectType, List<double>>> Objects { get; private set; }
 
         public MineSweeperSpec(MineSweeperSettings settings)
         {
             _settings = settings;
+            Objects = new List<Tuple<ObjectType, List<double>>>();
         }
 
         public void Setup()
@@ -53,12 +37,11 @@
             Population = new Population(_settings.SweeperCount, sweeperWeightCount);
 
             _sweepers = createSweepers().ToList();
-            Mines = createMines(_settings.MineCount).ToList();
-            Holes = new List<List<double>>();
             for (int i = 0; i < _sweepers.Count; i++)
             {
                 _sweepers[i].Brain.Genome = Population.Genomes[i];
             }
+            Objects.AddRange(getObjects(ObjectType.Mine, _settings.MineCount));
         }
 
         public void NextTick()
@@ -67,15 +50,16 @@
             {
                 var sweeper = _sweepers[i];
 
-                var closestMine = DistanceCalculator.GetClosestObject(sweeper.Motion.Position, Mines);
+                var mines = Objects.Where(x => x.Item1 == ObjectType.Mine).Select(x => x.Item2).ToList();
+                var closestMine = DistanceCalculator.GetClosestObject(sweeper.Motion.Position, mines);
                 sweeper.Update(closestMine);
 
-                var foundMine = DistanceCalculator.DetectCollision(sweeper.Motion.Position, closestMine, _settings.TouchDistance);
-                if (foundMine)
+                var mineCollision = DistanceCalculator.DetectCollision(sweeper.Motion.Position, closestMine, _settings.TouchDistance);
+                if (mineCollision)
                 {
-                    var mine = Mines.Single(x => x.VectorEquals(closestMine));
-                    Mines.Remove(mine);
-                    Mines.AddRange(createMines(1));
+                    var mine = Objects.Where(x => x.Item1 == ObjectType.Mine).Single(x => x.Item2.VectorEquals(closestMine));
+                    Objects.Remove(mine);
+                    Objects.AddRange(getObjects(ObjectType.Mine, 1));
                     sweeper.Fitness++;
                 }
             }
@@ -91,14 +75,15 @@
                 _sweepers[i].Brain.Genome = Population.Genomes[i];
                 _sweepers[i].SetRandomMotion();
             }
-            Mines = createMines(Mines.Count).ToList();
+            Objects.Clear();
+            Objects.AddRange(getObjects(ObjectType.Mine, _settings.MineCount));
 
-            onNextGeneration();
+            NextGenerationEnded.RaiseEvent(this, EventArgs.Empty);
         }
 
         public void AfterTick()
         {
-            onTickEnded();
+            TickEnded.RaiseEvent(this, EventArgs.Empty);
         }
 
         public bool Continue()
@@ -115,12 +100,12 @@
             }
         }
 
-        private IEnumerable<List<double>> createMines(int numberOfMines)
+        private IEnumerable<Tuple<ObjectType, List<double>>> getObjects(ObjectType objectType, int numberOfObjects)
         {
-            for (int i = 0; i < numberOfMines; i++)
+            for (int i = 0; i < numberOfObjects; i++)
             {
-                var mine = Vector.RandomVector2D(_settings.DrawWidth, _settings.DrawHeight);
-                yield return mine;
+                var newObject = Vector.RandomVector2D(_settings.DrawWidth, _settings.DrawHeight);
+                yield return new Tuple<ObjectType, List<double>>(objectType, newObject);
             }
         }
 

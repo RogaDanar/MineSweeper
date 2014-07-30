@@ -11,15 +11,7 @@
 
     public partial class Main : Form
     {
-        public event EventHandler<MineSweeperSettings> SettingsChanged;
-
-        protected virtual void OnSettingsChanged()
-        {
-            if (SettingsChanged != null)
-            {
-                SettingsChanged(this, Settings);
-            }
-        }
+        public event EventHandler<MineSweeperSettings> SettingsChanged = delegate { };
 
         public PictureBox MainPictureBox { get { return pbMain; } }
         public Button ResetButton { get { return btnReset; } }
@@ -56,7 +48,7 @@
             graphPopulation.Update(population);
         }
 
-        public void UpdateDisplay(List<ICreature> creatures, List<List<double>> mines, List<List<double>> holes)
+        public void UpdateDisplay(List<ICreature> creatures, List<Tuple<ObjectType, List<double>>> objects)
         {
             pbMain.Image = new Bitmap(pbMain.Width, pbMain.Height);
             using (var graphics = Graphics.FromImage(pbMain.Image))
@@ -77,17 +69,17 @@
                     drawSweeper(graphics, blackPen, greenPen.Brush, sweeper);
                 }
 
+
+                var mines = objects.Where(x => x.Item1 == ObjectType.Mine).Select(x => x.Item2);
                 foreach (var mine in mines)
                 {
                     drawMine(graphics, blackPen, grayPen.Brush, mine);
                 }
 
-                if (holes != null)
+                var holes = objects.Where(x => x.Item1 == ObjectType.Hole).Select(x => x.Item2);
+                foreach (var hole in holes)
                 {
-                    foreach (var hole in holes)
-                    {
-                        drawMine(graphics, redPen, redPen.Brush, hole);
-                    }
+                    drawMine(graphics, redPen, redPen.Brush, hole);
                 }
 
                 bluePen.Dispose();
@@ -177,7 +169,7 @@
 
             btnStartStop.Text = "Start";
             setupDisplay();
-            OnSettingsChanged();
+            SettingsChanged.RaiseEvent<MineSweeperSettings>(this, Settings);
         }
 
         private int getIntValue(TextBox textBox, int originalValue)
@@ -203,5 +195,6 @@
         {
             btnStartStop.Text = btnStartStop.Text.Equals("Start") ? "Stop" : "Start";
         }
+
     }
 }

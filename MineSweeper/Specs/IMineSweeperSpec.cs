@@ -12,8 +12,7 @@
         event EventHandler TickEnded;
 
         List<ICreature> Creatures { get; }
-        List<List<double>> Mines { get; }
-        List<List<double>> Holes { get; }
+        List<Tuple<ObjectType, List<double>>> Objects { get; }
         Population Population { get; }
     }
 }

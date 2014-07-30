@@ -5,7 +5,7 @@
     using System;
     using System.Collections.Generic;
 
-    public class Sweeper : MineSweeper.Creatures.ICreature
+    public class Sweeper : ICreature
     {
         public static int BrainInputs = 4;
         public static int BrainOutputs = 2;

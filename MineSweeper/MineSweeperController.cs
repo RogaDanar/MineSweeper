@@ -70,7 +70,7 @@
         {
             if (!_settings.Fast)
             {
-                _mainForm.Invoke((MethodInvoker)delegate { _mainForm.UpdateDisplay(_spec.Creatures, _spec.Mines, _spec.Holes); });
+                _mainForm.Invoke((MethodInvoker)delegate { _mainForm.UpdateDisplay(_spec.Creatures, _spec.Objects); });
             }
             _mainForm.Invoke((MethodInvoker)delegate { _mainForm.UpdateStats(_spec.Population); });
         }

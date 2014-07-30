@@ -48,6 +48,8 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Creatures\ICreature.cs" />
+    <Compile Include="Creatures\ObjectType.cs" />
+    <Compile Include="EventHandlerExtensions.cs" />
     <Compile Include="Utils\DistanceCalculator.cs" />
     <Compile Include="Creatures\EliteGenome.cs" />
     <Compile Include="Main.cs">

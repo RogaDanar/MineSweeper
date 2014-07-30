@@ -2,8 +2,9 @@
 {
     using MineSweeper.Creatures;
     using NeuralNet.AppHelpers;
+    using System;
 
-    public class MineSweeperSettings : IGeneticsSettings
+    public class MineSweeperSettings : EventArgs, IGeneticsSettings
     {
         public float MineSize = 2;
         public float SweeperSize = 5;
