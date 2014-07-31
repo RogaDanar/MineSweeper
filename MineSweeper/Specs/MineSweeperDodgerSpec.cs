@@ -92,12 +92,12 @@
             Objects.AddRange(getObjects(ObjectType.Mine, _settings.MineCount));
             Objects.AddRange(getObjects(ObjectType.Hole, _settings.MineCount));
 
-            NextGenerationEnded.RaiseEvent(this, EventArgs.Empty);
+            NextGenerationEnded.Raise(this, EventArgs.Empty);
         }
 
         public void AfterTick()
         {
-            TickEnded.RaiseEvent(this, EventArgs.Empty);
+            TickEnded.Raise(this, EventArgs.Empty);
         }
 
         public bool Continue()

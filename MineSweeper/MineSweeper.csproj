@@ -47,6 +47,15 @@
     <Compile Include="Controls\Graph.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Controls\Playground.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\Settings.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\Stats.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Creatures\ICreature.cs" />
     <Compile Include="Creatures\ObjectType.cs" />
     <Compile Include="EventHandlerExtensions.cs" />

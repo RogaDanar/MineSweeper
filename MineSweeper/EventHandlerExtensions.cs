@@ -4,7 +4,7 @@
 
     public static class EventHandlerExtensions
     {
-        static public void RaiseEvent(this EventHandler eventHandler, object sender, EventArgs e)
+        static public void Raise(this EventHandler eventHandler, object sender, EventArgs e)
         {
             if (eventHandler != null)
             {
@@ -12,7 +12,7 @@
             }
         }
 
-        static public void RaiseEvent<T>(this EventHandler<T> eventHandler, object sender, T e)
+        static public void Raise<T>(this EventHandler<T> eventHandler, object sender, T e)
             where T : EventArgs
         {
             if (eventHandler != null)

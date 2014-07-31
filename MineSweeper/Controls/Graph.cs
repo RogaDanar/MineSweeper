@@ -9,6 +9,12 @@
 
     public class Graph : PictureBox
     {
+        public void Reset(MineSweeperSettings settings)
+        {
+            Width = settings.DrawWidth;
+            Image = new Bitmap(Width, Height);
+        }
+
         public void Update(Population population)
         {
             Image = new Bitmap(Width, Height);
