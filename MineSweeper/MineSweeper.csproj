@@ -44,6 +44,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controllers\MineSweeperConsoleController.cs" />
     <Compile Include="Controls\Graph.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -56,27 +57,31 @@
     <Compile Include="Controls\Stats.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Creatures\EliteClusterSweeperGenome.cs" />
     <Compile Include="Creatures\ICreature.cs" />
-    <Compile Include="Creatures\ObjectType.cs" />
-    <Compile Include="EventHandlerExtensions.cs" />
+    <Compile Include="Specs\ObjectType.cs" />
+    <Compile Include="Creatures\ClusterSweeper.cs" />
+    <Compile Include="Utils\EventHandlerExtensions.cs" />
+    <Compile Include="Specs\ClusterSweeperSpec.cs" />
+    <Compile Include="Specs\SweeperSpecBase.cs" />
     <Compile Include="Utils\DistanceCalculator.cs" />
-    <Compile Include="Creatures\EliteGenome.cs" />
+    <Compile Include="Creatures\EliteSweeperGenome.cs" />
     <Compile Include="Main.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Main.Designer.cs">
       <DependentUpon>Main.cs</DependentUpon>
     </Compile>
-    <Compile Include="MineSweeperController.cs" />
+    <Compile Include="Controllers\MineSweeperGuiController.cs" />
     <Compile Include="Creatures\Motion.cs" />
     <Compile Include="Specs\IMineSweeperSpec.cs" />
-    <Compile Include="Specs\MineSweeperDodgerSpec.cs" />
+    <Compile Include="Specs\MineSweeperHoleDodgerSpec.cs" />
     <Compile Include="Specs\MineSweeperSpec.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="MineSweeperSettings.cs" />
+    <Compile Include="Specs\MineSweeperSettings.cs" />
     <Compile Include="Creatures\SweeperDodger.cs" />
-    <Compile Include="Creatures\Sweeper.cs" />
+    <Compile Include="Creatures\SimpleSweeper.cs" />
     <Compile Include="Creatures\SweeperType.cs" />
     <Compile Include="Utils\Shapes.cs" />
     <Compile Include="Utils\Vector.cs" />

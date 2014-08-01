@@ -1,5 +1,6 @@
 ﻿namespace MineSweeper.Controls
 {
+    using MineSweeper.Specs;
     using System.Windows.Forms;
 
     public class Settings : Panel

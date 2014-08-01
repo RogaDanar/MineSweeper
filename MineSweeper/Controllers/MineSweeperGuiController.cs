@@ -1,4 +1,4 @@
-﻿namespace MineSweeper
+﻿namespace MineSweeper.Controllers
 {
     using MineSweeper.Creatures;
     using MineSweeper.Specs;
@@ -7,7 +7,7 @@
     using System.Threading;
     using System.Windows.Forms;
 
-    public class MineSweeperController
+    public class MineSweeperGuiController
     {
         private Main _mainForm;
         private Runner _runner;
@@ -15,12 +15,14 @@
         private MineSweeperSettings _settings;
         private bool _setupNeeded;
 
-        public MineSweeperController(MineSweeperSettings settings)
+        public MineSweeperGuiController(IMineSweeperSpec spec)
         {
-            _settings = settings;
+            _settings = spec.Settings;
             _setupNeeded = true;
+            _spec = spec;
+            _spec.NextGenerationEnded += specNextGeneration;
+            _spec.TickEnded += specTickEnded;
 
-            _spec = getSpec();
             _runner = new Runner(_spec);
 
             initializeMainForm();
@@ -35,14 +37,15 @@
                     spec = new MineSweeperSpec(_settings);
                     break;
                 case SweeperType.SweeperDodger:
-                    spec = new MineSweeperDodgerSpec(_settings);
+                    spec = new MineSweeperHoleDodgerSpec(_settings);
+                    break;
+                case SweeperType.ClusterSweeper:
+                    spec = new ClusterSweeperSpec(_settings);
                     break;
                 default:
                     throw new Exception("Unknown SweeperType");
             }
 
-            spec.NextGenerationEnded += specNextGeneration;
-            spec.TickEnded += specTickEnded;
             return spec;
         }
 
@@ -94,11 +97,11 @@
                     _runner.Setup();
                     _setupNeeded = false;
                 }
-                _runner.StartRun();
+                _runner.EnableSimulation();
             }
             else
             {
-                _runner.StopRun();
+                _runner.DisableSimulation();
             }
         }
 
@@ -106,19 +109,19 @@
         {
             _settings = settings;
 
-            _runner.StopRun();
+            _runner.DisableSimulation();
 
             _setupNeeded = true;
         }
 
         private void mainFormClosed(object sender, FormClosedEventArgs e)
         {
-            _runner.Shutdown();
+            _runner.ShutdownMainLoop();
         }
 
         private void mainFormClosing(object sender, FormClosingEventArgs e)
         {
-            _runner.StopRun();
+            _runner.DisableSimulation();
         }
     }
 }

@@ -1,5 +1,7 @@
 ﻿namespace MineSweeper
 {
+    using MineSweeper.Controllers;
+    using MineSweeper.Specs;
     using System;
     using System.Windows.Forms;
 
@@ -14,7 +16,7 @@
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
-            var controller = new MineSweeperController(MineSweeperSettings.Sweeper());
+            var controller = new MineSweeperGuiController(new ClusterSweeperSpec());
             controller.Start();
         }
     }

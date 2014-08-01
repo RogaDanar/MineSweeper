@@ -3,6 +3,7 @@
     public enum SweeperType
     {
         Sweeper,
-        SweeperDodger
+        SweeperDodger,
+        ClusterSweeper
     }
 }

@@ -6,7 +6,7 @@
     /// <summary>
     /// For testing and playng around.
     /// </summary>
-    public class EliteGenome : Genome
+    public class EliteSweeperGenome : Genome
     {
         /// <summary>
         /// Weights taken from an elite after a few hundred generations
@@ -59,7 +59,7 @@
             -1.1928613091320086
         };
 
-        public EliteGenome() :
+        public EliteSweeperGenome() :
             base(_chromosome, 0.0)
         { }
     }

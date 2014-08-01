@@ -1,4 +1,4 @@
-﻿namespace MineSweeper
+﻿namespace MineSweeper.Specs
 {
     using MineSweeper.Creatures;
     using NeuralNet.AppHelpers;
@@ -75,6 +75,30 @@
                 HiddenLayerNeurons = 8,
 
                 SweeperType = SweeperType.SweeperDodger
+            };
+
+            return settings;
+        }
+
+        public static MineSweeperSettings ClusterSweeper()
+        {
+            var settings = new MineSweeperSettings {
+                Ticks = 2000,
+                SweeperCount = 30,
+                MineCount = 40,
+                DrawWidth = 400,
+                DrawHeight = 400,
+                Fast = false,
+
+                MutationRate = 0.1,
+                CrossoverRate = 0.7,
+                MaxPerturbation = 0.3,
+                EliteCount = 4,
+
+                HiddenLayers = 1,
+                HiddenLayerNeurons = 16,
+
+                SweeperType = SweeperType.ClusterSweeper
             };
 
             return settings;

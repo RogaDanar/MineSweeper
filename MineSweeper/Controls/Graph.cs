@@ -1,5 +1,6 @@
 ﻿namespace MineSweeper.Controls
 {
+    using MineSweeper.Specs;
     using NeuralNet.Genetics;
     using System.Collections.Generic;
     using System.Drawing;

@@ -1,6 +1,7 @@
 ﻿namespace MineSweeper.Controls
 {
     using MineSweeper.Creatures;
+    using MineSweeper.Specs;
     using MineSweeper.Utils;
     using System;
     using System.Collections.Generic;
@@ -38,6 +39,12 @@
                     drawSweeper(graphics, blackPen, greenPen.Brush, sweeper, settings.SweeperSize);
                 }
 
+
+                var clusterMines = objects.Where(x => x.Item1 == ObjectType.ClusterMine).Select(x => x.Item2);
+                foreach (var mine in clusterMines)
+                {
+                    drawMine(graphics, blackPen, greenPen.Brush, mine, settings.MineSize + 1);
+                }
 
                 var mines = objects.Where(x => x.Item1 == ObjectType.Mine).Select(x => x.Item2);
                 foreach (var mine in mines)

@@ -11,6 +11,7 @@
         event EventHandler NextGenerationEnded;
         event EventHandler TickEnded;
 
+        MineSweeperSettings Settings { get; }
         List<ICreature> Creatures { get; }
         List<Tuple<ObjectType, List<double>>> Objects { get; }
         Population Population { get; }

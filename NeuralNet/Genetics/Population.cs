@@ -1,8 +1,9 @@
 ﻿namespace NeuralNet.Genetics
 {
     using NeuralNet.Helpers;
-    using System.Collections.Generic;
-    using System.Linq;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
     public class Population
     {
@@ -16,6 +17,11 @@
         public double BestFitness { get; set; }
         public double WorstFitness { get; set; }
         public double AverageFitness { get; set; }
+
+        public double TotalFitnessChange { get; set; }
+        public double BestFitnessChange { get; set; }
+        public double WorstFitnessChange { get; set; }
+        public double AverageFitnessChange { get; set; }
 
         public List<double> PreviousGenerationTotalFitness { get; set; }
         public List<double> PreviousGenerationBestFitness { get; set; }
@@ -61,6 +67,11 @@
             BestFitness = Genomes.Max(x => x.Fitness);
             WorstFitness = Genomes.Min(x => x.Fitness);
             AverageFitness = Genomes.Average(x => x.Fitness);
+
+            TotalFitnessChange = TotalFitness - PreviousGenerationTotalFitness.LastOrDefault();
+            BestFitnessChange = BestFitness - PreviousGenerationBestFitness.LastOrDefault();
+            WorstFitnessChange = WorstFitness - PreviousGenerationWorstFitness.LastOrDefault();
+            AverageFitnessChange = AverageFitness - PreviousGenerationAverageFitness.LastOrDefault();
         }
 
         public void SaveLastGenerationStats()

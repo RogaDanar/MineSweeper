@@ -5,7 +5,7 @@
     using System;
     using System.Collections.Generic;
 
-    public class Sweeper : ICreature
+    public class SimpleSweeper : ICreature
     {
         public static int BrainInputs = 4;
         public static int BrainOutputs = 2;
@@ -37,7 +37,7 @@
 
         public Motion Motion { get; protected set; }
 
-        public Sweeper(double maxX, double maxY, INeuralNet brain = null)
+        public SimpleSweeper(double maxX, double maxY, INeuralNet brain = null)
         {
             _maxX = maxX;
             _maxY = maxY;

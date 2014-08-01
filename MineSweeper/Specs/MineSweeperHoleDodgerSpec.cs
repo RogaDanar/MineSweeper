@@ -8,40 +8,38 @@
     using System.Collections.Generic;
     using System.Linq;
 
-    public class MineSweeperDodgerSpec : IMineSweeperSpec
+    public class MineSweeperHoleDodgerSpec : SweeperSpecBase, IMineSweeperSpec
     {
-        private MineSweeperSettings _settings;
-        private IGeneticAlgorithm _genetics;
         private List<SweeperDodger> _sweeperDodgers;
-
-        public event EventHandler NextGenerationEnded = delegate { };
-        public event EventHandler TickEnded = delegate { };
 
         public List<ICreature> Creatures { get { return _sweeperDodgers.Cast<ICreature>().ToList(); } }
         public List<Tuple<ObjectType, List<double>>> Objects { get; private set; }
         public Population Population { get; private set; }
-        public int Ticks { get { return _settings.Ticks; } }
 
-        public MineSweeperDodgerSpec(MineSweeperSettings settings)
+        public MineSweeperHoleDodgerSpec()
+            : this(MineSweeperSettings.SweeperDodger())
         {
-            _settings = settings;
+        }
+
+        public MineSweeperHoleDodgerSpec(MineSweeperSettings settings)
+            : base(settings)
+        {
             Objects = new List<Tuple<ObjectType, List<double>>>();
         }
 
         public void Setup()
         {
-            _genetics = new GeneticAlgorithm(_settings);
+            Genetics = new GeneticAlgorithm(Settings);
 
-            var sweeperWeightCount = new FeedforwardNetwork(Sweeper.BrainInputs, Sweeper.BrainOutputs, _settings.HiddenLayers, _settings.HiddenLayerNeurons).AllWeightsCount();
-            Population = new Population(_settings.SweeperCount, sweeperWeightCount);
+            var sweeperWeightCount = getNewBrain().AllWeightsCount();
+            Population = new Population(Settings.SweeperCount, sweeperWeightCount);
 
             _sweeperDodgers = createSweeperDodgers().ToList();
             for (int i = 0; i < _sweeperDodgers.Count; i++)
             {
                 _sweeperDodgers[i].Brain.Genome = Population.Genomes[i];
             }
-            Objects.AddRange(getObjects(ObjectType.Mine, _settings.MineCount));
-            Objects.AddRange(getObjects(ObjectType.Hole, _settings.MineCount));
+            createNewObjects();
         }
 
         public void NextTick()
@@ -58,21 +56,21 @@
 
                 sweeper.Update(closestMine, closestHole);
 
-                var mineCollision = DistanceCalculator.DetectCollision(sweeper.Motion.Position, closestMine, _settings.TouchDistance);
+                var mineCollision = DistanceCalculator.DetectCollision(sweeper.Motion.Position, closestMine, Settings.TouchDistance);
                 if (mineCollision)
                 {
                     var mine = Objects.Where(x => x.Item1 == ObjectType.Mine).Single(x => x.Item2.VectorEquals(closestMine));
                     Objects.Remove(mine);
-                    Objects.AddRange(getObjects(ObjectType.Mine, 1));
+                    Objects.AddRange(GetObjects(ObjectType.Mine, 1));
                     sweeper.Fitness += 2;
                 }
 
-                var holeCollision = DistanceCalculator.DetectCollision(sweeper.Motion.Position, closestHole, _settings.TouchDistance);
+                var holeCollision = DistanceCalculator.DetectCollision(sweeper.Motion.Position, closestHole, Settings.TouchDistance);
                 if (holeCollision)
                 {
                     var hole = Objects.Where(x => x.Item1 == ObjectType.Hole).Single(x => x.Item2.VectorEquals(closestHole));
                     Objects.Remove(hole);
-                    Objects.AddRange(getObjects(ObjectType.Hole, 1));
+                    Objects.AddRange(GetObjects(ObjectType.Hole, 1));
                     sweeper.Fitness -= 3;
                 }
             }
@@ -81,23 +79,28 @@
 
         public void NextGeneration()
         {
-            Population = _genetics.NextGeneration(Population);
+            Population = Genetics.NextGeneration(Population);
 
             for (int i = 0; i < _sweeperDodgers.Count; i++)
             {
                 _sweeperDodgers[i].Brain.Genome = Population.Genomes[i];
                 _sweeperDodgers[i].SetRandomMotion();
             }
-            Objects.Clear();
-            Objects.AddRange(getObjects(ObjectType.Mine, _settings.MineCount));
-            Objects.AddRange(getObjects(ObjectType.Hole, _settings.MineCount));
+            createNewObjects();
 
-            NextGenerationEnded.Raise(this, EventArgs.Empty);
+            RaiseNextGenerationEnded();
+        }
+
+        private void createNewObjects()
+        {
+            Objects.Clear();
+            Objects.AddRange(GetObjects(ObjectType.Mine, Settings.MineCount));
+            Objects.AddRange(GetObjects(ObjectType.Hole, Settings.MineCount));
         }
 
         public void AfterTick()
         {
-            TickEnded.Raise(this, EventArgs.Empty);
+            RaiseTickEnded();
         }
 
         public bool Continue()
@@ -107,25 +110,16 @@
 
         private IEnumerable<SweeperDodger> createSweeperDodgers()
         {
-            for (int i = 0; i < _settings.SweeperCount; i++)
+            for (int i = 0; i < Settings.SweeperCount; i++)
             {
-                var brain = new FeedforwardNetwork(SweeperDodger.BrainInputs, SweeperDodger.BrainOutputs, _settings.HiddenLayers, _settings.HiddenLayerNeurons);
-                yield return new SweeperDodger(_settings.DrawWidth, _settings.DrawHeight, brain);
+                var brain = getNewBrain();
+                yield return new SweeperDodger(Settings.DrawWidth, Settings.DrawHeight, brain);
             }
         }
 
-        private IEnumerable<Tuple<ObjectType, List<double>>> getObjects(ObjectType objectType, int numberOfObjects)
+        private FeedforwardNetwork getNewBrain()
         {
-            for (int i = 0; i < numberOfObjects; i++)
-            {
-                var newObject = Vector.RandomVector2D(_settings.DrawWidth, _settings.DrawHeight);
-                yield return new Tuple<ObjectType, List<double>>(objectType, newObject);
-            }
-        }
-
-        private void mainFormFastButtonClick(object sender, EventArgs e)
-        {
-            _settings.Fast = !_settings.Fast;
+            return new FeedforwardNetwork(SweeperDodger.BrainInputs, SweeperDodger.BrainOutputs, Settings.HiddenLayers, Settings.HiddenLayerNeurons);
         }
     }
 }

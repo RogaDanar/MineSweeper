@@ -1,6 +1,7 @@
 ﻿namespace MineSweeper
 {
     using MineSweeper.Creatures;
+    using MineSweeper.Specs;
     using MineSweeper.Utils;
     using NeuralNet.Genetics;
     using System;

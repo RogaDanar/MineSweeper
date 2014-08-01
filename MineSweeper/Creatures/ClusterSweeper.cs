@@ -5,13 +5,13 @@
     using System;
     using System.Collections.Generic;
 
-    public class SweeperDodger : ICreature
+    public class ClusterSweeper : ICreature
     {
-        public static int BrainInputs = 6;
+        public static int BrainInputs = 10;
         public static int BrainOutputs = 2;
 
-        private const double _maxRotation = 0.5;
-        private const double _maxSpeed = 2;
+        private const double _maxRotation = 0.7;
+        private const double _maxSpeed = 1.5;
         private double _maxX;
         private double _maxY;
 
@@ -21,7 +21,7 @@
             get { return _brain; }
             protected set
             {
-                _brain = value ?? new FeedforwardNetwork(BrainInputs, BrainOutputs, 1, 8);
+                _brain = value ?? new FeedforwardNetwork(BrainInputs, BrainOutputs, 1, 16);
                 if (Brain.MaxInputs != BrainInputs || Brain.MinOutputs != BrainOutputs)
                 {
                     throw new Exception("Incorrect brainsize");
@@ -37,7 +37,7 @@
 
         public Motion Motion { get; protected set; }
 
-        public SweeperDodger(double maxX, double maxY, INeuralNet brain = null)
+        public ClusterSweeper(double maxX, double maxY, INeuralNet brain = null)
         {
             _maxX = maxX;
             _maxY = maxY;
@@ -50,14 +50,18 @@
             Motion = new Motion(_maxX, _maxY, _maxSpeed, _maxRotation);
         }
 
-        public void Update(List<double> closestMine, List<double> closestHole)
+        public void Update(List<double> closestClusterMine, List<double> secondClosestClusterMine, List<double> closestMine, List<double> secondClosestMine)
         {
+            var vectorToClosestClusterMine = DistanceCalculator.GetNormalizedVectorToObject(Motion.Position, closestClusterMine);
+            var vectorToSecondClosestClusterMine = DistanceCalculator.GetNormalizedVectorToObject(Motion.Position, secondClosestClusterMine);
             var vectorToClosestMine = DistanceCalculator.GetNormalizedVectorToObject(Motion.Position, closestMine);
-            var vectorToClosestHole = DistanceCalculator.GetNormalizedVectorToObject(Motion.Position, closestHole);
+            var vectorToSecondClosestMine = DistanceCalculator.GetNormalizedVectorToObject(Motion.Position, secondClosestMine);
 
             var inputs = new List<double>();
+            inputs.AddRange(vectorToClosestClusterMine);
+            inputs.AddRange(vectorToSecondClosestClusterMine);
             inputs.AddRange(vectorToClosestMine);
-            inputs.AddRange(vectorToClosestHole);
+            inputs.AddRange(vectorToSecondClosestMine);
             inputs.AddRange(Motion.Direction);
 
             var output = Brain.Observe(inputs);

@@ -1,6 +1,5 @@
 ﻿namespace NeuralNet.AppHelpers
 {
-    using NeuralNet.Genetics;
     using System;
 
     public class Runner
@@ -45,7 +44,7 @@
                         Specification.AfterTick();
                         if (!Specification.Continue())
                         {
-                            Shutdown();
+                            ShutdownMainLoop();
                         }
                     }
                 }
@@ -53,17 +52,17 @@
             }
         }
 
-        public void Shutdown()
+        public void ShutdownMainLoop()
         {
             _ticksFinished = true;
         }
 
-        public void StartRun()
+        public void EnableSimulation()
         {
             _run = true;
         }
 
-        public void StopRun()
+        public void DisableSimulation()
         {
             _run = false;
         }
