@@ -16,6 +16,7 @@
         public Population(IGeneticAlgorithm genetics)
         {
             _genetics = genetics;
+            FitnessStats = new FitnessStats();
         }
 
         public void Populate(int populationSize, int chromosomeSize)
