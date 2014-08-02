@@ -160,13 +160,13 @@
         internal void Update(Population population)
         {
             lblGenValue.Text = population.Generation.ToString();
-            lblBestValue.Text = population.BestFitness.ToString();
-            lblWorstValue.Text = population.WorstFitness.ToString();
-            lblAvgValue.Text = Math.Round(population.AverageFitness, 2).ToString("0.00");
+            lblBestValue.Text = population.FitnessStats.Best.ToString();
+            lblWorstValue.Text = population.FitnessStats.Worst.ToString();
+            lblAvgValue.Text = Math.Round(population.FitnessStats.Average, 2).ToString("0.00");
 
-            lblLastBest.Text = string.Format("({0})", population.PreviousGenerationBestFitness.LastOrDefault());
-            lblLastWorst.Text = string.Format("({0})", population.PreviousGenerationWorstFitness.LastOrDefault());
-            lblLastAvg.Text = string.Format("({0:0.00})", Math.Round(population.PreviousGenerationAverageFitness.LastOrDefault(), 2));
+            lblLastBest.Text = string.Format("({0})", population.FitnessStats.PreviousGenerationsBest.LastOrDefault());
+            lblLastWorst.Text = string.Format("({0})", population.FitnessStats.PreviousGenerationsWorst.LastOrDefault());
+            lblLastAvg.Text = string.Format("({0:0.00})", Math.Round(population.FitnessStats.PreviousGenerationsAverage.LastOrDefault(), 2));
         }
     }
 }

@@ -19,9 +19,9 @@
         public void Update(Population population)
         {
             Image = new Bitmap(Width, Height);
-            var avgpoints = getGraphPoints(population.PreviousGenerationAverageFitness);
-            var bestpoints = getGraphPoints(population.PreviousGenerationBestFitness);
-            var worstpoints = getGraphPoints(population.PreviousGenerationWorstFitness);
+            var avgpoints = getGraphPoints(population.FitnessStats.PreviousGenerationsAverage);
+            var bestpoints = getGraphPoints(population.FitnessStats.PreviousGenerationsBest);
+            var worstpoints = getGraphPoints(population.FitnessStats.PreviousGenerationsWorst);
 
             var graphHeight = (float)Height - 10;
             var maxHeight = bestpoints.Max(x => x.Y);

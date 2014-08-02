@@ -44,6 +44,7 @@
     <Compile Include="AppHelpers\IGeneticsSettings.cs" />
     <Compile Include="AppHelpers\Runner.cs" />
     <Compile Include="AppHelpers\Settings.cs" />
+    <Compile Include="Genetics\FitnessStats.cs" />
     <Compile Include="Genetics\GeneticAlgorithm.cs" />
     <Compile Include="Genetics\Genome.cs" />
     <Compile Include="Genetics\IGeneticAlgorithm.cs" />

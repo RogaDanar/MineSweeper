@@ -1,14 +1,11 @@
 ﻿namespace MineSweeper.Specs
 {
     using MineSweeper.Utils;
-    using NeuralNet.Genetics;
     using System;
     using System.Collections.Generic;
 
     public class SweeperSpecBase
     {
-        protected IGeneticAlgorithm Genetics;
-
         public event EventHandler NextGenerationEnded = delegate { };
         public event EventHandler TickEnded = delegate { };
 

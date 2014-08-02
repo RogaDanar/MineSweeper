@@ -3,7 +3,6 @@
     using MineSweeper.Specs;
     using NeuralNet.AppHelpers;
     using System;
-    using System.Linq;
 
     public class MineSweeperConsoleController
     {
@@ -29,11 +28,11 @@
         {
             var pop = _spec.Population;
 
-            Console.WriteLine("Best: {0}({1})   Avg: {2}({3})", 
-                pop.BestFitness, 
-                pop.BestFitnessChange, 
-                pop.AverageFitness,
-                pop.AverageFitnessChange);
+            Console.WriteLine("Best: {0}({1})   Avg: {2}({3})",
+                pop.FitnessStats.Best,
+                pop.FitnessStats.BestChange,
+                pop.FitnessStats.Average,
+                pop.FitnessStats.AverageChange);
         }
     }
 }

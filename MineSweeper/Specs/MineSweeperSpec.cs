@@ -30,10 +30,9 @@
 
         public void Setup()
         {
-            Genetics = new GeneticAlgorithm(Settings);
-
             var sweeperWeightCount = getNewBrain().AllWeightsCount();
-            Population = new Population(Settings.SweeperCount, sweeperWeightCount);
+            Population = new Population(new GeneticAlgorithm(Settings));
+            Population.Populate(Settings.SweeperCount, sweeperWeightCount);
 
             _sweepers = createSweepers().ToList();
             for (int i = 0; i < _sweepers.Count; i++)
@@ -62,12 +61,12 @@
                     sweeper.Fitness++;
                 }
             }
-            Population.UpdateStats();
+            Population.UpdateFitnessStats();
         }
 
         public void NextGeneration()
         {
-            Population = Genetics.NextGeneration(Population);
+            Population.NextGeneration();
 
             for (int i = 0; i < _sweepers.Count; i++)
             {

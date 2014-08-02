@@ -1,52 +1,69 @@
 ﻿namespace NeuralNet.Genetics
 {
     using NeuralNet.Helpers;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+    using System.Collections.Generic;
+    using System.Linq;
 
     public class Population
     {
         private readonly Rand _rand = Rand.Generator;
+        private IGeneticAlgorithm _genetics;
 
         public int Generation { get; set; }
-
         public IList<Genome> Genomes { get; set; }
+        public FitnessStats FitnessStats { get; private set; }
 
-        public double TotalFitness { get; set; }
-        public double BestFitness { get; set; }
-        public double WorstFitness { get; set; }
-        public double AverageFitness { get; set; }
-
-        public double TotalFitnessChange { get; set; }
-        public double BestFitnessChange { get; set; }
-        public double WorstFitnessChange { get; set; }
-        public double AverageFitnessChange { get; set; }
-
-        public List<double> PreviousGenerationTotalFitness { get; set; }
-        public List<double> PreviousGenerationBestFitness { get; set; }
-        public List<double> PreviousGenerationWorstFitness { get; set; }
-        public List<double> PreviousGenerationAverageFitness { get; set; }
-
-        public Population()
+        public Population(IGeneticAlgorithm genetics)
         {
-            PreviousGenerationTotalFitness = new List<double>();
-            PreviousGenerationBestFitness = new List<double>();
-            PreviousGenerationWorstFitness = new List<double>();
-            PreviousGenerationAverageFitness = new List<double>();
+            _genetics = genetics;
         }
 
-        public Population(int populationSize, int chromosomeSize)
-            : this()
+        public void Populate(int populationSize, int chromosomeSize)
         {
             Genomes = Enumerable.Range(1, populationSize).Select(x => new Genome(chromosomeSize, 0)).ToList();
         }
 
-        public Genome GetGenomeByRoulette()
+        public void UpdateFitnessStats()
+        {
+            FitnessStats.Update(Genomes);
+        }
+
+        public void NextGeneration()
+        {
+            FitnessStats.SaveCurrentToHistory();
+            Generation++;
+
+            var newGenomes = new List<Genome>();
+
+            if (_genetics.EliteCount > 0)
+            {
+                var elites = Genomes.OrderByDescending(x => x.Fitness).Take(_genetics.EliteCount);
+                newGenomes.AddRange(elites);
+            }
+
+            while (newGenomes.Count < Genomes.Count())
+            {
+                var mother = getGenomeByRoulette();
+                var father = getGenomeByRoulette();
+
+                var son = new Genome();
+                var daughter = new Genome();
+
+                _genetics.Crossover(mother, father, son, daughter);
+                _genetics.Mutate(son);
+                _genetics.Mutate(daughter);
+                newGenomes.Add(son);
+                newGenomes.Add(daughter);
+            }
+            newGenomes.ForEach(x => x.Fitness = 0);
+            Genomes = newGenomes.Take(Genomes.Count()).ToList();
+        }
+
+        private Genome getGenomeByRoulette()
         {
             var chosen = default(Genome);
 
-            var slice = _rand.NextDouble() * TotalFitness;
+            var slice = _rand.NextDouble() * FitnessStats.Total;
             var cumulativeFitness = 0.0;
             foreach (var genome in Genomes)
             {
@@ -59,28 +76,6 @@ using System.Linq;
             }
             chosen = chosen ?? Genomes.OrderBy(x => _rand.Next()).First();
             return chosen;
-        }
-
-        public void UpdateStats()
-        {
-            TotalFitness = Genomes.Sum(x => x.Fitness);
-            BestFitness = Genomes.Max(x => x.Fitness);
-            WorstFitness = Genomes.Min(x => x.Fitness);
-            AverageFitness = Genomes.Average(x => x.Fitness);
-
-            TotalFitnessChange = TotalFitness - PreviousGenerationTotalFitness.LastOrDefault();
-            BestFitnessChange = BestFitness - PreviousGenerationBestFitness.LastOrDefault();
-            WorstFitnessChange = WorstFitness - PreviousGenerationWorstFitness.LastOrDefault();
-            AverageFitnessChange = AverageFitness - PreviousGenerationAverageFitness.LastOrDefault();
-        }
-
-        public void SaveLastGenerationStats()
-        {
-            PreviousGenerationTotalFitness.Add(TotalFitness);
-            PreviousGenerationBestFitness.Add(BestFitness);
-            PreviousGenerationWorstFitness.Add(WorstFitness);
-            PreviousGenerationAverageFitness.Add(AverageFitness);
-
         }
     }
 }

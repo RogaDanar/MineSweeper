@@ -29,11 +29,10 @@
 
         public void Setup()
         {
-            Genetics = new GeneticAlgorithm(Settings);
+            Population = new Population(new GeneticAlgorithm(Settings));
 
             var sweeperWeightCount = getNewBrain().AllWeightsCount();
-            Population = new Population(Settings.SweeperCount, sweeperWeightCount);
-            //Population = new Population { Genomes = Enumerable.Range(1, Settings.SweeperCount).Select(x => new EliteClusterSweeperGenome()).Cast<Genome>().ToList() };
+            Population.Populate(Settings.SweeperCount, sweeperWeightCount);
 
             _sweepers = createSweepers().ToList();
             for (int i = 0; i < _sweepers.Count; i++)
@@ -77,12 +76,12 @@
                     sweeper.Fitness += 1;
                 }
             }
-            Population.UpdateStats();
+            Population.UpdateFitnessStats();
         }
 
         public void NextGeneration()
         {
-            Population = Genetics.NextGeneration(Population);
+            Population.NextGeneration();
 
             for (int i = 0; i < _sweepers.Count; i++)
             {

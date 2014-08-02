@@ -9,24 +9,12 @@
     {
         private readonly Rand _rand = Rand.Generator;
 
-        /// <summary>
-        /// Chance of for each chromosome of a genome to mutate
-        /// </summary>
         public double MutationRate { get; set; }
 
-        /// <summary>
-        /// Chance of 2 parent genomes crossing over part of their chromosomes
-        /// </summary>
         public double CrossoverRate { get; set; }
 
-        /// <summary>
-        /// When mutating the maximum value a chromosome can change
-        /// </summary>
         public double PerturbationRate { get; set; }
 
-        /// <summary>
-        /// Number of Genomes with highest fitness which are automatically taken into the next generation 
-        /// </summary>
         public int EliteCount { get; set; }
 
         public GeneticAlgorithm(IGeneticsSettings settings)
@@ -62,38 +50,6 @@
                 son.Chromosome = father.Chromosome.ToList();
                 daughter.Chromosome = mother.Chromosome.ToList();
             }
-        }
-
-        public Population NextGeneration(Population population)
-        {
-            population.SaveLastGenerationStats();
-            population.Generation++;
-
-            var newGenomes = new List<Genome>();
-
-            if (EliteCount > 0)
-            {
-                var elites = population.Genomes.OrderByDescending(x => x.Fitness).Take(EliteCount);
-                newGenomes.AddRange(elites);
-            }
-
-            while (newGenomes.Count < population.Genomes.Count())
-            {
-                var mother = population.GetGenomeByRoulette();
-                var father = population.GetGenomeByRoulette();
-
-                var son = new Genome();
-                var daughter = new Genome();
-
-                Crossover(mother, father, son, daughter);
-                Mutate(son);
-                Mutate(daughter);
-                newGenomes.Add(son);
-                newGenomes.Add(daughter);
-            }
-            newGenomes.ForEach(x => x.Fitness = 0);
-            population.Genomes = newGenomes.Take(population.Genomes.Count()).ToList();
-            return population;
         }
     }
 }
