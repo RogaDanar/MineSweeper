@@ -1,7 +1,7 @@
 ﻿namespace NeuralNet.Network
 {
-    using NeuralNet.Genetics;
     using System.Collections.Generic;
+    using NeuralNet.Genetics;
 
     public interface INeuralNet
     {
@@ -9,7 +9,7 @@
         int MaxInputs { get; }
         int MinOutputs { get; }
         int AllWeightsCount();
-        IList<double> GetAllWeights();
-        IList<double> Observe(IList<double> inputs);
+        IEnumerable<double> GetAllWeights();
+        double[] Observe(double[] inputs);
     }
 }

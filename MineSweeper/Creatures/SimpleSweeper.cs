@@ -58,7 +58,7 @@
             inputs.AddRange(vectorToClosestMine);
             inputs.AddRange(Motion.Direction);
 
-            var output = Brain.Observe(inputs);
+            var output = Brain.Observe(inputs.ToArray());
 
             var rotLeft = output[0];
             var rotRight = output[1];

@@ -12,32 +12,27 @@
             Neurons = Enumerable.Range(0, numberOfNeurons).Select(x => new Neuron(inputsPerNeuron)).ToList();
         }
 
-        public void Input(IList<double> inputs)
+        public IEnumerable<double> SendSignals(double[] inputs)
         {
             foreach (var neuron in Neurons)
             {
-                neuron.Send(inputs);
+                yield return neuron.SendSignals(inputs);
             }
         }
 
-        public IList<double> Output()
-        {
-            return Neurons.Select(x => x.Output).ToList();
-        }
-
-        public IList<double> AllWeights
+        public IEnumerable<double> AllWeights
         {
             get
             {
-                return Neurons.SelectMany(x => x.InputWeights).ToList();
+                return Neurons.SelectMany(x => x.InputWeights);
             }
             set
             {
                 var allweights = value;
                 foreach (var neuron in Neurons)
                 {
-                    neuron.InputWeights = allweights.Take(neuron.InputWeights.Count).ToList();
-                    allweights = allweights.Skip(neuron.InputWeights.Count).ToList();
+                    neuron.UpdateInputWeights(allweights.Take(neuron.InputWeights.Count()));
+                    allweights = allweights.Skip(neuron.InputWeights.Count());
                 }
             }
         }

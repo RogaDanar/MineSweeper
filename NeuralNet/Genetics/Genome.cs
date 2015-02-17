@@ -1,10 +1,10 @@
 ﻿namespace NeuralNet.Genetics
 {
-    using NeuralNet.Helpers;
     using System.Collections.Generic;
     using System.Linq;
+    using NeuralNet.Helpers;
 
-    public class Genome
+    public class Genome : IGenome<double>
     {
         private readonly Rand _rand = Rand.Generator;
 
@@ -25,10 +25,10 @@
             Chromosome = Enumerable.Range(0, chromosomeSize).Select(x => _rand.NextClamped()).ToArray();
         }
 
-        public Genome(IList<double> chromosome, double fitness)
+        public Genome(IEnumerable<double> chromosome, double fitness)
             : this(fitness)
         {
-            Chromosome = chromosome;
+            Chromosome = chromosome.ToArray();
         }
     }
 }

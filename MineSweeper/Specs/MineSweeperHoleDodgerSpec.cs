@@ -1,12 +1,12 @@
 ﻿namespace MineSweeper.Specs
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
     using MineSweeper.Creatures;
     using MineSweeper.Utils;
     using NeuralNet.Genetics;
     using NeuralNet.Network;
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
 
     public class MineSweeperHoleDodgerSpec : SweeperSpecBase, IMineSweeperSpec
     {
@@ -102,9 +102,9 @@
             RaiseTickEnded();
         }
 
-        public bool Continue()
+        public bool IsFinished()
         {
-            return true;
+            return false;
         }
 
         private IEnumerable<SweeperDodger> createSweeperDodgers()

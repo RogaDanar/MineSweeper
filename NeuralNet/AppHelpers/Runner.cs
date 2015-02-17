@@ -29,26 +29,31 @@
             {
                 try
                 {
-                    if (_run)
-                    {
-                        if (_tickCounter < Specification.Ticks)
-                        {
-                            Specification.NextTick();
-                            _tickCounter++;
-                        }
-                        else
-                        {
-                            Specification.NextGeneration();
-                            _tickCounter = 0;
-                        }
-                        Specification.AfterTick();
-                        if (!Specification.Continue())
-                        {
-                            ShutdownMainLoop();
-                        }
-                    }
+                    tick();
                 }
                 catch (ObjectDisposedException) { }
+            }
+        }
+
+        private void tick()
+        {
+            if (_run)
+            {
+                if (_tickCounter < Specification.Ticks)
+                {
+                    Specification.NextTick();
+                    _tickCounter++;
+                }
+                else
+                {
+                    Specification.NextGeneration();
+                    _tickCounter = 0;
+                }
+                Specification.AfterTick();
+                if (Specification.IsFinished())
+                {
+                    ShutdownMainLoop();
+                }
             }
         }
 
