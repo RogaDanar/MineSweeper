@@ -16,7 +16,7 @@
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
-            var controller = new MineSweeperGuiController(new ClusterSweeperSpec());
+            var controller = new MineSweeperGuiController(new MineSweeperSpec());
             controller.Start();
         }
     }
