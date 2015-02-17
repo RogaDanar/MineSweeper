@@ -17,12 +17,12 @@
             Settings = settings;
         }
 
-        protected IEnumerable<Tuple<ObjectType, List<double>>> GetObjects(ObjectType objectType, int numberOfObjects)
+        protected IEnumerable<Tuple<ObjectType, IList<double>>> GetObjects(ObjectType objectType, int numberOfObjects)
         {
             for (int i = 0; i < numberOfObjects; i++)
             {
                 var newObject = Vector.RandomVector2D(Settings.DrawWidth, Settings.DrawHeight);
-                yield return new Tuple<ObjectType, List<double>>(objectType, newObject);
+                yield return new Tuple<ObjectType, IList<double>>(objectType, newObject);
             }
         }
 

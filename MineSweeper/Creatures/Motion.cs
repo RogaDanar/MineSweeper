@@ -12,7 +12,7 @@
         private double _maxSpeed;
         private double _maxRotation;
 
-        public List<double> Position { get; private set; }
+        public IList<double> Position { get; private set; }
 
         public double Speed { get; private set; }
 
@@ -20,7 +20,7 @@
 
         private double _xDirection { get { return -Math.Sin(Rotation); } }
         private double _yDirection { get { return Math.Cos(Rotation); } }
-        public List<double> Direction
+        public IList<double> Direction
         {
             get
             {
@@ -97,7 +97,7 @@
             return Rand.Generator.NextDouble() * Math.PI * 2;
         }
 
-        private List<double> GetRandomPosition()
+        private IList<double> GetRandomPosition()
         {
             return Vector.RandomVector2D(_maxX, _maxY);
         }

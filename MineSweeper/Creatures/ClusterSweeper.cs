@@ -50,7 +50,7 @@
             Motion = new Motion(_maxX, _maxY, _maxSpeed, _maxRotation);
         }
 
-        public void Update(List<double> closestClusterMine, List<double> secondClosestClusterMine, List<double> closestMine, List<double> secondClosestMine)
+        public void Update(IList<double> closestClusterMine, IList<double> secondClosestClusterMine, IList<double> closestMine, IList<double> secondClosestMine)
         {
             var vectorToClosestClusterMine = DistanceCalculator.GetNormalizedVectorToObject(Motion.Position, closestClusterMine);
             var vectorToSecondClosestClusterMine = DistanceCalculator.GetNormalizedVectorToObject(Motion.Position, secondClosestClusterMine);

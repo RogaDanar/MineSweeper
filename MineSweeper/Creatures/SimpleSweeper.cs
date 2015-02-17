@@ -50,12 +50,11 @@
             Motion = new Motion(_maxX, _maxY, _maxSpeed, _maxRotation);
         }
 
-        public void Update(List<double> closestMine)
+        public void Update(IList<double> closestMine)
         {
             var vectorToClosestMine = DistanceCalculator.GetNormalizedVectorToObject(Motion.Position, closestMine);
 
-            var inputs = new List<double>();
-            inputs.AddRange(vectorToClosestMine);
+            var inputs = new List<double>(vectorToClosestMine);
             inputs.AddRange(Motion.Direction);
 
             var output = Brain.Observe(inputs);

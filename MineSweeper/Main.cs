@@ -44,7 +44,7 @@
             graphPopulation.Update(population);
         }
 
-        public void UpdateDisplay(List<ICreature> creatures, List<Tuple<ObjectType, List<double>>> objects)
+        public void UpdateDisplay(IList<ICreature> creatures, IList<Tuple<ObjectType, IList<double>>> objects)
         {
             pgMain.Update(creatures, objects, Settings);
         }

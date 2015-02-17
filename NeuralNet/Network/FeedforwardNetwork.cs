@@ -1,8 +1,8 @@
 ﻿namespace NeuralNet.Network
 {
-    using NeuralNet.Genetics;
     using System.Collections.Generic;
     using System.Linq;
+    using NeuralNet.Genetics;
 
     public class FeedforwardNetwork : INeuralNet
     {
@@ -57,7 +57,7 @@
 
         public IList<double> Observe(IList<double> inputs)
         {
-            if (inputs.Count > MaxInputs)
+            if (inputs.Count() > MaxInputs)
             {
                 return null;
             }
@@ -65,22 +65,20 @@
             var result = inputs;
             foreach (var layer in HiddenLayers)
             {
-                layer.Input(result);
-                result = layer.Output();
+                result = layer.SendSignals(result).ToList();
             }
 
-            OutputLayer.Input(result);
-            return OutputLayer.Output();
+            return OutputLayer.SendSignals(result).ToList();
         }
 
         public int AllWeightsCount()
         {
-            var count = HiddenLayers.Sum(x => x.AllWeights.Count);
-            count += OutputLayer.AllWeights.Count;
+            var count = HiddenLayers.Sum(x => x.AllWeights.Count());
+            count += OutputLayer.AllWeights.Count();
             return count;
         }
 
-        public IList<double> GetAllWeights()
+        public IEnumerable<double> GetAllWeights()
         {
             var allWeights = new List<double>();
             foreach (var layer in HiddenLayers)

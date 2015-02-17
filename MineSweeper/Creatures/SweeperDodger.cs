@@ -50,7 +50,7 @@
             Motion = new Motion(_maxX, _maxY, _maxSpeed, _maxRotation);
         }
 
-        public void Update(List<double> closestMine, List<double> closestHole)
+        public void Update(IList<double> closestMine, IList<double> closestHole)
         {
             var vectorToClosestMine = DistanceCalculator.GetNormalizedVectorToObject(Motion.Position, closestMine);
             var vectorToClosestHole = DistanceCalculator.GetNormalizedVectorToObject(Motion.Position, closestHole);

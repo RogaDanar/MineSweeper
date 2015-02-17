@@ -18,7 +18,7 @@
             Image = new Bitmap(Width, Height);
         }
 
-        public void Update(List<ICreature> creatures, List<Tuple<ObjectType, List<double>>> objects, MineSweeperSettings settings)
+        public void Update(IList<ICreature> creatures, IList<Tuple<ObjectType, IList<double>>> objects, MineSweeperSettings settings)
         {
             Image = new Bitmap(Width, Height);
             using (var graphics = Graphics.FromImage(Image))
@@ -66,7 +66,7 @@
             }
         }
 
-        private void drawMine(Graphics graphics, Pen pen, Brush brush, List<double> mine, float mineSize)
+        private void drawMine(Graphics graphics, Pen pen, Brush brush, IList<double> mine, float mineSize)
         {
             var mineX = (int)mine[0];
             var mineY = (int)mine[1];

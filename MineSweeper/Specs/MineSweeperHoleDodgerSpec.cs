@@ -1,19 +1,19 @@
 ﻿namespace MineSweeper.Specs
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
     using MineSweeper.Creatures;
     using MineSweeper.Utils;
     using NeuralNet.Genetics;
     using NeuralNet.Network;
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
 
     public class MineSweeperHoleDodgerSpec : SweeperSpecBase, IMineSweeperSpec
     {
         private List<SweeperDodger> _sweeperDodgers;
 
         public List<ICreature> Creatures { get { return _sweeperDodgers.Cast<ICreature>().ToList(); } }
-        public List<Tuple<ObjectType, List<double>>> Objects { get; private set; }
+        public List<Tuple<ObjectType, IList<double>>> Objects { get; private set; }
         public Population Population { get; private set; }
 
         public MineSweeperHoleDodgerSpec()
@@ -24,7 +24,7 @@
         public MineSweeperHoleDodgerSpec(MineSweeperSettings settings)
             : base(settings)
         {
-            Objects = new List<Tuple<ObjectType, List<double>>>();
+            Objects = new List<Tuple<ObjectType, IList<double>>>();
         }
 
         public void Setup()
@@ -102,9 +102,9 @@
             RaiseTickEnded();
         }
 
-        public bool Continue()
+        public bool IsFinished()
         {
-            return true;
+            return false;
         }
 
         private IEnumerable<SweeperDodger> createSweeperDodgers()

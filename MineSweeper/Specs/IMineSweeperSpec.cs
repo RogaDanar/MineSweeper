@@ -13,7 +13,7 @@
 
         MineSweeperSettings Settings { get; }
         List<ICreature> Creatures { get; }
-        List<Tuple<ObjectType, List<double>>> Objects { get; }
+        List<Tuple<ObjectType, IList<double>>> Objects { get; }
         Population Population { get; }
     }
 }

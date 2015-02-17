@@ -8,7 +8,7 @@
         int Ticks { get; }
 
         /// <summary>
-        /// Set up any gentics, creatures, populations, etc.
+        /// Set up any genetics, creatures, populations, etc.
         /// </summary>
         void Setup();
 
@@ -25,7 +25,7 @@
         /// <summary>
         /// Indicates whether to continue with the next tick, or to break the loop
         /// </summary>
-        bool Continue();
+        bool IsFinished();
 
         /// <summary>
         /// Determines how the next generation will be computed

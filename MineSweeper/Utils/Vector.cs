@@ -1,40 +1,40 @@
 ﻿namespace MineSweeper.Utils
 {
-    using NeuralNet.Helpers;
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using NeuralNet.Helpers;
 
     public static class Vector
     {
         private static Rand _rand = Rand.Generator;
 
-        public static List<double> NullVector(int dimensions)
+        public static IList<double> NullVector(int dimensions)
         {
             return Enumerable.Repeat(0.0, dimensions).ToList();
         }
 
-        public static List<double> RandomVector(int dimensions, double max)
+        public static IList<double> RandomVector(int dimensions, double max)
         {
             return Enumerable.Range(0, dimensions).Select(x => _rand.NextDouble(max)).ToList();
         }
 
-        public static List<double> RandomVector(int dimensions, double min, double max)
+        public static IList<double> RandomVector(int dimensions, double min, double max)
         {
             return Enumerable.Range(0, dimensions).Select(x => _rand.NextDouble(min, max)).ToList();
         }
 
-        public static List<double> NullVector2D()
+        public static IList<double> NullVector2D()
         {
             return NullVector(2);
         }
 
-        public static List<double> RandomVector2D(double maxX, double maxY)
+        public static IList<double> RandomVector2D(double maxX, double maxY)
         {
             return new List<double> { _rand.NextDouble(maxX), _rand.NextDouble(maxY) };
         }
 
-        public static bool VectorEquals(this List<double> vector, List<double> vectorToMatch)
+        public static bool VectorEquals(this IList<double> vector, IList<double> vectorToMatch)
         {
             if (vector.Count == vectorToMatch.Count)
             {
@@ -50,7 +50,7 @@
             return false;
         }
 
-        public static List<double> Normalize(this List<double> vector)
+        public static IList<double> Normalize(this IList<double> vector)
         {
             var length = vector.VectorLength();
             for (int i = 0; i < vector.Count; i++)
@@ -60,22 +60,22 @@
             return vector;
         }
 
-        public static double VectorLength(this List<double> vector)
+        public static double VectorLength(this IList<double> vector)
         {
             var squares = 0.0;
-            foreach (var axis in vector)
+            for (int i = 0; i < vector.Count; i++)
             {
-                squares += axis * axis;
+                squares += vector[i] * vector[i];
             }
             return Math.Sqrt(squares);
         }
 
-        public static List<double> SubtractVector(this List<double> vector, List<double> subtractVector)
+        public static IList<double> SubtractVector(this IList<double> vector, IList<double> subtractVector)
         {
-            var difference = new List<double>();
+            var difference = new double[vector.Count];
             for (int i = 0; i < vector.Count; i++)
             {
-                difference.Add(vector[i] - subtractVector[i]);
+                difference[i] = vector[i] - subtractVector[i];
             }
             return difference;
 
