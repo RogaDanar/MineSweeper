@@ -30,6 +30,7 @@
 
             pgMain.Reset(Settings);
             graphPopulation.Reset(Settings);
+            statsGeneration.Reset(Settings);
 
             displayCurrentSettings();
         }
@@ -59,6 +60,7 @@
             Settings = pnlSettings.GetNewSettings(Settings);
             pgMain.Reset(Settings);
             graphPopulation.Reset(Settings);
+            statsGeneration.Reset(Settings);
 
             btnStartStop.Text = "Start";
 

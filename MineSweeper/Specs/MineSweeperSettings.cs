@@ -1,11 +1,16 @@
 ﻿namespace MineSweeper.Specs
 {
+    using System;
+    using System.Drawing;
     using MineSweeper.Creatures;
     using NeuralNet.AppHelpers;
-    using System;
 
     public class MineSweeperSettings : EventArgs, IGeneticsSettings
     {
+        public Color WorstColor = Color.FromArgb(170, 105, 57);
+        public Color BestColor = Color.FromArgb(137, 122, 174);
+        public Color NeutralColor = Color.Black;
+
         public float MineSize = 2;
         public float SweeperSize = 5;
         public float TouchDistance { get { return MineSize + SweeperSize; } }
@@ -34,12 +39,13 @@
 
         public static MineSweeperSettings Sweeper()
         {
-            var settings = new MineSweeperSettings {
-                Ticks = 2000,
-                SweeperCount = 30,
+            var settings = new MineSweeperSettings
+            {
+                Ticks = 3000,
+                SweeperCount = 50,
                 MineCount = 40,
-                DrawWidth = 400,
-                DrawHeight = 400,
+                DrawWidth = 640,
+                DrawHeight = 480,
                 Fast = false,
 
                 MutationRate = 0.1,
@@ -58,7 +64,8 @@
 
         public static MineSweeperSettings SweeperDodger()
         {
-            var settings = new MineSweeperSettings {
+            var settings = new MineSweeperSettings
+            {
                 Ticks = 2000,
                 SweeperCount = 30,
                 MineCount = 40,
@@ -82,7 +89,8 @@
 
         public static MineSweeperSettings ClusterSweeper()
         {
-            var settings = new MineSweeperSettings {
+            var settings = new MineSweeperSettings
+            {
                 Ticks = 2000,
                 SweeperCount = 30,
                 MineCount = 40,

@@ -288,7 +288,7 @@
             this.tbHeight.Name = "tbHeight";
             this.tbHeight.Size = new System.Drawing.Size(32, 21);
             this.tbHeight.TabIndex = 30;
-            this.tbHeight.Text = "400";
+            this.tbHeight.Text = "480";
             this.tbHeight.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // tbWidth
@@ -297,7 +297,7 @@
             this.tbWidth.Name = "tbWidth";
             this.tbWidth.Size = new System.Drawing.Size(32, 21);
             this.tbWidth.TabIndex = 29;
-            this.tbWidth.Text = "400";
+            this.tbWidth.Text = "640";
             this.tbWidth.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
 
             Controls.Add(lblTitleUnits);
@@ -328,19 +328,21 @@
             Controls.Add(tbTicks);
         }
 
-        public void DisplayCurrentSettings(MineSweeperSettings Settings)
+        public void DisplayCurrentSettings(MineSweeperSettings settings)
         {
-            tbWidth.Text = Settings.DrawWidth.ToString();
-            tbHeight.Text = Settings.DrawHeight.ToString();
-            tbMutation.Text = Settings.MutationRate.ToString();
-            tbCrossover.Text = Settings.CrossoverRate.ToString();
-            tbPerturb.Text = Settings.MaxPerturbation.ToString();
-            tbTicks.Text = Settings.Ticks.ToString();
-            tbMine.Text = Settings.MineCount.ToString();
-            tbSweepers.Text = Settings.SweeperCount.ToString();
-            tbElites.Text = Settings.EliteCount.ToString();
-            tbHiddenLayer.Text = Settings.HiddenLayers.ToString();
-            tbHiddenNeuron.Text = Settings.HiddenLayerNeurons.ToString();
+            tbWidth.Text = settings.DrawWidth.ToString();
+            tbHeight.Text = settings.DrawHeight.ToString();
+            tbMutation.Text = settings.MutationRate.ToString();
+            tbCrossover.Text = settings.CrossoverRate.ToString();
+            tbPerturb.Text = settings.MaxPerturbation.ToString();
+            tbTicks.Text = settings.Ticks.ToString();
+            tbMine.Text = settings.MineCount.ToString();
+            tbSweepers.Text = settings.SweeperCount.ToString();
+            tbElites.Text = settings.EliteCount.ToString();
+            tbHiddenLayer.Text = settings.HiddenLayers.ToString();
+            tbHiddenNeuron.Text = settings.HiddenLayerNeurons.ToString();
+
+            this.ForeColor = settings.BestColor;
         }
 
         public MineSweeperSettings GetNewSettings(MineSweeperSettings settings)

@@ -1,19 +1,26 @@
 ﻿namespace MineSweeper.Controls
 {
-    using MineSweeper.Specs;
-    using NeuralNet.Genetics;
     using System.Collections.Generic;
     using System.Drawing;
     using System.Drawing.Drawing2D;
     using System.Linq;
     using System.Windows.Forms;
+    using MineSweeper.Specs;
+    using NeuralNet.Genetics;
 
     public class Graph : PictureBox
     {
+        private Color _worstColor;
+        private Color _bestColor;
+        private Color _neutralColor;
+
         public void Reset(MineSweeperSettings settings)
         {
             Width = settings.DrawWidth;
             Image = new Bitmap(Width, Height);
+            _worstColor = settings.WorstColor;
+            _bestColor = settings.BestColor;
+            _neutralColor = settings.NeutralColor;
         }
 
         public void Update(Population population)
@@ -34,21 +41,21 @@
             {
                 if (avgpoints.Count() > 1)
                 {
-                    var blackPen = new Pen(Color.Black);
+                    var blackPen = new Pen(_neutralColor);
                     drawGraphLine(graphics, avgpoints, blackPen, yScale, xScale);
                     blackPen.Dispose();
                 }
 
                 if (bestpoints.Count() > 1)
                 {
-                    var bluePen = new Pen(Color.Blue);
+                    var bluePen = new Pen(_bestColor);
                     drawGraphLine(graphics, bestpoints, bluePen, yScale, xScale);
                     bluePen.Dispose();
                 }
 
                 if (worstpoints.Count() > 1)
                 {
-                    var redPen = new Pen(Color.Maroon);
+                    var redPen = new Pen(_worstColor);
                     drawGraphLine(graphics, worstpoints, redPen, yScale, xScale);
                     redPen.Dispose();
                 }
