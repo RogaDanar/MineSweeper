@@ -8,7 +8,7 @@
     using NeuralNet.Genetics;
     using NeuralNet.Network;
 
-    public class MineSweeperSpec : SweeperSpecBase, IMineSweeperSpec
+    public class EliteMineSweeperSpec : SweeperSpecBase, IMineSweeperSpec
     {
         private List<SimpleSweeper> _sweepers;
 
@@ -24,12 +24,12 @@
             }
         }
 
-        public MineSweeperSpec()
-            : this(MineSweeperSettings.Sweeper())
+        public EliteMineSweeperSpec()
+            : this(MineSweeperSettings.EliteSweeper())
         {
         }
 
-        public MineSweeperSpec(MineSweeperSettings Settings)
+        public EliteMineSweeperSpec(MineSweeperSettings Settings)
             : base(Settings)
         {
             _mines = new List<IList<double>>();
@@ -39,7 +39,8 @@
         {
             var sweeperWeightCount = getNewBrain().AllWeightsCount();
             Population = new Population(new GeneticAlgorithm(Settings));
-            Population.Populate(Settings.SweeperCount, sweeperWeightCount);
+            Population.Populate(Settings.SweeperCount - 1, sweeperWeightCount);
+            Population.Genomes.Add(new EliteSweeper2070Genome());
 
             _sweepers = createSweepers().ToList();
             for (int i = 0; i < _sweepers.Count; i++)
@@ -54,6 +55,7 @@
             for (int i = 0; i < _sweepers.Count; i++)
             {
                 var sweeper = _sweepers[i];
+
                 var closestMine = DistanceCalculator.GetClosestObject(sweeper.Motion.Position, _mines);
                 sweeper.Update(closestMine);
 

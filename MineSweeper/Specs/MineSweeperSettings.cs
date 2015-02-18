@@ -18,6 +18,7 @@
         public int Ticks { get; set; }
         public int SweeperCount { get; set; }
         public int MineCount { get; set; }
+        public bool ReplaceMine { get; set; }
         public int DrawWidth { get; set; }
         public int DrawHeight { get; set; }
         public bool Fast { get; set; }
@@ -44,6 +45,7 @@
                 Ticks = 3000,
                 SweeperCount = 50,
                 MineCount = 40,
+                ReplaceMine = true,
                 DrawWidth = 640,
                 DrawHeight = 480,
                 Fast = false,
@@ -62,6 +64,32 @@
             return settings;
         }
 
+        public static MineSweeperSettings EliteSweeper()
+        {
+            var settings = new MineSweeperSettings
+            {
+                Ticks = 3000,
+                SweeperCount = 20,
+                MineCount = 30,
+                ReplaceMine = false,
+                DrawWidth = 640,
+                DrawHeight = 480,
+                Fast = false,
+
+                MutationRate = 0.1,
+                CrossoverRate = 0.7,
+                MaxPerturbation = 0.3,
+                EliteCount = 1,
+
+                HiddenLayers = 1,
+                HiddenLayerNeurons = 6,
+
+                SweeperType = SweeperType.Sweeper
+            };
+
+            return settings;
+        }
+
         public static MineSweeperSettings SweeperDodger()
         {
             var settings = new MineSweeperSettings
@@ -69,6 +97,7 @@
                 Ticks = 2000,
                 SweeperCount = 30,
                 MineCount = 40,
+                ReplaceMine = true,
                 DrawWidth = 400,
                 DrawHeight = 400,
                 Fast = false,
@@ -94,6 +123,7 @@
                 Ticks = 2000,
                 SweeperCount = 30,
                 MineCount = 40,
+                ReplaceMine = true,
                 DrawWidth = 400,
                 DrawHeight = 400,
                 Fast = false,

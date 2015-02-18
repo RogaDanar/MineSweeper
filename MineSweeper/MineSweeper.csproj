@@ -58,14 +58,16 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Creatures\EliteClusterSweeperGenome.cs" />
+    <Compile Include="Creatures\EliteSweeper2070Genome.cs" />
     <Compile Include="Creatures\ICreature.cs" />
+    <Compile Include="Specs\EliteMineSweeperSpec.cs" />
     <Compile Include="Specs\ObjectType.cs" />
     <Compile Include="Creatures\ClusterSweeper.cs" />
     <Compile Include="Utils\EventHandlerExtensions.cs" />
     <Compile Include="Specs\ClusterSweeperSpec.cs" />
     <Compile Include="Specs\SweeperSpecBase.cs" />
     <Compile Include="Utils\DistanceCalculator.cs" />
-    <Compile Include="Creatures\EliteSweeperGenome.cs" />
+    <Compile Include="Creatures\EliteSweeper500Genome.cs" />
     <Compile Include="Main.cs">
       <SubType>Form</SubType>
     </Compile>

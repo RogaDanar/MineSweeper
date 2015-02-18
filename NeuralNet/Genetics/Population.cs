@@ -1,8 +1,8 @@
 ﻿namespace NeuralNet.Genetics
 {
-    using NeuralNet.Helpers;
     using System.Collections.Generic;
     using System.Linq;
+    using NeuralNet.Helpers;
 
     public class Population
     {
@@ -22,6 +22,11 @@
         public void Populate(int populationSize, int chromosomeSize)
         {
             Genomes = Enumerable.Range(1, populationSize).Select(x => new Genome(chromosomeSize, 0)).ToList();
+        }
+
+        public void Populate(IList<Genome> genomes)
+        {
+            Genomes = genomes;
         }
 
         public void UpdateFitnessStats()

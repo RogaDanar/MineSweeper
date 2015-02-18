@@ -72,7 +72,10 @@
                 {
                     var mine = Objects.Where(x => x.Item1 == ObjectType.Mine).Single(x => x.Item2.VectorEquals(closestMine));
                     Objects.Remove(mine);
-                    Objects.AddRange(GetObjects(ObjectType.Mine, 1));
+                    if (Settings.ReplaceMine)
+                    {
+                        Objects.AddRange(GetObjects(ObjectType.Mine, 1));
+                    }
                     sweeper.Fitness += 1;
                 }
             }
