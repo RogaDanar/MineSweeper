@@ -1,8 +1,8 @@
 ﻿namespace MineSweeper.Specs
 {
-    using MineSweeper.Utils;
     using System;
     using System.Collections.Generic;
+    using MineSweeper.Utils;
 
     public class SweeperSpecBase
     {

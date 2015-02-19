@@ -1,11 +1,10 @@
 ﻿namespace MineSweeper.Controllers
 {
-    using MineSweeper.Creatures;
-    using MineSweeper.Specs;
-    using NeuralNet.AppHelpers;
     using System;
     using System.Threading;
     using System.Windows.Forms;
+    using MineSweeper.Specs;
+    using NeuralNet.AppHelpers;
 
     public class MineSweeperGuiController
     {
@@ -17,36 +16,21 @@
 
         public MineSweeperGuiController(IMineSweeperSpec spec)
         {
-            _settings = spec.Settings;
-            _setupNeeded = true;
-            _spec = spec;
-            _spec.NextGenerationEnded += specNextGeneration;
-            _spec.TickEnded += specTickEnded;
+            setupSpec(spec);
 
             _runner = new Runner(_spec);
 
             initializeMainForm();
         }
 
-        private IMineSweeperSpec getSpec()
+        private void setupSpec(IMineSweeperSpec spec)
         {
-            var spec = default(IMineSweeperSpec);
-            switch (_settings.SweeperType)
-            {
-                case SweeperType.Sweeper:
-                    spec = new MineSweeperSpec(_settings);
-                    break;
-                case SweeperType.SweeperDodger:
-                    spec = new MineSweeperHoleDodgerSpec(_settings);
-                    break;
-                case SweeperType.ClusterSweeper:
-                    spec = new ClusterSweeperSpec(_settings);
-                    break;
-                default:
-                    throw new Exception("Unknown SweeperType");
-            }
+            _setupNeeded = true;
 
-            return spec;
+            _spec = spec;
+            _settings = _spec.Settings;
+            _spec.NextGenerationEnded += specNextGeneration;
+            _spec.TickEnded += specTickEnded;
         }
 
         private void initializeMainForm()
@@ -55,10 +39,12 @@
             _mainForm.FormClosing += mainFormClosing;
             _mainForm.FormClosed += mainFormClosed;
             _mainForm.SettingsChanged += mainFormSettingsChanged;
+            _mainForm.SpecChanged += mainFormSpecChanged;
             _mainForm.StartButton.Click += mainFormStartButtonClick;
             _mainForm.FastButton.Click += mainFormFastButtonClick;
 
-            var uiThread = new Thread(() => {
+            var uiThread = new Thread(() =>
+            {
                 Application.Run(_mainForm);
             });
             uiThread.Start();
@@ -92,16 +78,21 @@
         {
             if (!_runner.IsRunning)
             {
-                if (_setupNeeded)
-                {
-                    _runner.Setup();
-                    _setupNeeded = false;
-                }
+                setupRunner();
                 _runner.EnableSimulation();
             }
             else
             {
                 _runner.DisableSimulation();
+            }
+        }
+
+        private void setupRunner()
+        {
+            if (_setupNeeded)
+            {
+                _runner.Setup();
+                _setupNeeded = false;
             }
         }
 
@@ -112,6 +103,19 @@
             _runner.DisableSimulation();
 
             _setupNeeded = true;
+        }
+
+        private void mainFormSpecChanged(object sender, SpecEventArgs e)
+        {
+            _runner.DisableSimulation();
+
+            _spec.NextGenerationEnded -= specNextGeneration;
+            _spec.TickEnded -= specTickEnded;
+            setupSpec(e.Spec);
+
+            _runner.UpdateSpec(_spec);
+
+            _mainForm.Invoke((MethodInvoker)delegate { _mainForm.UpdateDisplaySettings(_settings); });
         }
 
         private void mainFormClosed(object sender, FormClosedEventArgs e)

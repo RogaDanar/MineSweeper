@@ -1,7 +1,7 @@
 ﻿namespace MineSweeper.Controls
 {
-    using MineSweeper.Specs;
     using System.Windows.Forms;
+    using MineSweeper.Specs;
 
     public class Settings : Panel
     {
@@ -33,6 +33,61 @@
         private Label lblTitleField;
 
         public Settings()
+        {
+            initializeComponents();
+        }
+
+        public void DisplayCurrentSettings(MineSweeperSettings settings)
+        {
+            tbWidth.Text = settings.DrawWidth.ToString();
+            tbHeight.Text = settings.DrawHeight.ToString();
+            tbMutation.Text = settings.MutationRate.ToString();
+            tbCrossover.Text = settings.CrossoverRate.ToString();
+            tbPerturb.Text = settings.MaxPerturbation.ToString();
+            tbTicks.Text = settings.Ticks.ToString();
+            tbMine.Text = settings.MineCount.ToString();
+            tbSweepers.Text = settings.SweeperCount.ToString();
+            tbElites.Text = settings.EliteCount.ToString();
+            tbHiddenLayer.Text = settings.HiddenLayers.ToString();
+            tbHiddenNeuron.Text = settings.HiddenLayerNeurons.ToString();
+
+            this.ForeColor = settings.BestColor;
+        }
+
+        public MineSweeperSettings GetNewSettings(MineSweeperSettings settings)
+        {
+            settings.SweeperCount = getIntValue(tbSweepers, settings.SweeperCount);
+            settings.MineCount = getIntValue(tbMine, settings.MineCount);
+            settings.MutationRate = getDoubleValue(tbMutation, settings.MutationRate);
+            settings.CrossoverRate = getDoubleValue(tbCrossover, settings.CrossoverRate);
+            settings.MaxPerturbation = getDoubleValue(tbPerturb, settings.MaxPerturbation);
+            settings.Ticks = getIntValue(tbTicks, settings.Ticks);
+            settings.EliteCount = getIntValue(tbElites, settings.EliteCount);
+
+            settings.HiddenLayers = getIntValue(tbHiddenLayer, settings.HiddenLayers);
+            settings.HiddenLayerNeurons = getIntValue(tbHiddenNeuron, settings.HiddenLayerNeurons);
+
+            settings.DrawWidth = getIntValue(tbWidth, settings.DrawWidth);
+            settings.DrawHeight = getIntValue(tbHeight, settings.DrawHeight);
+
+            return settings;
+        }
+
+        private int getIntValue(TextBox textBox, int originalValue)
+        {
+            var value = originalValue;
+            int.TryParse(textBox.Text, out value);
+            return value;
+        }
+
+        private double getDoubleValue(TextBox textBox, double originalValue)
+        {
+            var value = originalValue;
+            double.TryParse(textBox.Text, out value);
+            return value;
+        }
+
+        private void initializeComponents()
         {
             tbSweepers = new TextBox();
             tbMine = new TextBox();
@@ -326,56 +381,6 @@
             Controls.Add(lblPerturb);
             Controls.Add(tbPerturb);
             Controls.Add(tbTicks);
-        }
-
-        public void DisplayCurrentSettings(MineSweeperSettings settings)
-        {
-            tbWidth.Text = settings.DrawWidth.ToString();
-            tbHeight.Text = settings.DrawHeight.ToString();
-            tbMutation.Text = settings.MutationRate.ToString();
-            tbCrossover.Text = settings.CrossoverRate.ToString();
-            tbPerturb.Text = settings.MaxPerturbation.ToString();
-            tbTicks.Text = settings.Ticks.ToString();
-            tbMine.Text = settings.MineCount.ToString();
-            tbSweepers.Text = settings.SweeperCount.ToString();
-            tbElites.Text = settings.EliteCount.ToString();
-            tbHiddenLayer.Text = settings.HiddenLayers.ToString();
-            tbHiddenNeuron.Text = settings.HiddenLayerNeurons.ToString();
-
-            this.ForeColor = settings.BestColor;
-        }
-
-        public MineSweeperSettings GetNewSettings(MineSweeperSettings settings)
-        {
-            settings.SweeperCount = getIntValue(tbSweepers, settings.SweeperCount);
-            settings.MineCount = getIntValue(tbMine, settings.MineCount);
-            settings.MutationRate = getDoubleValue(tbMutation, settings.MutationRate);
-            settings.CrossoverRate = getDoubleValue(tbCrossover, settings.CrossoverRate);
-            settings.MaxPerturbation = getDoubleValue(tbPerturb, settings.MaxPerturbation);
-            settings.Ticks = getIntValue(tbTicks, settings.Ticks);
-            settings.EliteCount = getIntValue(tbElites, settings.EliteCount);
-
-            settings.HiddenLayers = getIntValue(tbHiddenLayer, settings.HiddenLayers);
-            settings.HiddenLayerNeurons = getIntValue(tbHiddenNeuron, settings.HiddenLayerNeurons);
-
-            settings.DrawWidth = getIntValue(tbWidth, settings.DrawWidth);
-            settings.DrawHeight = getIntValue(tbHeight, settings.DrawHeight);
-
-            return settings;
-        }
-
-        private int getIntValue(TextBox textBox, int originalValue)
-        {
-            var value = originalValue;
-            int.TryParse(textBox.Text, out value);
-            return value;
-        }
-
-        private double getDoubleValue(TextBox textBox, double originalValue)
-        {
-            var value = originalValue;
-            double.TryParse(textBox.Text, out value);
-            return value;
         }
     }
 }

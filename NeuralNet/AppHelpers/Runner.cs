@@ -4,6 +4,8 @@
 
     public class Runner
     {
+        private Object thisLock = new Object();
+
         private int _tickCounter;
         private bool _ticksFinished;
         private bool _run;
@@ -13,6 +15,12 @@
 
         public Runner(IRunnerSpecification specification)
         {
+            UpdateSpec(specification);
+        }
+
+        public void UpdateSpec(IRunnerSpecification specification)
+        {
+            _ticksFinished = false;
             Specification = specification;
             _run = false;
         }

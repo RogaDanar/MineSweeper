@@ -1,16 +1,17 @@
 ﻿namespace MineSweeper
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Windows.Forms;
     using MineSweeper.Creatures;
     using MineSweeper.Specs;
     using MineSweeper.Utils;
     using NeuralNet.Genetics;
-    using System;
-    using System.Collections.Generic;
-    using System.Windows.Forms;
 
     public partial class Main : Form
     {
         public event EventHandler<MineSweeperSettings> SettingsChanged = delegate { };
+        public event EventHandler<SpecEventArgs> SpecChanged = delegate { };
 
         public PictureBox MainPictureBox { get { return pgMain; } }
         public Button ResetButton { get { return btnReset; } }
@@ -28,11 +29,10 @@
 
             Settings = settings;
 
+            UpdateDisplaySettings(Settings);
             pgMain.Reset(Settings);
             graphPopulation.Reset(Settings);
             statsGeneration.Reset(Settings);
-
-            displayCurrentSettings();
         }
 
         public void UpdateStats(Population population)
@@ -50,8 +50,9 @@
             pgMain.Update(creatures, objects, Settings);
         }
 
-        private void displayCurrentSettings()
+        public void UpdateDisplaySettings(MineSweeperSettings settings)
         {
+            Settings = settings;
             pnlSettings.DisplayCurrentSettings(Settings);
         }
 
@@ -74,7 +75,41 @@
 
         private void btnStartStopClick(object sender, System.EventArgs e)
         {
-            btnStartStop.Text = btnStartStop.Text.Equals("Start") ? "Stop" : "Start";
+            if (btnStartStop.Text.Equals("Start"))
+            {
+                btnStartStop.Text = "Stop";
+                cbSpec.Enabled = false;
+            }
+            else
+            {
+                btnStartStop.Text = "Start";
+                cbSpec.Enabled = true;
+            }
+        }
+
+        private void cbSpecSelectedIndexChanged(object sender, EventArgs e)
+        {
+            var selected = cbSpec.SelectedItem.ToString();
+            var spec = default(IMineSweeperSpec);
+            switch (selected)
+            {
+                case "Mine":
+                    spec = new MineSweeperSpec();
+                    break;
+                case "EliteMine":
+                    spec = new EliteMineSweeperSpec();
+                    break;
+                case "Dodger":
+                    spec = new MineSweeperHoleDodgerSpec();
+                    break;
+                case "Cluster":
+                    spec = new ClusterSweeperSpec();
+                    break;
+                default:
+                    break;
+            }
+            var eventArgs = new SpecEventArgs(spec);
+            SpecChanged.Raise<SpecEventArgs>(this, eventArgs);
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿namespace MineSweeper
 {
+
     partial class Main
     {
         /// <summary>
@@ -28,31 +29,24 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.pnlSettings = new MineSweeper.Controls.Settings();
             this.btnFast = new System.Windows.Forms.Button();
             this.btnReset = new System.Windows.Forms.Button();
             this.btnStartStop = new System.Windows.Forms.Button();
+            this.pnlSettings = new MineSweeper.Controls.Settings();
+            this.cbSpec = new System.Windows.Forms.ComboBox();
             this.statsGeneration = new MineSweeper.Controls.Stats();
             this.pgMain = new MineSweeper.Controls.Playground();
             this.graphPopulation = new MineSweeper.Controls.Graph();
+            this.pnlSettings.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pgMain)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.graphPopulation)).BeginInit();
             this.SuspendLayout();
-            // 
-            // pnlSettings
-            // 
-            this.pnlSettings.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.pnlSettings.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(137)))), ((int)(((byte)(122)))), ((int)(((byte)(174)))));
-            this.pnlSettings.Location = new System.Drawing.Point(665, 106);
-            this.pnlSettings.Name = "pnlSettings";
-            this.pnlSettings.Size = new System.Drawing.Size(130, 387);
-            this.pnlSettings.TabIndex = 28;
             // 
             // btnFast
             // 
             this.btnFast.BackColor = System.Drawing.Color.WhiteSmoke;
             this.btnFast.ForeColor = System.Drawing.Color.Black;
-            this.btnFast.Location = new System.Drawing.Point(668, 75);
+            this.btnFast.Location = new System.Drawing.Point(668, 44);
             this.btnFast.Name = "btnFast";
             this.btnFast.Size = new System.Drawing.Size(124, 25);
             this.btnFast.TabIndex = 15;
@@ -64,7 +58,7 @@
             // 
             this.btnReset.BackColor = System.Drawing.Color.WhiteSmoke;
             this.btnReset.ForeColor = System.Drawing.Color.Black;
-            this.btnReset.Location = new System.Drawing.Point(668, 44);
+            this.btnReset.Location = new System.Drawing.Point(668, 75);
             this.btnReset.Name = "btnReset";
             this.btnReset.Size = new System.Drawing.Size(124, 25);
             this.btnReset.TabIndex = 19;
@@ -83,6 +77,31 @@
             this.btnStartStop.Text = "Start";
             this.btnStartStop.UseVisualStyleBackColor = false;
             this.btnStartStop.Click += new System.EventHandler(this.btnStartStopClick);
+            // 
+            // pnlSettings
+            // 
+            this.pnlSettings.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.pnlSettings.Controls.Add(this.cbSpec);
+            this.pnlSettings.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(137)))), ((int)(((byte)(122)))), ((int)(((byte)(174)))));
+            this.pnlSettings.Location = new System.Drawing.Point(665, 106);
+            this.pnlSettings.Name = "pnlSettings";
+            this.pnlSettings.Size = new System.Drawing.Size(130, 387);
+            this.pnlSettings.TabIndex = 28;
+            // 
+            // cbSpec
+            // 
+            this.cbSpec.FormattingEnabled = true;
+            this.cbSpec.Items.AddRange(new object[] {
+            "Mine",
+            "EliteMine",
+            "Cluster",
+            "Dodger"});
+            this.cbSpec.Location = new System.Drawing.Point(4, 1);
+            this.cbSpec.Name = "cbSpec";
+            this.cbSpec.Size = new System.Drawing.Size(121, 22);
+            this.cbSpec.TabIndex = 42;
+            this.cbSpec.Text = "Mine";
+            this.cbSpec.SelectedIndexChanged += new System.EventHandler(this.cbSpecSelectedIndexChanged);
             // 
             // statsGeneration
             // 
@@ -132,6 +151,8 @@
             this.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Show;
             this.Text = "MineSweeper";
+            this.pnlSettings.ResumeLayout(false);
+            this.pnlSettings.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pgMain)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.graphPopulation)).EndInit();
             this.ResumeLayout(false);
@@ -147,6 +168,7 @@
         private MineSweeper.Controls.Settings pnlSettings;
         private System.Windows.Forms.Button btnFast;
         private System.Windows.Forms.Button btnReset;
+        private System.Windows.Forms.ComboBox cbSpec;
 
     }
 }

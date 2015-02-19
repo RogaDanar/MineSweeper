@@ -60,6 +60,7 @@
     <Compile Include="Creatures\EliteClusterSweeperGenome.cs" />
     <Compile Include="Creatures\EliteSweeper2070Genome.cs" />
     <Compile Include="Creatures\ICreature.cs" />
+    <Compile Include="SpecEventArgs.cs" />
     <Compile Include="Specs\EliteMineSweeperSpec.cs" />
     <Compile Include="Specs\ObjectType.cs" />
     <Compile Include="Creatures\ClusterSweeper.cs" />
