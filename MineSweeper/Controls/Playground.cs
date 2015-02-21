@@ -11,8 +11,8 @@
 
     public class Playground : PictureBox
     {
-        private Color _worstColor; 
-        private Color _bestColor; 
+        private Color _worstColor;
+        private Color _bestColor;
         private Color _neutralColor;
 
         public void Reset(MineSweeperSettings settings)
@@ -66,7 +66,7 @@
                 var holes = objects.Where(x => x.Item1 == ObjectType.Hole).Select(x => x.Item2);
                 foreach (var hole in holes)
                 {
-                    drawMine(graphics, redPen, redPen.Brush, hole, settings.MineSize);
+                    drawMine(graphics, redPen, redPen.Brush, hole, settings.MineSize + 1);
                 }
 
                 eliteSweeperPen.Dispose();

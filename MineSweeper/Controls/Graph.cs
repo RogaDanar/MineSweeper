@@ -1,5 +1,6 @@
 ﻿namespace MineSweeper.Controls
 {
+    using System;
     using System.Collections.Generic;
     using System.Drawing;
     using System.Drawing.Drawing2D;
@@ -41,26 +42,44 @@
             {
                 if (avgpoints.Count() > 1)
                 {
-                    var blackPen = new Pen(_neutralColor);
-                    drawGraphLine(graphics, avgpoints, blackPen, yScale, xScale);
-                    blackPen.Dispose();
-                }
+                    drawGrid(graphics, population.FitnessStats.PreviousGenerationsBest.Max(), avgpoints, yScale, xScale);
 
-                if (bestpoints.Count() > 1)
-                {
-                    var bluePen = new Pen(_bestColor);
-                    drawGraphLine(graphics, bestpoints, bluePen, yScale, xScale);
-                    bluePen.Dispose();
-                }
-
-                if (worstpoints.Count() > 1)
-                {
-                    var redPen = new Pen(_worstColor);
-                    drawGraphLine(graphics, worstpoints, redPen, yScale, xScale);
-                    redPen.Dispose();
+                    using (var neutralPen = new Pen(_neutralColor))
+                    {
+                        drawGraphLine(graphics, avgpoints, neutralPen, yScale, xScale);
+                    }
+                    using (var bestPen = new Pen(_bestColor))
+                    {
+                        drawGraphLine(graphics, bestpoints, bestPen, yScale, xScale);
+                    }
+                    using (var worstPen = new Pen(_worstColor))
+                    {
+                        drawGraphLine(graphics, worstpoints, worstPen, yScale, xScale);
+                    }
                 }
             }
             Image.RotateFlip(RotateFlipType.RotateNoneFlipY);
+        }
+
+        private void drawGrid(Graphics graphics, double maxValue, PointF[] avgpoints, float yScale, float xScale)
+        {
+            using (var gridPen = new Pen(Color.LightGray))
+            {
+                for (int i = 10; i < maxValue; i += 10)
+                {
+                    var gridLine = new PointF[2];
+                    gridLine[0] = new PointF(0, i);
+                    gridLine[1] = new PointF(avgpoints.Count() - 1, i);
+                    drawGraphLine(graphics, gridLine, gridPen, yScale, xScale);
+                }
+                for (int i = 50; i < avgpoints.Count(); i+=50)
+                {
+                    var gridLine = new PointF[2];
+                    gridLine[0] = new PointF(i, 0);
+                    gridLine[1] = new PointF(i, (int)maxValue);
+                    drawGraphLine(graphics, gridLine, gridPen, yScale, xScale);
+                }
+            }
         }
 
         private PointF[] getGraphPoints(List<double> fitnesses)

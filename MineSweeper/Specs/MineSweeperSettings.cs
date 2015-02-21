@@ -42,7 +42,7 @@
         {
             var settings = new MineSweeperSettings
             {
-                Ticks = 3000,
+                Ticks = 2000,
                 SweeperCount = 50,
                 MineCount = 40,
                 ReplaceMine = true,
@@ -95,11 +95,11 @@
             var settings = new MineSweeperSettings
             {
                 Ticks = 2000,
-                SweeperCount = 30,
+                SweeperCount = 20,
                 MineCount = 40,
                 ReplaceMine = true,
-                DrawWidth = 400,
-                DrawHeight = 400,
+                DrawWidth = 640,
+                DrawHeight = 480,
                 Fast = false,
 
                 MutationRate = 0.1,
@@ -124,8 +124,8 @@
                 SweeperCount = 30,
                 MineCount = 40,
                 ReplaceMine = true,
-                DrawWidth = 400,
-                DrawHeight = 400,
+                DrawWidth = 640,
+                DrawHeight = 480,
                 Fast = false,
 
                 MutationRate = 0.1,

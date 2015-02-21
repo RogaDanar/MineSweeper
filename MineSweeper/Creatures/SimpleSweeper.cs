@@ -1,9 +1,9 @@
 ﻿namespace MineSweeper.Creatures
 {
-    using MineSweeper.Utils;
-    using NeuralNet.Network;
     using System;
     using System.Collections.Generic;
+    using MineSweeper.Utils;
+    using NeuralNet.Network;
 
     public class SimpleSweeper : ICreature
     {
@@ -11,7 +11,7 @@
         public static int BrainOutputs = 2;
 
         private const double _maxRotation = 0.5;
-        private const double _maxSpeed = 2;
+        private const double _maxSpeed = 1.5;
         private double _maxX;
         private double _maxY;
 
