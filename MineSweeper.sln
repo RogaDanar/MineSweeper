@@ -3,9 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
 VisualStudioVersion = 12.0.40629.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NeuralNet", "NeuralNet\NeuralNet.csproj", "{DC2427E4-6AAE-4907-B48A-E1BD01A0A4EA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NeuralNet", "src\NeuralNet\NeuralNet.csproj", "{DC2427E4-6AAE-4907-B48A-E1BD01A0A4EA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MineSweeper", "MineSweeper\MineSweeper.csproj", "{F0F43FF4-A5D9-48D5-9AA3-578902749803}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MineSweeper.Application", "src\MineSweeper\MineSweeper.Application\MineSweeper.Application.csproj", "{F0F43FF4-A5D9-48D5-9AA3-578902749803}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MineSweeper.Console", "src\MineSweeper\MineSweeper.Console\MineSweeper.Console.csproj", "{33C03B60-497F-47AC-9ECD-B4A6D91B40EA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MineSweeper.UI", "src\MineSweeper\MineSweeper.UI\MineSweeper.UI.csproj", "{BCB91FBD-74B4-4886-BE71-04C540C55C61}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -37,6 +41,26 @@ Global
 		{F0F43FF4-A5D9-48D5-9AA3-578902749803}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{F0F43FF4-A5D9-48D5-9AA3-578902749803}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{F0F43FF4-A5D9-48D5-9AA3-578902749803}.Release|x86.ActiveCfg = Release|Any CPU
+		{33C03B60-497F-47AC-9ECD-B4A6D91B40EA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{33C03B60-497F-47AC-9ECD-B4A6D91B40EA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{33C03B60-497F-47AC-9ECD-B4A6D91B40EA}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{33C03B60-497F-47AC-9ECD-B4A6D91B40EA}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{33C03B60-497F-47AC-9ECD-B4A6D91B40EA}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{33C03B60-497F-47AC-9ECD-B4A6D91B40EA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{33C03B60-497F-47AC-9ECD-B4A6D91B40EA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{33C03B60-497F-47AC-9ECD-B4A6D91B40EA}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{33C03B60-497F-47AC-9ECD-B4A6D91B40EA}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{33C03B60-497F-47AC-9ECD-B4A6D91B40EA}.Release|x86.ActiveCfg = Release|Any CPU
+		{BCB91FBD-74B4-4886-BE71-04C540C55C61}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BCB91FBD-74B4-4886-BE71-04C540C55C61}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BCB91FBD-74B4-4886-BE71-04C540C55C61}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{BCB91FBD-74B4-4886-BE71-04C540C55C61}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{BCB91FBD-74B4-4886-BE71-04C540C55C61}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{BCB91FBD-74B4-4886-BE71-04C540C55C61}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BCB91FBD-74B4-4886-BE71-04C540C55C61}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BCB91FBD-74B4-4886-BE71-04C540C55C61}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{BCB91FBD-74B4-4886-BE71-04C540C55C61}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{BCB91FBD-74B4-4886-BE71-04C540C55C61}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
