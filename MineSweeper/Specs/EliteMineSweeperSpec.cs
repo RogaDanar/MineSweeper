@@ -70,7 +70,7 @@
                         {
                             _mines.AddRange(getMines(1));
                         }
-                        sweeper.Fitness++;
+                        sweeper.IncreaseFitness(1);
                     }
                 }
             }
@@ -111,7 +111,7 @@
             }
         }
 
-        private FeedforwardNetwork getNewBrain()
+        private INeuralNet getNewBrain()
         {
             return new FeedforwardNetwork(SimpleSweeper.BrainInputs, SimpleSweeper.BrainOutputs, Settings.HiddenLayers, Settings.HiddenLayerNeurons);
         }

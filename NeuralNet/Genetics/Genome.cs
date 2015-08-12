@@ -10,7 +10,7 @@
 
         public IList<double> Chromosome { get; set; }
 
-        public double Fitness { get; set; }
+        public double Fitness { get; private set; }
 
         public Genome() { }
 
@@ -29,6 +29,21 @@
             : this(fitness)
         {
             Chromosome = chromosome.ToArray();
+        }
+
+        public void ResetFitness()
+        {
+            Fitness = 0;
+        }
+
+        public void IncreaseFitness(int fitnessIncrease)
+        {
+            Fitness += fitnessIncrease;
+        }
+
+        public void DecreaseFitness(int fitnessDecrease)
+        {
+            Fitness -= fitnessDecrease;
         }
     }
 }

@@ -7,16 +7,33 @@
     {
         public IList<Neuron> Neurons { get; private set; }
 
-        public NeuronLayer(int numberOfNeurons, int inputsPerNeuron)
+        public NeuronLayer(int numberOfNeurons, int inputsPerNeuron, bool randomInputWeights = true, bool randomBias = true)
         {
-            Neurons = Enumerable.Range(0, numberOfNeurons).Select(x => new Neuron(inputsPerNeuron)).ToList();
+            Neurons = Enumerable.Range(0, numberOfNeurons).Select(x => new Neuron(inputsPerNeuron, randomInputWeights, randomBias)).ToList();
         }
 
-        public IEnumerable<double> SendSignals(IList<double> inputs)
+        public IEnumerable<double> SendSignalsAndGetOuputSignal(IList<double> inputs)
         {
             foreach (var neuron in Neurons)
             {
-                yield return neuron.SendSignals(inputs);
+                neuron.SendSignals(inputs);
+                yield return neuron.GetOutputSignal();
+            }
+        }
+
+        public void SendSignals(IList<double> inputs)
+        {
+            foreach (var neuron in Neurons)
+            {
+                neuron.SendSignals(inputs);
+            }
+        }
+
+        public IEnumerable<double> GetOutputSignals()
+        {
+            foreach (var neuron in Neurons)
+            {
+                yield return neuron.GetOutputSignal();
             }
         }
 

@@ -5,6 +5,6 @@
     interface IGenome<T> where T : struct
     {
         IList<T> Chromosome { get; set; }
-        double Fitness { get; set; }
+        double Fitness { get; }
     }
 }

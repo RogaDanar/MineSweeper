@@ -64,7 +64,7 @@
                     {
                         Objects.AddRange(GetObjects(ObjectType.Mine, 1));
                     }
-                    sweeper.Fitness += 1;
+                    sweeper.IncreaseFitness(1);
                 }
 
                 if (holes.Count > 0)
@@ -75,7 +75,7 @@
                         var hole = Objects.Where(x => x.Item1 == ObjectType.Hole).Single(x => x.Item2.VectorEquals(closestHole));
                         Objects.Remove(hole);
                         //Objects.AddRange(GetObjects(ObjectType.Hole, 1));
-                        sweeper.Fitness -= 10;
+                        sweeper.DecreaseFitness(10);
                     }
                 }
             }
@@ -122,7 +122,7 @@
             }
         }
 
-        private FeedforwardNetwork getNewBrain()
+        private INeuralNet getNewBrain()
         {
             return new FeedforwardNetwork(SweeperDodger.BrainInputs, SweeperDodger.BrainOutputs, Settings.HiddenLayers, Settings.HiddenLayerNeurons);
         }

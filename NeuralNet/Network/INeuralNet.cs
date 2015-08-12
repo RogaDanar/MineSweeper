@@ -6,10 +6,9 @@
     public interface INeuralNet
     {
         Genome Genome { get; set; }
-        int MaxInputs { get; }
-        int MinOutputs { get; }
+        int InputNeuronCount { get; }
+        int OutputNeuronCount { get; }
         int AllWeightsCount();
-        IEnumerable<double> GetAllWeights();
         IList<double> Observe(IList<double> inputs);
     }
 }

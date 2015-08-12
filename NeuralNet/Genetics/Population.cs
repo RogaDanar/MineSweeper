@@ -61,7 +61,7 @@
                 newGenomes.Add(son);
                 newGenomes.Add(daughter);
             }
-            newGenomes.ForEach(x => x.Fitness = 0);
+            newGenomes.ForEach(x => x.ResetFitness());
             Genomes = newGenomes.Take(Genomes.Count()).ToList();
         }
 

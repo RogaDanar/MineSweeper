@@ -64,7 +64,7 @@
                     var clusterMine = Objects.Where(x => x.Item1 == ObjectType.ClusterMine).Single(x => x.Item2.VectorEquals(closestClusterMine));
                     Objects.Remove(clusterMine);
                     Objects.AddRange(GetObjects(ObjectType.ClusterMine, 1));
-                    sweeper.Fitness += 3;
+                    sweeper.IncreaseFitness(3);
                 }
 
                 var mineCollision = DistanceCalculator.DetectCollision(sweeper.Motion.Position, closestMine, Settings.TouchDistance);
@@ -76,7 +76,7 @@
                     {
                         Objects.AddRange(GetObjects(ObjectType.Mine, 1));
                     }
-                    sweeper.Fitness += 1;
+                    sweeper.IncreaseFitness(1);
                 }
             }
             Population.UpdateFitnessStats();
@@ -115,7 +115,7 @@
             }
         }
 
-        private FeedforwardNetwork getNewBrain()
+        private INeuralNet getNewBrain()
         {
             return new FeedforwardNetwork(ClusterSweeper.BrainInputs, ClusterSweeper.BrainOutputs, Settings.HiddenLayers, Settings.HiddenLayerNeurons);
         }

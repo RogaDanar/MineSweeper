@@ -71,7 +71,7 @@
                 Ticks = 3000,
                 SweeperCount = 20,
                 MineCount = 30,
-                ReplaceMine = false,
+                ReplaceMine = true,
                 DrawWidth = 640,
                 DrawHeight = 480,
                 Fast = false,

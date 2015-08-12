@@ -13,12 +13,12 @@
 
         public IEnumerable<double> InputWeights { get { return _inputWeights; } }
 
-        public Neuron(int numberOfInputs)
+        public Neuron(int numberOfInputs, bool randomInputWeights = true, bool randomBias = true)
         {
             resetTotalInput();
-            _inputWeights = getRandomInputWeights(numberOfInputs);
+            _inputWeights = getInputWeights(numberOfInputs, randomInputWeights);
             // Add an extra weight for the bias
-            _inputWeights.Add(getRandomBias());
+            _inputWeights.Add(getBias(randomBias));
         }
 
         public void UpdateInputWeights(IEnumerable<double> newInputWeights)
@@ -26,20 +26,33 @@
             _inputWeights = newInputWeights.ToList();
         }
 
-        public double SendSignals(IList<double> inputs)
+        public void SendSignals(IList<double> inputs)
         {
-            resetTotalInput();
             for (int i = 0; i < inputs.Count(); i++)
             {
                 _totalInput += inputs[i] * _inputWeights[i];
             }
-            return sigmoid(_totalInput);
         }
 
-        private IList<double> getRandomInputWeights(int numberOfInputs)
+        public void SendSignals(params double[] inputs)
+        {
+            for (int i = 0; i < inputs.Count(); i++)
+            {
+                _totalInput += inputs[i] * _inputWeights[i];
+            }
+        }
+
+        public double GetOutputSignal()
+        {
+            var output = sigmoid(_totalInput);
+            resetTotalInput();
+            return output;
+        }
+
+        private IList<double> getInputWeights(int numberOfInputs, bool randomInputWeights)
         {
             return Enumerable.Range(0, numberOfInputs)
-                .Select(x => getRandomInputWeight())
+                .Select(x => getInputWeight(randomInputWeights))
                 .ToList();
         }
 
@@ -54,14 +67,28 @@
             return (1 / (1 + Math.Exp(-input / numberOfResponses)));
         }
 
-        private double getRandomBias()
+        private double getBias(bool random)
         {
-            return _rand.NextClamped();
+            return getWeight(random);
         }
 
-        private double getRandomInputWeight()
+        private double getInputWeight(bool random)
         {
-            return _rand.NextClamped();
+            return getWeight(random);
+        }
+
+        private double getWeight(bool random)
+        {
+            double weight;
+            if (random)
+            {
+                weight = _rand.NextClamped();
+            }
+            else
+            {
+                weight = 1;
+            }
+            return weight;
         }
     }
 }

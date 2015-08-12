@@ -22,7 +22,7 @@
             protected set
             {
                 _brain = value ?? new FeedforwardNetwork(BrainInputs, BrainOutputs, 1, 8);
-                if (Brain.MaxInputs != BrainInputs || Brain.MinOutputs != BrainOutputs)
+                if (_brain.InputNeuronCount != BrainInputs || _brain.OutputNeuronCount != BrainOutputs)
                 {
                     throw new Exception("Incorrect brainsize");
                 }
@@ -32,7 +32,6 @@
         public double Fitness
         {
             get { return Brain.Genome.Fitness; }
-            set { Brain.Genome.Fitness = value; }
         }
 
         public Motion Motion { get; protected set; }
@@ -68,6 +67,16 @@
             Motion.Rotate(rotLeft - rotRight);
             Motion.SetNewSpeed(rotLeft + rotRight);
             Motion.MoveToNextPosition();
+        }
+
+        public void IncreaseFitness(int fitnessIncrease)
+        {
+            Brain.Genome.IncreaseFitness(fitnessIncrease);
+        }
+
+        public void DecreaseFitness(int fitnessDecrease)
+        {
+            Brain.Genome.DecreaseFitness(fitnessDecrease);
         }
     }
 }

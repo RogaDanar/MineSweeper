@@ -1,9 +1,9 @@
 ﻿namespace MineSweeper.Creatures
 {
-    using MineSweeper.Utils;
-    using NeuralNet.Network;
     using System;
     using System.Collections.Generic;
+    using MineSweeper.Utils;
+    using NeuralNet.Network;
 
     public class ClusterSweeper : ICreature
     {
@@ -22,7 +22,7 @@
             protected set
             {
                 _brain = value ?? new FeedforwardNetwork(BrainInputs, BrainOutputs, 1, 16);
-                if (Brain.MaxInputs != BrainInputs || Brain.MinOutputs != BrainOutputs)
+                if (Brain.InputNeuronCount != BrainInputs || Brain.OutputNeuronCount != BrainOutputs)
                 {
                     throw new Exception("Incorrect brainsize");
                 }
@@ -32,7 +32,6 @@
         public double Fitness
         {
             get { return Brain.Genome.Fitness; }
-            set { Brain.Genome.Fitness = value; }
         }
 
         public Motion Motion { get; protected set; }
@@ -72,6 +71,16 @@
             Motion.Rotate(rotLeft - rotRight);
             Motion.SetNewSpeed(rotLeft + rotRight);
             Motion.MoveToNextPosition();
+        }
+
+        public void IncreaseFitness(int fitnessIncrease)
+        {
+            Brain.Genome.IncreaseFitness(fitnessIncrease);
+        }
+
+        public void DecreaseFitness(int fitnessDecrease)
+        {
+            Brain.Genome.DecreaseFitness(fitnessDecrease);
         }
     }
 }
