@@ -1,9 +1,9 @@
 ﻿namespace MineSweeper.Creatures
 {
-    using MineSweeper.Utils;
-    using NeuralNet.Helpers;
     using System;
     using System.Collections.Generic;
+    using MineSweeper.Utils;
+    using NeuralNet.Helpers;
 
     public class Motion
     {
@@ -20,6 +20,7 @@
 
         private double _xDirection { get { return -Math.Sin(Rotation); } }
         private double _yDirection { get { return Math.Cos(Rotation); } }
+
         public IList<double> Direction
         {
             get
@@ -101,6 +102,5 @@
         {
             return Vector.RandomVector2D(_maxX, _maxY);
         }
-
     }
 }

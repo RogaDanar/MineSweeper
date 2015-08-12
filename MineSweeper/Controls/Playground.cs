@@ -111,6 +111,5 @@
             graphics.DrawPolygon(outlineColor, points.Skip(8).Take(8).ToArray());
             graphics.FillPolygon(fillColor, points.Skip(8).Take(8).ToArray());
         }
-
     }
 }

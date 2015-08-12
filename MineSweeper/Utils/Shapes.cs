@@ -11,8 +11,7 @@
         /// </summary>
         public static PointF[] TankPolygonPoints(int offsetX, int offsetY, float rotDegrees, float size)
         {
-            var points = new PointF[16] { 
-
+            var points = new PointF[16] {
                 // Left track
                 new PointF(-1, -1),
                 new PointF(-1, 1),
@@ -46,7 +45,7 @@
 
         public static Point[] MinePolygonPoints(int offsetX, int offsetY, float size)
         {
-            var points = new Point[4] { 
+            var points = new Point[4] {
                 new Point(-1, -1),
                 new Point(-1, 1),
                 new Point(1, 1),

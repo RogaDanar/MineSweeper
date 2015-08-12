@@ -10,7 +10,7 @@
     /// O = output neuron
     /// h = hidden neuron
     /// - / \ X = links (weights)
-    /// 
+    ///
     ///  ___     ___     ___
     /// |   |   |   |   |   |
     /// | I |---| h |   |   |
@@ -23,8 +23,8 @@
     /// |   |/ \|   |/ \|   |
     /// | I |---| h |---| O |
     /// |___|   |___|   |___|
-    ///  
-    ///     
+    ///
+    ///
     /// Strength of the links between all neurons are determined by weights (doubles).
     /// The weights are stored in a Genome, which has a list of chromosomes. The weights are
     /// the chromosomes, and a fitness is given to the whole set (Genome) of them
@@ -110,7 +110,7 @@
         }
 
         /// <summary>
-        /// Feeds inputs to the network and returns the resultant output values. 
+        /// Feeds inputs to the network and returns the resultant output values.
         /// </summary>
         /// <param name="inputs">List of input values, this is essentially the input layer</param>
         /// <returns>List of resultant signals from the output neurons</returns>
@@ -120,7 +120,7 @@
             {
                 return null;
             }
-            // in case there is no hidden layer (unlikely..) set the result to the inputs           
+            // in case there is no hidden layer (unlikely..) set the result to the inputs
             var result = inputs;
             foreach (var layer in _hiddenLayers)
             {

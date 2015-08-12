@@ -2,7 +2,7 @@
 {
     using System.Collections.Generic;
 
-    interface IGenome<T> where T : struct
+    internal interface IGenome<T> where T : struct
     {
         /// <summary>
         /// A list of genes, on which a genetic selection process can be applied

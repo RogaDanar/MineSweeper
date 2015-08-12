@@ -1,7 +1,7 @@
 ﻿namespace MineSweeper.Creatures
 {
-    using NeuralNet.Genetics;
     using System.Collections.Generic;
+    using NeuralNet.Genetics;
 
     public class EliteClusterSweeperGenome : Genome
     {
@@ -221,6 +221,5 @@
         public EliteClusterSweeperGenome() :
             base(_chromosome, 0.0)
         { }
-
     }
 }

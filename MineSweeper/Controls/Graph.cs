@@ -1,6 +1,5 @@
 ﻿namespace MineSweeper.Controls
 {
-    using System;
     using System.Collections.Generic;
     using System.Drawing;
     using System.Drawing.Drawing2D;
@@ -72,7 +71,7 @@
                     gridLine[1] = new PointF(avgpoints.Count() - 1, i);
                     drawGraphLine(graphics, gridLine, gridPen, yScale, xScale);
                 }
-                for (int i = 50; i < avgpoints.Count(); i+=50)
+                for (int i = 50; i < avgpoints.Count(); i += 50)
                 {
                     var gridLine = new PointF[2];
                     gridLine[0] = new PointF(i, 0);

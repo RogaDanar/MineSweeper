@@ -113,7 +113,7 @@
             _spec.TickEnded -= specTickEnded;
             setupSpec(e.Spec);
 
-            _runner.UpdateSpec(_spec);
+            _runner.UpdateSpecification(_spec);
 
             _mainForm.Invoke((MethodInvoker)delegate { _mainForm.UpdateDisplaySettings(_settings); });
         }

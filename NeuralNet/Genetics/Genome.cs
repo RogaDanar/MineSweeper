@@ -14,7 +14,9 @@
 
         public double Fitness { get; private set; }
 
-        public Genome() { }
+        public Genome()
+        {
+        }
 
         private Genome(double fitness)
         {

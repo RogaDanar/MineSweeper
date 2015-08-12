@@ -54,9 +54,9 @@
 
         private void setupLabels()
         {
-            // 
+            //
             // lblLastWorst
-            // 
+            //
             lblLastWorst.AutoSize = true;
             lblLastWorst.ForeColor = _worstColor;
             lblLastWorst.Location = new Point(77, 76);
@@ -64,9 +64,9 @@
             lblLastWorst.Size = new Size(22, 14);
             lblLastWorst.TabIndex = 14;
             lblLastWorst.Text = "(0)";
-            // 
+            //
             // lblWorstValue
-            // 
+            //
             lblWorstValue.AutoSize = true;
             lblWorstValue.ForeColor = _worstColor;
             lblWorstValue.Location = new Point(44, 76);
@@ -74,9 +74,9 @@
             lblWorstValue.Size = new Size(14, 14);
             lblWorstValue.TabIndex = 13;
             lblWorstValue.Text = "0";
-            // 
+            //
             // lblWorst
-            // 
+            //
             lblWorst.AutoSize = true;
             lblWorst.ForeColor = _worstColor;
             lblWorst.Location = new Point(3, 76);
@@ -84,9 +84,9 @@
             lblWorst.Size = new Size(43, 14);
             lblWorst.TabIndex = 12;
             lblWorst.Text = "Worst";
-            // 
+            //
             // lblLastAvg
-            // 
+            //
             lblLastAvg.AutoSize = true;
             lblLastAvg.ForeColor = _neutralColor;
             lblLastAvg.Location = new Point(77, 51);
@@ -94,9 +94,9 @@
             lblLastAvg.Size = new Size(22, 14);
             lblLastAvg.TabIndex = 11;
             lblLastAvg.Text = "(0)";
-            // 
+            //
             // lblLastBest
-            // 
+            //
             lblLastBest.AutoSize = true;
             lblLastBest.ForeColor = _bestColor;
             lblLastBest.Location = new Point(77, 28);
@@ -104,9 +104,9 @@
             lblLastBest.Size = new Size(22, 14);
             lblLastBest.TabIndex = 10;
             lblLastBest.Text = "(0)";
-            // 
+            //
             // lblAvgValue
-            // 
+            //
             lblAvgValue.AutoSize = true;
             lblAvgValue.ForeColor = _neutralColor;
             lblAvgValue.Location = new Point(44, 51);
@@ -114,9 +114,9 @@
             lblAvgValue.Size = new Size(14, 14);
             lblAvgValue.TabIndex = 8;
             lblAvgValue.Text = "0";
-            // 
+            //
             // lblBestValue
-            // 
+            //
             lblBestValue.AutoSize = true;
             lblBestValue.ForeColor = _bestColor;
             lblBestValue.Location = new Point(44, 28);
@@ -124,9 +124,9 @@
             lblBestValue.Size = new Size(14, 14);
             lblBestValue.TabIndex = 7;
             lblBestValue.Text = "0";
-            // 
+            //
             // lblGenValue
-            // 
+            //
             lblGenValue.AutoSize = true;
             lblGenValue.ForeColor = _neutralColor;
             lblGenValue.Location = new Point(76, 2);
@@ -134,9 +134,9 @@
             lblGenValue.Size = new Size(14, 14);
             lblGenValue.TabIndex = 6;
             lblGenValue.Text = "0";
-            // 
+            //
             // lblAvg
-            // 
+            //
             lblAvg.AutoSize = true;
             lblAvg.ForeColor = _neutralColor;
             lblAvg.Location = new Point(3, 51);
@@ -144,9 +144,9 @@
             lblAvg.Size = new Size(34, 14);
             lblAvg.TabIndex = 5;
             lblAvg.Text = "Avg.";
-            // 
+            //
             // lblBest
-            // 
+            //
             lblBest.AutoSize = true;
             lblBest.ForeColor = _bestColor;
             lblBest.Location = new Point(3, 28);
@@ -154,9 +154,9 @@
             lblBest.Size = new Size(33, 14);
             lblBest.TabIndex = 4;
             lblBest.Text = "Best";
-            // 
+            //
             // lblGeneration
-            // 
+            //
             lblGeneration.AutoSize = true;
             lblGeneration.ForeColor = _neutralColor;
             lblGeneration.Location = new Point(3, 2);

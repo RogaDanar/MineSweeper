@@ -16,7 +16,9 @@
 
         public double Fitness { get; set; }
 
-        public CharGenome() { }
+        public CharGenome()
+        {
+        }
 
         public CharGenome(double fitness)
         {

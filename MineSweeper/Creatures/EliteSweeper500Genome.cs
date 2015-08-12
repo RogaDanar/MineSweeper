@@ -1,7 +1,7 @@
 ﻿namespace MineSweeper.Creatures
 {
-    using NeuralNet.Genetics;
     using System.Collections.Generic;
+    using NeuralNet.Genetics;
 
     /// <summary>
     /// For testing and playng around.

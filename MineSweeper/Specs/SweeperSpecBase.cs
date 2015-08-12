@@ -9,6 +9,7 @@
     public class SweeperSpecBase
     {
         public event EventHandler NextGenerationEnded = delegate { };
+
         public event EventHandler TickEnded = delegate { };
 
         public int Ticks { get { return Settings.Ticks; } }
@@ -48,6 +49,5 @@
             var genome = new Genome(sweeperWeightCount);
             return new FeedforwardNetwork(inputs, outputs, Settings.HiddenLayers, Settings.HiddenLayerNeurons, genome);
         }
-
     }
 }

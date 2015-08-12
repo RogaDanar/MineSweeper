@@ -16,6 +16,7 @@
         private double _maxY;
 
         private INeuralNet _brain;
+
         public INeuralNet Brain
         {
             get { return _brain; }

@@ -6,7 +6,7 @@
     public interface INeuralNet
     {
         /// <summary>
-        /// The neural network weights represented as a Genome. 
+        /// The neural network weights represented as a Genome.
         /// It has a Chromosome which contains all the weights as a list.
         /// </summary>
         Genome Genome { get; }

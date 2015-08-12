@@ -15,6 +15,7 @@
         public Population Population { get; private set; }
 
         private List<IList<double>> _mines { get; set; }
+
         public List<Tuple<ObjectType, IList<double>>> Objects
         {
             get

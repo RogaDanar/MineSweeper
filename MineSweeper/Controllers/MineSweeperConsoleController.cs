@@ -1,8 +1,8 @@
 ﻿namespace MineSweeper.Controllers
 {
+    using System;
     using MineSweeper.Specs;
     using NeuralNet.AppHelpers;
-    using System;
 
     public class MineSweeperConsoleController
     {

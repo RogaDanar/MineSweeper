@@ -78,7 +78,6 @@
                 difference[i] = vector[i] - subtractVector[i];
             }
             return difference;
-
         }
     }
 }

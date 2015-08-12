@@ -18,7 +18,7 @@
         public IEnumerable<double> InputWeights { get { return _inputWeights; } }
 
         /// <summary>
-        /// Create a Neuron with predefined weights, 
+        /// Create a Neuron with predefined weights,
         /// </summary>
         /// <param name="weights">total of inputs + 1 bias</param>
         public Neuron(IEnumerable<double> weights)

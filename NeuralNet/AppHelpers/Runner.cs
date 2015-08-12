@@ -15,10 +15,10 @@
 
         public Runner(IRunnerSpecification specification)
         {
-            UpdateSpec(specification);
+            UpdateSpecification(specification);
         }
 
-        public void UpdateSpec(IRunnerSpecification specification)
+        public void UpdateSpecification(IRunnerSpecification specification)
         {
             _ticksFinished = false;
             Specification = specification;

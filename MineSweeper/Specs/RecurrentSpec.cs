@@ -13,6 +13,7 @@
         private List<SimpleSweeper> _sweepers;
 
         public event EventHandler NextGenerationEnded = delegate { };
+
         public event EventHandler TickEnded = delegate { };
 
         public int Ticks { get { return Settings.Ticks; } }
@@ -22,6 +23,7 @@
         public Population Population { get; private set; }
 
         private List<IList<double>> _mines { get; set; }
+
         public List<Tuple<ObjectType, IList<double>>> Objects
         {
             get

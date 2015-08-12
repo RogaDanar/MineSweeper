@@ -20,7 +20,7 @@
         double PerturbationRate { get; set; }
 
         /// <summary>
-        /// Number of Genomes with highest fitness which are automatically taken into the next generation 
+        /// Number of Genomes with highest fitness which are automatically taken into the next generation
         /// </summary>
         int EliteCount { get; set; }
 

@@ -11,7 +11,7 @@
     /// h = hidden neuron
     /// S = state neuron
     /// - / \ X = links (weights)
-    /// 
+    ///
     ///  ___     ___     ___
     /// |   |   |   |   |   |
     /// | I |---| h |   |   |
@@ -31,7 +31,7 @@
     ///         |   |
     ///         | S |
     ///         |___|
-    /// 
+    ///
     /// Strength of the links between all neurons are determined by weights (doubles).
     /// The weights are stored in a Genome, which has a list of chromosomes. The weights are
     /// the chromosomes, and a fitness is given to the whole set (Genome) of them
