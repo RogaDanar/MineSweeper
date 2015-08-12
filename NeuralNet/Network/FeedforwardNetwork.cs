@@ -32,25 +32,8 @@
     public class FeedforwardNetwork : INeuralNet
     {
         private IList<NeuronLayer> _hiddenLayers { get; set; }
-        private NeuronLayer _outputLayer { get; set; }
-        private Genome _genome;
 
-        /// <summary>
-        /// A list of all the weights (chromosomes) in the network.
-        /// </summary>
-        private IEnumerable<double> AllWeights
-        {
-            get
-            {
-                var allWeights = new List<double>();
-                foreach (var layer in _hiddenLayers)
-                {
-                    allWeights.AddRange(layer.AllWeights);
-                }
-                allWeights.AddRange(_outputLayer.AllWeights);
-                return allWeights;
-            }
-        }
+        private NeuronLayer _outputLayer { get; set; }
 
         /// <summary>
         /// The number of neurons in the input layer
@@ -65,32 +48,10 @@
         /// <summary>
         /// All chromosomes with fitness.
         /// </summary>
-        public Genome Genome
-        {
-            get
-            {
-                if (_genome == null)
-                {
-                    _genome = new Genome(AllWeights, 0.0);
-                }
-                return _genome;
-            }
-            set
-            {
-                _genome = value;
-                var allweights = _genome.Chromosome;
-                foreach (var layer in _hiddenLayers)
-                {
-                    var weightCount = layer.AllWeights.Count();
-                    layer.AllWeights = allweights.Take(weightCount).ToList();
-                    allweights = allweights.Skip(weightCount).ToList();
-                }
-                _outputLayer.AllWeights = allweights;
-            }
-        }
+        public Genome Genome { get; private set; }
 
         /// <summary>
-        /// Create a Feedforward Network with the given number of layers and neurons
+        /// Create a Feedforward Network with the given number of layers and neurons, a random genome will be created
         /// </summary>
         /// <param name="inputs">Number of input neurons</param>
         /// <param name="outputNeurons">Number of output neurons</param>
@@ -102,6 +63,50 @@
             OutputNeuronCount = outputNeurons;
             var lastOutputCount = setHiddenLayers(inputs, hiddenLayers, neuronsPerHiddenLayer);
             _outputLayer = new NeuronLayer(outputNeurons, lastOutputCount);
+
+            var allWeights = new List<double>();
+            foreach (var layer in _hiddenLayers)
+            {
+                allWeights.AddRange(layer.AllWeights);
+            }
+            allWeights.AddRange(_outputLayer.AllWeights);
+
+            Genome = new Genome(allWeights, 0.0);
+        }
+
+        /// <summary>
+        /// Create a Feedforward Network with the given number of layers and neurons filled with the given weights from the genome
+        /// </summary>
+        /// <param name="inputs">Number of input neurons</param>
+        /// <param name="outputNeurons">Number of output neurons</param>
+        /// <param name="hiddenLayers">Number of hidden neuron layers</param>
+        /// <param name="neuronsPerHiddenLayer">Number of neurons per hidden layer</param>
+        public FeedforwardNetwork(int inputs, int outputNeurons, int hiddenLayers, int neuronsPerHiddenLayer, Genome genome)
+        {
+            InputNeuronCount = inputs;
+            OutputNeuronCount = outputNeurons;
+            Genome = genome;
+
+            var allweights = genome.Chromosome;
+
+            var lastOutputCount = setHiddenLayers(inputs, hiddenLayers, neuronsPerHiddenLayer, allweights);
+            var usedWeightCount = _hiddenLayers.Sum(x => x.AllWeights.Count());
+
+            _outputLayer = new NeuronLayer(outputNeurons, lastOutputCount, allweights.Skip(usedWeightCount));
+        }
+
+        public void UpdateGenome(Genome genome)
+        {
+            Genome = genome;
+
+            var allweights = Genome.Chromosome;
+            foreach (var layer in _hiddenLayers)
+            {
+                var weightCount = layer.AllWeights.Count();
+                layer.AllWeights = allweights.Take(weightCount).ToList();
+                allweights = allweights.Skip(weightCount).ToList();
+            }
+            _outputLayer.AllWeights = allweights;
         }
 
         /// <summary>
@@ -134,6 +139,22 @@
             var count = _hiddenLayers.Sum(x => x.AllWeights.Count());
             count += _outputLayer.AllWeights.Count();
             return count;
+        }
+
+        private int setHiddenLayers(int inputs, int hiddenLayers, int neuronsPerHiddenLayer, IEnumerable<double> allWeights)
+        {
+            _hiddenLayers = new List<NeuronLayer>();
+            var lastOutputCount = inputs;
+            var skip = 0;
+
+            for (int layerIndex = 0; layerIndex < hiddenLayers; layerIndex++)
+            {
+                var numberOfWeights = neuronsPerHiddenLayer * (lastOutputCount + 1);
+                _hiddenLayers.Add(new NeuronLayer(neuronsPerHiddenLayer, lastOutputCount, allWeights.Skip(skip).Take(numberOfWeights)));
+                lastOutputCount = neuronsPerHiddenLayer;
+                skip += numberOfWeights;
+            }
+            return lastOutputCount;
         }
 
         private int setHiddenLayers(int inputs, int hiddenLayers, int neuronsPerHiddenLayer)

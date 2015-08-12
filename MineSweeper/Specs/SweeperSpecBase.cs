@@ -3,6 +3,8 @@
     using System;
     using System.Collections.Generic;
     using MineSweeper.Utils;
+    using NeuralNet.Genetics;
+    using NeuralNet.Network;
 
     public class SweeperSpecBase
     {
@@ -35,5 +37,17 @@
         {
             TickEnded.Raise(this, EventArgs.Empty);
         }
+
+        protected INeuralNet GetNewBrain(int inputs, int outputs)
+        {
+            return new FeedforwardNetwork(inputs, outputs, Settings.HiddenLayers, Settings.HiddenLayerNeurons);
+        }
+
+        protected INeuralNet GetNewBrain(int inputs, int outputs, int sweeperWeightCount)
+        {
+            var genome = new Genome(sweeperWeightCount);
+            return new FeedforwardNetwork(inputs, outputs, Settings.HiddenLayers, Settings.HiddenLayerNeurons, genome);
+        }
+
     }
 }

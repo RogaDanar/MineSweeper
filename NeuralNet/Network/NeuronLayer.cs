@@ -1,5 +1,6 @@
 ﻿namespace NeuralNet.Network
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
 
@@ -10,6 +11,20 @@
         public NeuronLayer(int numberOfNeurons, int inputsPerNeuron, bool randomInputWeights = true, bool randomBias = true)
         {
             Neurons = Enumerable.Range(0, numberOfNeurons).Select(x => new Neuron(inputsPerNeuron, randomInputWeights, randomBias)).ToList();
+        }
+
+        public NeuronLayer(int numberOfNeurons, int inputsPerNeuron, IEnumerable<double> weights)
+        {
+            var weightsPerNeuron = inputsPerNeuron + 1; // Add 1 for the bias
+            if (weights.Count() != numberOfNeurons * weightsPerNeuron)
+            {
+                throw new ArgumentException("Incorrect amount of weights given", "weights");
+            }
+            Neurons = new List<Neuron>();
+            for (int i = 0; i < numberOfNeurons; i++)
+            {
+                Neurons.Add(new Neuron(weights.Skip(i * weightsPerNeuron).Take(weightsPerNeuron)));
+            }
         }
 
         public IEnumerable<double> SendSignalsAndGetOuputSignal(IList<double> inputs)

@@ -8,24 +8,26 @@
     {
         private readonly Rand _rand = Rand.Generator;
 
-        public IList<double> Chromosome { get; set; }
+        private const double _defaultFitness = 0;
+
+        public IList<double> Chromosome { get; private set; }
 
         public double Fitness { get; private set; }
 
         public Genome() { }
 
-        public Genome(double fitness)
+        private Genome(double fitness)
         {
             Fitness = fitness;
         }
 
-        public Genome(int chromosomeSize, double fitness)
+        public Genome(int chromosomeSize, double fitness = _defaultFitness)
             : this(fitness)
         {
             Chromosome = Enumerable.Range(0, chromosomeSize).Select(x => _rand.NextClamped()).ToArray();
         }
 
-        public Genome(IEnumerable<double> chromosome, double fitness)
+        public Genome(IEnumerable<double> chromosome, double fitness = _defaultFitness)
             : this(fitness)
         {
             Chromosome = chromosome.ToArray();
@@ -33,7 +35,7 @@
 
         public void ResetFitness()
         {
-            Fitness = 0;
+            Fitness = _defaultFitness;
         }
 
         public void IncreaseFitness(int fitnessIncrease)
@@ -44,6 +46,11 @@
         public void DecreaseFitness(int fitnessDecrease)
         {
             Fitness -= fitnessDecrease;
+        }
+
+        public void MutateGeneAt(int index, double mutationRate)
+        {
+            Chromosome[index] += mutationRate;
         }
     }
 }

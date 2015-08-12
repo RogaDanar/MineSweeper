@@ -1,9 +1,9 @@
 ﻿namespace NeuralNet.Genetics
 {
-    using NeuralNet.AppHelpers;
-    using NeuralNet.Helpers;
     using System.Collections.Generic;
     using System.Linq;
+    using NeuralNet.AppHelpers;
+    using NeuralNet.Helpers;
 
     public class GeneticAlgorithm : IGeneticAlgorithm
     {
@@ -31,24 +31,24 @@
             {
                 if (_rand.NextDouble() <= MutationRate)
                 {
-                    genome.Chromosome[i] += _rand.NextClamped() * PerturbationRate;
+                    genome.MutateGeneAt(i, _rand.NextClamped() * PerturbationRate);
                 }
             }
         }
 
-        public void Crossover(Genome mother, Genome father, Genome son, Genome daughter)
+        public IEnumerable<Genome> Crossover(Genome mother, Genome father)
         {
             if (_rand.NextDouble() <= CrossoverRate && !mother.Equals(father))
             {
                 var crossoverPoint = _rand.Next(mother.Chromosome.Count());
 
-                son.Chromosome = mother.Chromosome.Take(crossoverPoint).Concat(father.Chromosome.Skip(crossoverPoint)).ToList();
-                daughter.Chromosome = father.Chromosome.Take(crossoverPoint).Concat(mother.Chromosome.Skip(crossoverPoint)).ToList();
+                yield return new Genome(mother.Chromosome.Take(crossoverPoint).Concat(father.Chromosome.Skip(crossoverPoint)));
+                yield return new Genome(father.Chromosome.Take(crossoverPoint).Concat(mother.Chromosome.Skip(crossoverPoint)));
             }
             else
             {
-                son.Chromosome = father.Chromosome.ToList();
-                daughter.Chromosome = mother.Chromosome.ToList();
+                yield return new Genome(father.Chromosome);
+                yield return new Genome(mother.Chromosome);
             }
         }
     }

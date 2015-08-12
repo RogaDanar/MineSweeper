@@ -33,11 +33,9 @@
             this.btnReset = new System.Windows.Forms.Button();
             this.btnStartStop = new System.Windows.Forms.Button();
             this.pnlSettings = new MineSweeper.Controls.Settings();
-            this.cbSpec = new System.Windows.Forms.ComboBox();
             this.statsGeneration = new MineSweeper.Controls.Stats();
             this.pgMain = new MineSweeper.Controls.Playground();
             this.graphPopulation = new MineSweeper.Controls.Graph();
-            this.pnlSettings.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pgMain)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.graphPopulation)).BeginInit();
             this.SuspendLayout();
@@ -81,33 +79,17 @@
             // pnlSettings
             // 
             this.pnlSettings.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.pnlSettings.Controls.Add(this.cbSpec);
             this.pnlSettings.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(137)))), ((int)(((byte)(122)))), ((int)(((byte)(174)))));
             this.pnlSettings.Location = new System.Drawing.Point(665, 106);
             this.pnlSettings.Name = "pnlSettings";
-            this.pnlSettings.Size = new System.Drawing.Size(130, 387);
+            this.pnlSettings.Size = new System.Drawing.Size(130, 427);
             this.pnlSettings.TabIndex = 28;
-            // 
-            // cbSpec
-            // 
-            this.cbSpec.FormattingEnabled = true;
-            this.cbSpec.Items.AddRange(new object[] {
-            "Mine",
-            "EliteMine",
-            "Cluster",
-            "Dodger"});
-            this.cbSpec.Location = new System.Drawing.Point(4, 1);
-            this.cbSpec.Name = "cbSpec";
-            this.cbSpec.Size = new System.Drawing.Size(121, 22);
-            this.cbSpec.TabIndex = 42;
-            this.cbSpec.Text = "Mine";
-            this.cbSpec.SelectedIndexChanged += new System.EventHandler(this.cbSpecSelectedIndexChanged);
             // 
             // statsGeneration
             // 
             this.statsGeneration.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.statsGeneration.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(137)))), ((int)(((byte)(122)))), ((int)(((byte)(174)))));
-            this.statsGeneration.Location = new System.Drawing.Point(665, 511);
+            this.statsGeneration.Location = new System.Drawing.Point(665, 561);
             this.statsGeneration.Name = "statsGeneration";
             this.statsGeneration.Size = new System.Drawing.Size(130, 200);
             this.statsGeneration.TabIndex = 29;
@@ -117,7 +99,7 @@
             this.pgMain.BackColor = System.Drawing.Color.WhiteSmoke;
             this.pgMain.Location = new System.Drawing.Point(12, 13);
             this.pgMain.Name = "pgMain";
-            this.pgMain.Size = new System.Drawing.Size(640, 480);
+            this.pgMain.Size = new System.Drawing.Size(640, 520);
             this.pgMain.TabIndex = 0;
             this.pgMain.TabStop = false;
             // 
@@ -125,7 +107,7 @@
             // 
             this.graphPopulation.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.graphPopulation.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.graphPopulation.Location = new System.Drawing.Point(12, 511);
+            this.graphPopulation.Location = new System.Drawing.Point(12, 561);
             this.graphPopulation.Name = "graphPopulation";
             this.graphPopulation.Size = new System.Drawing.Size(640, 200);
             this.graphPopulation.TabIndex = 5;
@@ -137,7 +119,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(795, 728);
+            this.ClientSize = new System.Drawing.Size(795, 778);
             this.Controls.Add(this.pnlSettings);
             this.Controls.Add(this.statsGeneration);
             this.Controls.Add(this.pgMain);
@@ -151,8 +133,6 @@
             this.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Show;
             this.Text = "MineSweeper";
-            this.pnlSettings.ResumeLayout(false);
-            this.pnlSettings.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pgMain)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.graphPopulation)).EndInit();
             this.ResumeLayout(false);
@@ -165,10 +145,9 @@
         private MineSweeper.Controls.Graph graphPopulation;
         private System.Windows.Forms.Button btnStartStop;
         private MineSweeper.Controls.Stats statsGeneration;
-        private MineSweeper.Controls.Settings pnlSettings;
+        public MineSweeper.Controls.Settings pnlSettings;
         private System.Windows.Forms.Button btnFast;
         private System.Windows.Forms.Button btnReset;
-        private System.Windows.Forms.ComboBox cbSpec;
 
     }
 }

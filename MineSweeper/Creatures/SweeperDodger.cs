@@ -10,8 +10,8 @@
         public static int BrainInputs = 6;
         public static int BrainOutputs = 2;
 
-        private const double _maxRotation = 0.5;
-        private const double _maxSpeed = 1;
+        private double _maxRotation;
+        private double _maxSpeed;
         private double _maxX;
         private double _maxY;
 
@@ -21,11 +21,11 @@
             get { return _brain; }
             protected set
             {
-                _brain = value ?? new FeedforwardNetwork(BrainInputs, BrainOutputs, 1, 8);
-                if (_brain.InputNeuronCount != BrainInputs || _brain.OutputNeuronCount != BrainOutputs)
+                if (value.InputNeuronCount != BrainInputs || value.OutputNeuronCount != BrainOutputs)
                 {
                     throw new Exception("Incorrect brainsize");
                 }
+                _brain = value;
             }
         }
 
@@ -36,10 +36,12 @@
 
         public Motion Motion { get; protected set; }
 
-        public SweeperDodger(double maxX, double maxY, INeuralNet brain = null)
+        public SweeperDodger(double maxX, double maxY, double maxSpeed, double maxRotation, INeuralNet brain)
         {
             _maxX = maxX;
             _maxY = maxY;
+            _maxSpeed = maxSpeed;
+            _maxRotation = maxRotation;
             Brain = brain;
             SetRandomMotion();
         }

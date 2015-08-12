@@ -39,9 +39,9 @@
             _mainForm.FormClosing += mainFormClosing;
             _mainForm.FormClosed += mainFormClosed;
             _mainForm.SettingsChanged += mainFormSettingsChanged;
-            _mainForm.SpecChanged += mainFormSpecChanged;
             _mainForm.StartButton.Click += mainFormStartButtonClick;
             _mainForm.FastButton.Click += mainFormFastButtonClick;
+            _mainForm.pnlSettings.SpecChanged += mainFormSpecChanged;
 
             var uiThread = new Thread(() =>
             {

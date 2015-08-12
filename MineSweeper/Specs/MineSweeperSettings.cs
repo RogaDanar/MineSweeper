@@ -23,6 +23,9 @@
         public int DrawHeight { get; set; }
         public bool Fast { get; set; }
 
+        public double MaxSpeed { get; set; }
+        public double MaxRotation { get; set; }
+
         // IGeneticSettings
         public double MutationRate { get; set; }
         public double CrossoverRate { get; set; }
@@ -43,12 +46,15 @@
             var settings = new MineSweeperSettings
             {
                 Ticks = 2000,
-                SweeperCount = 50,
+                SweeperCount = 30,
                 MineCount = 40,
                 ReplaceMine = true,
                 DrawWidth = 640,
-                DrawHeight = 480,
+                DrawHeight = 520,
                 Fast = false,
+
+                MaxSpeed = 2,
+                MaxRotation = 0.5,
 
                 MutationRate = 0.1,
                 CrossoverRate = 0.7,
@@ -73,8 +79,11 @@
                 MineCount = 30,
                 ReplaceMine = true,
                 DrawWidth = 640,
-                DrawHeight = 480,
+                DrawHeight = 520,
                 Fast = false,
+
+                MaxSpeed = 1.5,
+                MaxRotation = 0.5,
 
                 MutationRate = 0.1,
                 CrossoverRate = 0.7,
@@ -99,8 +108,11 @@
                 MineCount = 40,
                 ReplaceMine = true,
                 DrawWidth = 640,
-                DrawHeight = 480,
+                DrawHeight = 520,
                 Fast = false,
+
+                MaxSpeed = 1,
+                MaxRotation = 0.5,
 
                 MutationRate = 0.1,
                 CrossoverRate = 0.7,
@@ -125,8 +137,11 @@
                 MineCount = 40,
                 ReplaceMine = true,
                 DrawWidth = 640,
-                DrawHeight = 480,
+                DrawHeight = 520,
                 Fast = false,
+
+                MaxSpeed = 1.5,
+                MaxRotation = 0.7,
 
                 MutationRate = 0.1,
                 CrossoverRate = 0.7,

@@ -11,7 +11,6 @@
     public partial class Main : Form
     {
         public event EventHandler<MineSweeperSettings> SettingsChanged = delegate { };
-        public event EventHandler<SpecEventArgs> SpecChanged = delegate { };
 
         public PictureBox MainPictureBox { get { return pgMain; } }
         public Button ResetButton { get { return btnReset; } }
@@ -78,38 +77,13 @@
             if (btnStartStop.Text.Equals("Start"))
             {
                 btnStartStop.Text = "Stop";
-                cbSpec.Enabled = false;
+                pnlSettings.DisableSpec();
             }
             else
             {
                 btnStartStop.Text = "Start";
-                cbSpec.Enabled = true;
+                pnlSettings.EnableSpec();
             }
-        }
-
-        private void cbSpecSelectedIndexChanged(object sender, EventArgs e)
-        {
-            var selected = cbSpec.SelectedItem.ToString();
-            var spec = default(IMineSweeperSpec);
-            switch (selected)
-            {
-                case "Mine":
-                    spec = new MineSweeperSpec();
-                    break;
-                case "EliteMine":
-                    spec = new EliteMineSweeperSpec();
-                    break;
-                case "Dodger":
-                    spec = new MineSweeperHoleDodgerSpec();
-                    break;
-                case "Cluster":
-                    spec = new ClusterSweeperSpec();
-                    break;
-                default:
-                    break;
-            }
-            var eventArgs = new SpecEventArgs(spec);
-            SpecChanged.Raise<SpecEventArgs>(this, eventArgs);
         }
     }
 }

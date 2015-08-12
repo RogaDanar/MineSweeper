@@ -1,9 +1,9 @@
 ﻿namespace MineSweeper
 {
-    using MineSweeper.Controllers;
-    using MineSweeper.Specs;
     using System;
     using System.Windows.Forms;
+    using MineSweeper.Controllers;
+    using MineSweeper.Specs;
 
     static class Program
     {

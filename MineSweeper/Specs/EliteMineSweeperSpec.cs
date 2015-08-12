@@ -6,7 +6,6 @@
     using MineSweeper.Creatures;
     using MineSweeper.Utils;
     using NeuralNet.Genetics;
-    using NeuralNet.Network;
 
     public class EliteMineSweeperSpec : SweeperSpecBase, IMineSweeperSpec
     {
@@ -37,16 +36,13 @@
 
         public void Setup()
         {
-            var sweeperWeightCount = getNewBrain().AllWeightsCount();
+            _sweepers = createSweepers(Settings.SweeperCount - 1).ToList();
+
             Population = new Population(new GeneticAlgorithm(Settings));
-            Population.Populate(Settings.SweeperCount - 1, sweeperWeightCount);
+            Population.Populate(_sweepers.Select(x => x.Brain.Genome));
+
             Population.Genomes.Add(new EliteSweeper2070Genome());
 
-            _sweepers = createSweepers().ToList();
-            for (int i = 0; i < _sweepers.Count; i++)
-            {
-                _sweepers[i].Brain.Genome = Population.Genomes[i];
-            }
             _mines.AddRange(getMines(Settings.MineCount));
         }
 
@@ -83,7 +79,7 @@
 
             for (int i = 0; i < _sweepers.Count; i++)
             {
-                _sweepers[i].Brain.Genome = Population.Genomes[i];
+                _sweepers[i].Brain.UpdateGenome(Population.Genomes[i]);
                 _sweepers[i].SetRandomMotion();
             }
             _mines.Clear();
@@ -102,18 +98,17 @@
             return false;
         }
 
-        private IEnumerable<SimpleSweeper> createSweepers()
+        private IEnumerable<SimpleSweeper> createSweepers(int count)
         {
-            for (int i = 0; i < Settings.SweeperCount; i++)
-            {
-                var brain = getNewBrain();
-                yield return new SimpleSweeper(Settings.DrawWidth, Settings.DrawHeight, brain);
-            }
-        }
+            // Convenient way to see how many weights are needed for a sweeper, by creating a sweeper
+            // who will create its own random genome
+            var sweeperWeightCount = GetNewBrain(SimpleSweeper.BrainInputs, SimpleSweeper.BrainOutputs).AllWeightsCount();
 
-        private INeuralNet getNewBrain()
-        {
-            return new FeedforwardNetwork(SimpleSweeper.BrainInputs, SimpleSweeper.BrainOutputs, Settings.HiddenLayers, Settings.HiddenLayerNeurons);
+            for (int i = 0; i < count; i++)
+            {
+                var brain = GetNewBrain(SimpleSweeper.BrainInputs, SimpleSweeper.BrainOutputs, sweeperWeightCount);
+                yield return new SimpleSweeper(Settings.DrawWidth, Settings.DrawHeight, Settings.MaxSpeed, Settings.MaxRotation, brain);
+            }
         }
 
         private IEnumerable<IList<double>> getMines(int count)

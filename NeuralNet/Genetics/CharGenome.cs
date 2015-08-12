@@ -1,15 +1,17 @@
 ﻿namespace NeuralNet.Genetics
 {
-    using NeuralNet.Helpers;
     using System.Collections.Generic;
     using System.Linq;
+    using NeuralNet.Helpers;
 
     public class CharGenome : IGenome<char>
     {
         private readonly Rand _rand = Rand.Generator;
 
+        private const double _defaultFitness = 0;
+
         private char[] _nucleotideTypes = "ABCDEFGHIJKLMNOPQRSTUVWXYZ ".ToCharArray();
-        
+
         public IList<char> Chromosome { get; set; }
 
         public double Fitness { get; set; }
@@ -31,6 +33,21 @@
             : this(fitness)
         {
             Chromosome = chromosome.ToArray();
+        }
+
+        public void ResetFitness()
+        {
+            Fitness = _defaultFitness;
+        }
+
+        public void IncreaseFitness(int fitnessIncrease)
+        {
+            Fitness += fitnessIncrease;
+        }
+
+        public void DecreaseFitness(int fitnessDecrease)
+        {
+            Fitness -= fitnessDecrease;
         }
     }
 }

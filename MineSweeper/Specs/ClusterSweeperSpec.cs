@@ -6,7 +6,6 @@
     using MineSweeper.Creatures;
     using MineSweeper.Utils;
     using NeuralNet.Genetics;
-    using NeuralNet.Network;
 
     public class ClusterSweeperSpec : SweeperSpecBase, IMineSweeperSpec
     {
@@ -29,16 +28,11 @@
 
         public void Setup()
         {
+            _sweepers = createSweepers(Settings.SweeperCount).ToList();
+
             Population = new Population(new GeneticAlgorithm(Settings));
+            Population.Populate(_sweepers.Select(x => x.Brain.Genome));
 
-            var sweeperWeightCount = getNewBrain().AllWeightsCount();
-            Population.Populate(Settings.SweeperCount, sweeperWeightCount);
-
-            _sweepers = createSweepers().ToList();
-            for (int i = 0; i < _sweepers.Count; i++)
-            {
-                _sweepers[i].Brain.Genome = Population.Genomes[i];
-            }
             createNewObjects();
         }
 
@@ -88,7 +82,7 @@
 
             for (int i = 0; i < _sweepers.Count; i++)
             {
-                _sweepers[i].Brain.Genome = Population.Genomes[i];
+                _sweepers[i].Brain.UpdateGenome(Population.Genomes[i]);
                 _sweepers[i].SetRandomMotion();
             }
             createNewObjects();
@@ -106,18 +100,17 @@
             return false;
         }
 
-        private IEnumerable<ClusterSweeper> createSweepers()
+        private IEnumerable<ClusterSweeper> createSweepers(int count)
         {
-            for (int i = 0; i < Settings.SweeperCount; i++)
-            {
-                var brain = getNewBrain();
-                yield return new ClusterSweeper(Settings.DrawWidth, Settings.DrawHeight, brain);
-            }
-        }
+            // Convenient way to see how many weights are needed for a sweeper, by creating a sweeper
+            // who will create its own random genome
+            var sweeperWeightCount = GetNewBrain(ClusterSweeper.BrainInputs, ClusterSweeper.BrainOutputs).AllWeightsCount();
 
-        private INeuralNet getNewBrain()
-        {
-            return new FeedforwardNetwork(ClusterSweeper.BrainInputs, ClusterSweeper.BrainOutputs, Settings.HiddenLayers, Settings.HiddenLayerNeurons);
+            for (int i = 0; i < count; i++)
+            {
+                var brain = GetNewBrain(ClusterSweeper.BrainInputs, ClusterSweeper.BrainOutputs, sweeperWeightCount);
+                yield return new ClusterSweeper(Settings.DrawWidth, Settings.DrawHeight, Settings.MaxSpeed, Settings.MaxRotation, brain);
+            }
         }
 
         private void createNewObjects()

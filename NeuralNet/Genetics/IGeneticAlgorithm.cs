@@ -1,5 +1,7 @@
 ﻿namespace NeuralNet.Genetics
 {
+    using System.Collections.Generic;
+
     public interface IGeneticAlgorithm
     {
         /// <summary>
@@ -22,7 +24,7 @@
         /// </summary>
         int EliteCount { get; set; }
 
-        void Crossover(Genome mother, Genome father, Genome son, Genome daughter);
+        IEnumerable<Genome> Crossover(Genome mother, Genome father);
 
         void Mutate(Genome genome);
     }

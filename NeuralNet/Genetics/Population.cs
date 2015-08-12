@@ -4,13 +4,19 @@
     using System.Linq;
     using NeuralNet.Helpers;
 
+    /// <summary>
+    /// A population of Genomes
+    /// </summary>
     public class Population
     {
         private readonly Rand _rand = Rand.Generator;
+
         private IGeneticAlgorithm _genetics;
 
-        public int Generation { get; set; }
-        public IList<Genome> Genomes { get; set; }
+        public int Generation { get; private set; }
+
+        public IList<Genome> Genomes { get; private set; }
+
         public FitnessStats FitnessStats { get; private set; }
 
         public Population(IGeneticAlgorithm genetics)
@@ -24,9 +30,9 @@
             Genomes = Enumerable.Range(1, populationSize).Select(x => new Genome(chromosomeSize, 0)).ToList();
         }
 
-        public void Populate(IList<Genome> genomes)
+        public void Populate(IEnumerable<Genome> genomes)
         {
-            Genomes = genomes;
+            Genomes = genomes.ToList();
         }
 
         public void UpdateFitnessStats()
@@ -52,14 +58,12 @@
                 var mother = getGenomeByRoulette();
                 var father = getGenomeByRoulette();
 
-                var son = new Genome();
-                var daughter = new Genome();
-
-                _genetics.Crossover(mother, father, son, daughter);
-                _genetics.Mutate(son);
-                _genetics.Mutate(daughter);
-                newGenomes.Add(son);
-                newGenomes.Add(daughter);
+                var children = _genetics.Crossover(mother, father);
+                foreach (var child in children)
+                {
+                    _genetics.Mutate(child);
+                    newGenomes.Add(child);
+                }
             }
             newGenomes.ForEach(x => x.ResetFitness());
             Genomes = newGenomes.Take(Genomes.Count()).ToList();

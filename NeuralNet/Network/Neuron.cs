@@ -8,11 +8,31 @@
     public class Neuron
     {
         private readonly Rand _rand = Rand.Generator;
+
+        private readonly int _defaultWeight = 1;
+
         private double _totalInput;
+
         private IList<double> _inputWeights;
 
         public IEnumerable<double> InputWeights { get { return _inputWeights; } }
 
+        /// <summary>
+        /// Create a Neuron with predefined weights, 
+        /// </summary>
+        /// <param name="weights">total of inputs + 1 bias</param>
+        public Neuron(IEnumerable<double> weights)
+        {
+            resetTotalInput();
+            _inputWeights = weights.ToArray();
+        }
+
+        /// <summary>
+        /// Create a Neuron with the given number of inputs
+        /// </summary>
+        /// <param name="numberOfInputs">total inputs</param>
+        /// <param name="randomInputWeights">if not random all weights will be 1</param>
+        /// <param name="randomBias">if not random the bias will be 1</param>
         public Neuron(int numberOfInputs, bool randomInputWeights = true, bool randomBias = true)
         {
             resetTotalInput();
@@ -86,7 +106,7 @@
             }
             else
             {
-                weight = 1;
+                weight = _defaultWeight;
             }
             return weight;
         }

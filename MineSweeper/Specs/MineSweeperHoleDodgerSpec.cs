@@ -6,7 +6,6 @@
     using MineSweeper.Creatures;
     using MineSweeper.Utils;
     using NeuralNet.Genetics;
-    using NeuralNet.Network;
 
     public class MineSweeperHoleDodgerSpec : SweeperSpecBase, IMineSweeperSpec
     {
@@ -29,15 +28,11 @@
 
         public void Setup()
         {
-            var sweeperWeightCount = getNewBrain().AllWeightsCount();
-            Population = new Population(new GeneticAlgorithm(Settings));
-            Population.Populate(Settings.SweeperCount, sweeperWeightCount);
+            _sweeperDodgers = createSweeperDodgers(Settings.SweeperCount).ToList();
 
-            _sweeperDodgers = createSweeperDodgers().ToList();
-            for (int i = 0; i < _sweeperDodgers.Count; i++)
-            {
-                _sweeperDodgers[i].Brain.Genome = Population.Genomes[i];
-            }
+            Population = new Population(new GeneticAlgorithm(Settings));
+            Population.Populate(_sweeperDodgers.Select(x => x.Brain.Genome));
+
             createNewObjects();
         }
 
@@ -88,7 +83,7 @@
 
             for (int i = 0; i < _sweeperDodgers.Count; i++)
             {
-                _sweeperDodgers[i].Brain.Genome = Population.Genomes[i];
+                _sweeperDodgers[i].Brain.UpdateGenome(Population.Genomes[i]);
                 _sweeperDodgers[i].SetRandomMotion();
             }
             createNewObjects();
@@ -113,18 +108,17 @@
             return false;
         }
 
-        private IEnumerable<SweeperDodger> createSweeperDodgers()
+        private IEnumerable<SweeperDodger> createSweeperDodgers(int count)
         {
-            for (int i = 0; i < Settings.SweeperCount; i++)
-            {
-                var brain = getNewBrain();
-                yield return new SweeperDodger(Settings.DrawWidth, Settings.DrawHeight, brain);
-            }
-        }
+            // Convenient way to see how many weights are needed for a sweeper, by creating a sweeper
+            // who will create its own random genome
+            var sweeperWeightCount = GetNewBrain(SweeperDodger.BrainInputs, SweeperDodger.BrainOutputs).AllWeightsCount();
 
-        private INeuralNet getNewBrain()
-        {
-            return new FeedforwardNetwork(SweeperDodger.BrainInputs, SweeperDodger.BrainOutputs, Settings.HiddenLayers, Settings.HiddenLayerNeurons);
+            for (int i = 0; i < count; i++)
+            {
+                var brain = GetNewBrain(SweeperDodger.BrainInputs, SweeperDodger.BrainOutputs, sweeperWeightCount);
+                yield return new SweeperDodger(Settings.DrawWidth, Settings.DrawHeight, Settings.MaxSpeed, Settings.MaxRotation, brain);
+            }
         }
     }
 }
